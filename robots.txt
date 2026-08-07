@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gtavi.ghostwebstudios.com/sitemap.xml

@@ -4,9 +4,64 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#090611" />
-  <meta name="description" content="Countdown to the release of Grand Theft Auto VI." />
-  <title>GTA VI — Release Countdown</title>
+  <meta name="description" content="Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings." />
+  <meta name="robots" content="index, follow" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="canonical" href="https://gtavi.ghostwebstudios.com/" />
+  <title>GTA VI Release Countdown | Fan-Made Countdown</title>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gtavi.ghostwebstudios.com/" />
+  <meta property="og:title" content="GTA VI Release Countdown" />
+  <meta property="og:description" content="Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings." />
+  <meta property="og:image" content="https://gtavi.ghostwebstudios.com/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="GTA VI fan-made release countdown" />
+  <meta property="og:site_name" content="GTA VI Release Countdown" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@GhostWebStudios" />
+  <meta name="twitter:title" content="GTA VI Release Countdown" />
+  <meta name="twitter:description" content="Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings." />
+  <meta name="twitter:image" content="https://gtavi.ghostwebstudios.com/og-image.jpg" />
+  <meta name="twitter:image:alt" content="GTA VI fan-made release countdown" />
+
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="preload" href="assets/GTA6Logo.webp" as="image" type="image/webp" />
+  <link rel="preload" href="assets/Image1.webp" as="image" type="image/webp" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://gtavi.ghostwebstudios.com/#webpage",
+      "url": "https://gtavi.ghostwebstudios.com/",
+      "name": "GTA VI Release Countdown",
+      "description": "Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings.",
+      "inLanguage": "en-US",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://gtavi.ghostwebstudios.com/#website",
+        "url": "https://gtavi.ghostwebstudios.com/",
+        "name": "GTA VI Release Countdown"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ghost Web Studios"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://gtavi.ghostwebstudios.com/og-image.jpg",
+        "width": 1200,
+        "height": 630
+      }
+    }
+  </script>
   <style>
     :root {
       --pink: #ff4fa3;
@@ -16,10 +71,24 @@
       --muted: rgba(255, 250, 252, .68);
       --glass: rgba(18, 12, 27, .52);
       --border: rgba(255, 255, 255, .16);
+      --scene-dim: .7;
+      --panel-blur: 24px;
       --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     html, body { min-height: 100%; }
 
@@ -49,15 +118,15 @@
     }
 
     .background-slide:nth-child(1)  { background-image: url("assets/Image1.webp");  animation-delay: 0s, 0s; }
-    .background-slide:nth-child(2)  { background-image: url("assets/Image2.jpg");   animation-delay: 8s, -3s; }
-    .background-slide:nth-child(3)  { background-image: url("assets/Image3.webp");  animation-delay: 16s, -6s; }
-    .background-slide:nth-child(4)  { background-image: url("assets/Image4.webp");  animation-delay: 24s, -9s; }
-    .background-slide:nth-child(5)  { background-image: url("assets/Image5.webp");  animation-delay: 32s, -12s; }
-    .background-slide:nth-child(6)  { background-image: url("assets/Image6.jpg");   animation-delay: 40s, -15s; }
-    .background-slide:nth-child(7)  { background-image: url("assets/Image7.webp");  animation-delay: 48s, -2s; }
-    .background-slide:nth-child(8)  { background-image: url("assets/Image8.webp");  animation-delay: 56s, -5s; }
-    .background-slide:nth-child(9)  { background-image: url("assets/Image9.webp");  animation-delay: 64s, -8s; }
-    .background-slide:nth-child(10) { background-image: url("assets/Image10.webp"); animation-delay: 72s, -11s; }
+    .background-slide:nth-child(2)  { animation-delay: 8s, -3s; }
+    .background-slide:nth-child(3)  { animation-delay: 16s, -6s; }
+    .background-slide:nth-child(4)  { animation-delay: 24s, -9s; }
+    .background-slide:nth-child(5)  { animation-delay: 32s, -12s; }
+    .background-slide:nth-child(6)  { animation-delay: 40s, -15s; }
+    .background-slide:nth-child(7)  { animation-delay: 48s, -2s; }
+    .background-slide:nth-child(8)  { animation-delay: 56s, -5s; }
+    .background-slide:nth-child(9)  { animation-delay: 64s, -8s; }
+    .background-slide:nth-child(10) { animation-delay: 72s, -11s; }
 
     @keyframes crossfade {
       0% { opacity: 0; }
@@ -74,7 +143,7 @@
       z-index: -2;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(8, 4, 15, .22), rgba(8, 4, 15, .7)),
+        linear-gradient(180deg, rgba(8, 4, 15, .22), rgba(8, 4, 15, var(--scene-dim))),
         radial-gradient(circle at 50% 38%, transparent 0, rgba(3, 2, 8, .18) 42%, rgba(3, 2, 8, .78) 100%);
     }
 
@@ -221,6 +290,222 @@
     .official-link:hover svg { transform: translateX(4px); }
     .official-link:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
 
+    .utility-button {
+      position: fixed;
+      bottom: 1.25rem;
+      z-index: 20;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .7rem 1rem;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(12,8,20,.68);
+      box-shadow: 0 15px 38px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.14);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      font: 650 .8rem/1 var(--font);
+      cursor: pointer;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease;
+    }
+
+    .utility-button:hover { transform: translateY(-3px); background: rgba(255,79,163,.18); border-color: rgba(255,255,255,.38); }
+    .utility-button:focus-visible, .panel button:focus-visible, .panel a:focus-visible, .panel input:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+    .utility-button svg { width: 1.15rem; height: 1.15rem; }
+    .news-trigger { left: 1.25rem; }
+    .settings-trigger { right: 1.25rem; }
+
+    .notification-dot {
+      position: absolute;
+      top: 2px;
+      left: 28px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid #17101f;
+      border-radius: 50%;
+      background: var(--pink);
+      box-shadow: 0 0 12px var(--pink);
+    }
+    .news-trigger.seen .notification-dot { display: none; }
+
+    .panel {
+      position: fixed;
+      bottom: 5.25rem;
+      z-index: 30;
+      width: min(390px, calc(100vw - 2rem));
+      max-height: min(570px, calc(100svh - 7rem));
+      overflow: auto;
+      padding: 1.15rem;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 25px;
+      color: var(--text);
+      background: linear-gradient(145deg, rgba(35,24,46,.88), rgba(9,6,16,.86));
+      box-shadow: 0 28px 70px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.16);
+      backdrop-filter: blur(var(--panel-blur)) saturate(150%);
+      -webkit-backdrop-filter: blur(var(--panel-blur)) saturate(150%);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(0, 12px, 0) scale(.98);
+      transform-origin: bottom;
+      transition: opacity .2s ease, visibility .2s ease, transform .28s cubic-bezier(.2,.8,.2,1);
+      will-change: opacity, transform;
+    }
+
+    .panel[data-open="true"] { opacity: 1; visibility: visible; transform: none; }
+    .news-panel { left: 1.25rem; }
+    .settings-panel { right: 1.25rem; }
+    .panel-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .panel-kicker { margin-bottom: .3rem; color: var(--pink); font-size: .65rem; font-weight: 750; letter-spacing: .18em; text-transform: uppercase; }
+    .panel h2 { font-size: 1.22rem; letter-spacing: -.02em; }
+    .panel-close { width: 34px; height: 34px; flex: 0 0 auto; border: 0; border-radius: 50%; color: #fff; background: rgba(255,255,255,.09); font-size: 1.2rem; cursor: pointer; }
+
+    .news-list { display: grid; gap: .65rem; list-style: none; }
+    .news-card { display: block; padding: .9rem; border: 1px solid rgba(255,255,255,.1); border-radius: 17px; color: inherit; background: rgba(255,255,255,.055); text-decoration: none; transition: background .25s ease, transform .25s ease, border-color .25s ease; }
+    .news-card:hover { transform: translateX(3px); background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+    .news-meta { display: block; margin-bottom: .35rem; color: var(--muted); font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+    .news-title { display: block; font-size: .9rem; font-weight: 700; line-height: 1.35; }
+    .panel-footer { margin-top: .9rem; display: flex; justify-content: space-between; align-items: center; gap: .75rem; color: var(--muted); font-size: .68rem; }
+    .panel-footer a { color: #fff; font-weight: 700; text-decoration: none; }
+
+    .setting-group { padding: .85rem 0; border-top: 1px solid rgba(255,255,255,.1); }
+    .setting-group:first-of-type { border-top: 0; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .setting-copy strong { display: block; font-size: .86rem; }
+    .setting-copy small { display: block; margin-top: .2rem; color: var(--muted); font-size: .7rem; }
+    .switch { position: relative; width: 44px; height: 25px; flex: 0 0 auto; }
+    .switch input { position: absolute; opacity: 0; }
+    .switch span { position: absolute; inset: 0; border-radius: 99px; background: rgba(255,255,255,.16); cursor: pointer; transition: background .25s ease; }
+    .switch span::after { content: ""; position: absolute; width: 19px; height: 19px; top: 3px; left: 3px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.3); transition: transform .25s ease; }
+    .switch input:checked + span { background: var(--pink); }
+    .switch input:checked + span::after { transform: translateX(19px); }
+    .range { width: 100%; margin-top: .75rem; accent-color: var(--pink); }
+    .swatches { display: flex; gap: .5rem; }
+    .swatch { width: 28px; height: 28px; border: 2px solid transparent; border-radius: 50%; background: var(--swatch); cursor: pointer; box-shadow: inset 0 0 0 2px rgba(0,0,0,.2); }
+    .swatch[aria-pressed="true"] { border-color: #fff; transform: scale(1.08); }
+
+    body.motion-off .background-slide,
+    body.motion-off .hero,
+    body.motion-off .countdown-grid,
+    body.motion-off .official-link,
+    body.motion-off .number { animation: none !important; }
+    body.motion-off .background-slide { opacity: 0; }
+    body.motion-off .background-slide:first-child { opacity: 1; }
+    body.compact-countdown .countdown-grid { max-width: 760px; }
+    body.compact-countdown .time-box { min-height: 118px; }
+    body.high-contrast { --muted: rgba(255,255,255,.92); --border: rgba(255,255,255,.48); }
+    body.high-contrast .time-box, body.high-contrast .panel { background-color: rgba(0,0,0,.82); }
+
+    /* Floating controls and GTA VI utility panels */
+    .utility-button {
+      width: 52px;
+      height: 52px;
+      min-height: 0;
+      justify-content: center;
+      padding: 0;
+      border-radius: 18px;
+    }
+    .utility-button svg { width: 1.35rem; height: 1.35rem; }
+    .button-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .notification-dot { top: -3px; right: -3px; left: auto; width: 12px; height: 12px; border: 3px solid #100b18; }
+    .settings-trigger svg { transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+    .settings-trigger:hover svg, .settings-trigger[aria-expanded="true"] svg { transform: rotate(45deg); }
+
+    .panel {
+      width: min(430px, calc(100vw - 2rem));
+      max-height: none;
+      padding: 0;
+      overflow: hidden;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 90% 0, rgba(255,79,163,.16), transparent 34%),
+        linear-gradient(155deg, rgba(30,20,40,.94), rgba(8,6,14,.92));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      contain: layout paint;
+    }
+    .panel-scroll {
+      height: min(720px, calc(100svh - 6.5rem));
+      max-height: none;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 1.25rem 1.25rem 2rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .panel-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    .panel-header { position: sticky; top: -1.25rem; z-index: 3; margin: -1.25rem -1.25rem 1rem; padding: 1.25rem; align-items: center; background: linear-gradient(rgba(15,10,22,.96) 65%, transparent); }
+    .panel-close { display: grid; place-items: center; font-size: 0; transition: transform .25s ease, background .25s ease; }
+    .panel-close::before, .panel-close::after { content: ""; position: absolute; width: 14px; height: 1.5px; border-radius: 2px; background: currentColor; transform: rotate(45deg); }
+    .panel-close::after { transform: rotate(-45deg); }
+    .panel-close:hover { transform: rotate(90deg); background: rgba(255,255,255,.15); }
+
+    .news-list { gap: .75rem; }
+    .x-feed { min-height: 320px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: #0f1017; }
+    .x-feed-loading { min-height: 320px; display: grid; place-items: center; padding: 2rem; color: rgba(255,255,255,.62); font-size: .76rem; text-align: center; }
+    .x-feed-error { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; padding: 1.5rem; color: rgba(255,255,255,.66); font-size: .76rem; line-height: 1.5; text-align: center; }
+    .x-feed-error a { padding: .65rem .9rem; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; color: #fff; background: rgba(255,255,255,.07); font-weight: 750; text-decoration: none; }
+    .news-subtitle { margin: 1.1rem 0 .65rem; color: rgba(255,255,255,.48); font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .news-item { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: rgba(255,255,255,.045); transition: border-color .25s ease, background .25s ease; }
+    .news-item[data-expanded="true"] { border-color: color-mix(in srgb, var(--pink) 45%, transparent); background: rgba(255,255,255,.075); }
+    .news-card { width: 100%; padding: .95rem; display: grid; grid-template-columns: 64px 1fr 22px; align-items: center; gap: .8rem; border: 0; border-radius: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
+    .news-card:hover { transform: none; background: rgba(255,255,255,.055); }
+    .news-thumb { width: 64px; height: 58px; object-fit: cover; border-radius: 13px; }
+    .news-chevron { width: 18px; height: 18px; transition: transform .3s ease; }
+    .news-item[data-expanded="true"] .news-chevron { transform: rotate(180deg); }
+    .news-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+    .news-item[data-expanded="true"] .news-detail { grid-template-rows: 1fr; }
+    .news-detail-inner { min-height: 0; overflow: hidden; }
+    .news-hero { width: calc(100% - 1.8rem); height: 165px; margin: 0 .9rem; object-fit: cover; border-radius: 15px; }
+    .news-body { padding: .85rem .95rem 1rem; }
+    .news-body p { color: var(--muted); font-size: .78rem; line-height: 1.6; }
+    .news-source { margin-top: .75rem; display: inline-flex; align-items: center; gap: .35rem; color: #fff; font-size: .74rem; font-weight: 750; text-decoration: none; }
+
+    .settings-section { margin-top: 1.2rem; }
+    .settings-section:first-of-type { margin-top: 0; }
+    .settings-section-title { margin-bottom: .65rem; color: rgba(255,255,255,.48); font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .setting-group { padding: .9rem; border: 1px solid rgba(255,255,255,.09); border-radius: 17px; background: rgba(255,255,255,.045); }
+    .setting-group + .setting-group { margin-top: .55rem; }
+    .setting-copy strong { font-size: .82rem; }
+    .range-line { display: flex; align-items: center; gap: .7rem; margin-top: .75rem; }
+    .range { margin: 0; }
+    .range-value { width: 36px; color: var(--muted); font-size: .68rem; text-align: right; }
+    .style-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; }
+    .style-choice { padding: .62rem .25rem; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; color: var(--muted); background: rgba(255,255,255,.04); font: 700 .62rem var(--font); cursor: pointer; }
+    .style-choice[aria-pressed="true"] { color: #fff; border-color: var(--pink); background: color-mix(in srgb, var(--pink) 18%, transparent); }
+    .background-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .45rem; margin-top: .75rem; }
+    .background-choice { position: relative; aspect-ratio: 1.3; overflow: hidden; border: 2px solid transparent; border-radius: 11px; background: #15101d center/cover; cursor: pointer; }
+    .background-choice img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .background-choice[aria-pressed="true"] { border-color: var(--pink); box-shadow: 0 0 15px color-mix(in srgb, var(--pink) 30%, transparent); }
+    .background-choice span { position: absolute; inset: auto 0 0; padding: .25rem; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.8)); font: 700 .55rem var(--font); }
+    .upload-button { width: 100%; margin-top: .6rem; padding: .7rem; display: flex; align-items: center; justify-content: center; gap: .5rem; border: 1px dashed rgba(255,255,255,.22); border-radius: 13px; color: #fff; background: rgba(255,255,255,.035); font: 700 .72rem var(--font); cursor: pointer; }
+    .upload-button svg { width: 16px; height: 16px; }
+    .custom-media { position: fixed; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; display: none; }
+    body.custom-image-background #custom-image, body.custom-video-background #custom-video, body.custom-youtube-background #custom-youtube { display: block; }
+    #custom-youtube { width: 120%; height: 120%; inset: -10%; border: 0; pointer-events: none; }
+    body.custom-background .background-slider { display: none; }
+    .fan-note { position: fixed; z-index: 10; bottom: 1.4rem; left: 50%; max-width: calc(100vw - 160px); color: rgba(255,255,255,.52); font-size: .64rem; letter-spacing: .04em; text-align: center; transform: translateX(-50%); }
+
+    /* Five countdown treatments */
+    body.countdown-minimal .time-box { min-height: 120px; border-color: transparent; background: transparent; box-shadow: none; backdrop-filter: none; }
+    body.countdown-minimal .time-box::before { display: none; }
+    body.countdown-neon .time-box { border-color: var(--pink); background: rgba(8,5,15,.55); box-shadow: 0 0 12px color-mix(in srgb, var(--pink) 45%, transparent), inset 0 0 22px color-mix(in srgb, var(--pink) 10%, transparent); }
+    body.countdown-neon .number { color: #fff; text-shadow: 0 0 14px var(--pink); }
+    body.countdown-solid .time-box { border: 0; background: linear-gradient(145deg, color-mix(in srgb, var(--pink) 85%, #34142d), #17101f); backdrop-filter: none; }
+    body.countdown-outline .time-box { border: 2px solid rgba(255,255,255,.72); background: rgba(0,0,0,.16); box-shadow: inset 0 0 0 5px rgba(255,255,255,.035); backdrop-filter: blur(8px); }
+
+    body.light-mode { --text: #211727; --muted: rgba(33,23,39,.7); }
+    body.light-mode .atmosphere { background: linear-gradient(rgba(255,242,249,.35), rgba(255,220,237,.66)); }
+    body.light-mode .time-box { color: #211727; border-color: rgba(255,255,255,.7); background-color: rgba(255,245,250,.55); }
+    body.light-mode .panel { color: #211727; background: linear-gradient(150deg, rgba(255,250,252,.96), rgba(247,224,237,.92)); }
+    body.light-mode .panel-header { background: linear-gradient(rgba(255,247,251,.96) 65%, transparent); }
+    body.light-mode .panel-close, body.light-mode .news-source, body.light-mode .upload-button { color: #211727; }
+    body.light-mode .settings-section-title { color: rgba(33,23,39,.55); }
+    body.light-mode .setting-group, body.light-mode .news-item { border-color: rgba(33,23,39,.1); background: rgba(255,255,255,.35); }
+
     @keyframes tick {
       0% { opacity: .35; transform: translateY(-9px) scale(.96); filter: blur(2px); }
       100% { opacity: 1; transform: none; filter: blur(0); }
@@ -236,6 +521,13 @@
       .countdown-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); max-width: 520px; }
       .time-box { min-height: 112px; padding: 1.15rem .75rem 1rem; border-radius: 21px; }
       .label { margin-top: .55rem; }
+      .utility-button { bottom: .75rem; padding: .7rem; }
+      .utility-button .button-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+      .news-trigger { left: .75rem; }
+      .settings-trigger { right: .75rem; }
+      .panel { bottom: 4.5rem; width: calc(100vw - 1.5rem); max-height: calc(100svh - 5.5rem); }
+      .news-panel, .settings-panel { left: .75rem; right: .75rem; }
+      .notification-dot { left: 26px; }
     }
 
     @media (max-width: 380px) {
@@ -252,22 +544,23 @@
 </head>
 <body>
   <div class="background-slider" aria-hidden="true">
-    <div class="background-slide"></div><div class="background-slide"></div>
-    <div class="background-slide"></div><div class="background-slide"></div>
-    <div class="background-slide"></div><div class="background-slide"></div>
-    <div class="background-slide"></div><div class="background-slide"></div>
-    <div class="background-slide"></div><div class="background-slide"></div>
+    <div class="background-slide"></div><div class="background-slide" data-bg="assets/Image2.jpg"></div>
+    <div class="background-slide" data-bg="assets/Image3.webp"></div><div class="background-slide" data-bg="assets/Image4.webp"></div>
+    <div class="background-slide" data-bg="assets/Image5.webp"></div><div class="background-slide" data-bg="assets/Image6.jpg"></div>
+    <div class="background-slide" data-bg="assets/Image7.webp"></div><div class="background-slide" data-bg="assets/Image8.webp"></div>
+    <div class="background-slide" data-bg="assets/Image9.webp"></div><div class="background-slide" data-bg="assets/Image10.webp"></div>
   </div>
   <div class="atmosphere" aria-hidden="true"></div>
 
   <main class="content">
     <header class="hero">
+      <h1 class="sr-only">Grand Theft Auto VI release countdown</h1>
       <p class="eyebrow">The countdown is on</p>
       <img src="assets/GTA6Logo.webp" class="gta-logo" alt="Grand Theft Auto VI" />
       <p class="release-line">Coming November 19, 2026</p>
     </header>
 
-    <section class="countdown-grid" aria-label="Time until release" aria-live="polite">
+    <section class="countdown-grid" aria-label="Time until release" role="timer" aria-live="off">
       <div class="time-box"><span class="number" id="days">000</span><span class="label">Days</span></div>
       <div class="time-box"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
       <div class="time-box"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
@@ -282,6 +575,45 @@
     </a>
   </main>
 
+  <video class="custom-media" id="custom-video" preload="metadata" autoplay muted loop playsinline aria-hidden="true"></video>
+  <img class="custom-media" id="custom-image" alt="" aria-hidden="true" />
+  <iframe class="custom-media" id="custom-youtube" title="Muted GTA VI Trailer 2 background" tabindex="-1" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" aria-hidden="true"></iframe>
+
+  <button class="utility-button news-trigger" type="button" aria-label="Open GTA VI notifications" aria-controls="news-panel" aria-expanded="false">
+    <span class="notification-dot" aria-hidden="true"></span>
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM9.7 21h4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <aside class="panel news-panel" id="news-panel" data-open="false" aria-hidden="true" aria-labelledby="news-title" role="dialog" inert><div class="panel-scroll">
+    <div class="panel-header"><div><p class="panel-kicker">Rockstar radar</p><h2 id="news-title">Latest GTA VI updates</h2></div><button class="panel-close" type="button" aria-label="Close notifications">Close</button></div>
+    <div class="x-feed" id="x-feed"><div class="x-feed-loading">Open updates to load the latest seven official Rockstar posts from X.</div></div>
+    <h3 class="news-subtitle">GTA VI highlights</h3>
+    <ul class="news-list">
+      <li class="news-item" data-expanded="false"><button class="news-card" type="button" aria-expanded="false"><img class="news-thumb" src="assets/Image9.webp" alt="GTA VI scene" loading="lazy" /><span><span class="news-meta">June 24, 2026 &middot; Rockstar</span><span class="news-title">Pre-order GTA VI and explore the available editions</span></span><svg class="news-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="news-detail"><div class="news-detail-inner"><img class="news-hero" src="assets/Image9.webp" alt="Grand Theft Auto VI official artwork" loading="lazy" /><div class="news-body"><p>Rockstar detailed GTA VI pre-orders, editions and bonuses. The game is a single-player experience coming to PlayStation 5 and Xbox Series X|S on November 19, 2026.</p><a class="news-source" href="https://www.rockstargames.com/newswire/article/5171972o3ak5oa/pre-order-grand-theft-auto-vi-on-june-25" target="_blank" rel="noopener noreferrer">Read on Rockstar <span aria-hidden="true">&#8599;</span></a></div></div></div></li>
+      <li class="news-item" data-expanded="false"><button class="news-card" type="button" aria-expanded="false"><img class="news-thumb" src="assets/Image3.webp" alt="Vice City scene" loading="lazy" /><span><span class="news-meta">June 18, 2026 &middot; Rockstar</span><span class="news-title">GTA VI pre-orders begin June 25</span></span><svg class="news-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="news-detail"><div class="news-detail-inner"><img class="news-hero" src="assets/Image3.webp" alt="Vice City at sunset" loading="lazy" /><div class="news-body"><p>Rockstar announced the opening date for GTA VI pre-orders and directed players to the official game page for platform and edition information.</p><a class="news-source" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Open official page <span aria-hidden="true">&#8599;</span></a></div></div></div></li>
+      <li class="news-item" data-expanded="false"><button class="news-card" type="button" aria-expanded="false"><img class="news-thumb" src="assets/Image7.webp" alt="GTA VI character scene" loading="lazy" /><span><span class="news-meta">May 6, 2025 &middot; Rockstar</span><span class="news-title">Grand Theft Auto VI Trailer 2 is available now</span></span><svg class="news-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="news-detail"><div class="news-detail-inner"><img class="news-hero" src="assets/Image7.webp" alt="GTA VI character artwork" loading="lazy" /><div class="news-body"><p>Trailer 2 introduces more of Jason and Lucia's story and offers another look at modern-day Vice City and the wider state of Leonida.</p><a class="news-source" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Watch at Rockstar <span aria-hidden="true">&#8599;</span></a></div></div></div></li>
+    </ul>
+    <div class="panel-footer"><span>Official sources only</span><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">All Newswire &#8594;</a></div>
+  </div></aside>
+
+  <button class="utility-button settings-trigger" type="button" aria-label="Open personalization settings" aria-controls="settings-panel" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="4.25" stroke="currentColor" stroke-width="1.8"/></svg>
+  </button>
+
+  <aside class="panel settings-panel" id="settings-panel" data-open="false" aria-hidden="true" aria-labelledby="settings-title" role="dialog" inert><div class="panel-scroll">
+    <div class="panel-header"><div><p class="panel-kicker">Vice City control</p><h2 id="settings-title">Personalize</h2></div><button class="panel-close" type="button" aria-label="Close settings">Close</button></div>
+    <section class="settings-section"><h3 class="settings-section-title">Experience</h3>
+      <div class="setting-group setting-row"><div class="setting-copy"><strong>Background motion</strong><small>Crossfades and cinematic zoom</small></div><label class="switch"><input id="motion-setting" type="checkbox" aria-label="Background motion" checked /><span aria-hidden="true"></span></label></div>
+      <div class="setting-group setting-row"><div class="setting-copy"><strong>Silent notifications</strong><small>Never play an alert sound</small></div><label class="switch"><input id="silent-setting" type="checkbox" aria-label="Silent notifications" checked /><span aria-hidden="true"></span></label></div>
+      <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><input class="range" id="dim-setting" type="range" min="45" max="88" value="70" aria-label="Background darkness" /><output class="range-value" id="dim-value">70%</output></div></div>
+    </section>
+    <section class="settings-section"><h3 class="settings-section-title">Background</h3><div class="setting-group"><div class="setting-copy"><strong>Choose the scene</strong><small>Use the slideshow or one fixed image</small></div><div class="background-grid">
+      <button class="background-choice" type="button" data-background="slideshow" aria-label="Slideshow" aria-pressed="true" style="background-image:url('assets/Image1.webp')"><span>Auto</span></button><button class="background-choice" type="button" data-background="assets/Image3.webp" aria-label="Vice City" aria-pressed="false" style="background-image:url('assets/Image3.webp')"><span>City</span></button><button class="background-choice" type="button" data-background="assets/Image7.webp" aria-label="Characters" aria-pressed="false" style="background-image:url('assets/Image7.webp')"><span>Story</span></button><button class="background-choice" type="button" data-background="assets/Image9.webp" aria-label="Artwork" aria-pressed="false" style="background-image:url('assets/Image9.webp')"><span>Art</span></button>
+    </div><p class="settings-section-title" style="margin-top:.85rem">Extra collection</p><div class="background-grid" id="extra-backgrounds"></div><label class="upload-button" for="background-upload"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Upload image or video</label><input class="sr-only" id="background-upload" type="file" accept="image/*,video/*" /></div></section>
+  </div></aside>
+
+  <p class="fan-note">Fan-made GTA VI release countdown. Not affiliated with Rockstar Games or Take-Two Interactive.</p>
+
   <script>
     const releaseDate = new Date("2026-11-19T00:00:00");
     const elements = {
@@ -292,6 +624,216 @@
     };
     const previous = {};
     const pad = (value, size = 2) => String(value).padStart(size, "0");
+
+    // Defer non-critical backgrounds so the first view becomes interactive sooner.
+    const loadBackgrounds = () => {
+      document.querySelectorAll(".background-slide[data-bg]").forEach((slide) => {
+        slide.style.backgroundImage = `url("${slide.dataset.bg}")`;
+      });
+    };
+    window.addEventListener("load", () => {
+      if ("requestIdleCallback" in window) requestIdleCallback(loadBackgrounds, { timeout: 2500 });
+      else setTimeout(loadBackgrounds, 500);
+    }, { once: true });
+
+    const panelPairs = [
+      { trigger: document.querySelector(".news-trigger"), panel: document.getElementById("news-panel") },
+      { trigger: document.querySelector(".settings-trigger"), panel: document.getElementById("settings-panel") }
+    ];
+
+    let xFeedRequested = false;
+    function showXFeedFallback() {
+      const feed = document.getElementById("x-feed");
+      if (feed.querySelector("iframe")) return;
+      feed.innerHTML = '<div class="x-feed-error"><span>X prevented the embedded timeline from loading. This can happen with tracking protection or an ad blocker.</span><a href="https://x.com/RockstarGames" target="_blank" rel="noopener noreferrer">View Rockstar Games on X &#8599;</a></div>';
+    }
+
+    function loadXFeed() {
+      if (xFeedRequested) return;
+      xFeedRequested = true;
+      const feed = document.getElementById("x-feed");
+      feed.replaceChildren();
+      const timeline = document.createElement("a");
+      timeline.className = "twitter-timeline";
+      timeline.href = "https://twitter.com/RockstarGames";
+      timeline.dataset.theme = "dark";
+      timeline.dataset.tweetLimit = "7";
+      timeline.dataset.chrome = "noheader nofooter noborders transparent";
+      timeline.dataset.dnt = "true";
+      timeline.textContent = "Latest posts from Rockstar Games on X";
+      feed.append(timeline);
+      const script = document.createElement("script");
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      script.charset = "utf-8";
+      script.onerror = showXFeedFallback;
+      document.head.append(script);
+      setTimeout(showXFeedFallback, 8000);
+    }
+
+    function setPanel(pair, open, returnFocus = false) {
+      pair.panel.dataset.open = String(open);
+      pair.panel.setAttribute("aria-hidden", String(!open));
+      pair.panel.inert = !open;
+      pair.trigger.setAttribute("aria-expanded", String(open));
+      if (open) pair.panel.querySelector(".panel-close").focus();
+      else if (returnFocus) pair.trigger.focus();
+    }
+
+    panelPairs.forEach((pair) => {
+      pair.trigger.addEventListener("click", () => {
+        const shouldOpen = pair.panel.dataset.open !== "true";
+        panelPairs.forEach((other) => setPanel(other, false));
+        setPanel(pair, shouldOpen);
+        if (pair.trigger.classList.contains("news-trigger")) {
+          loadXFeed();
+          pair.trigger.classList.add("seen");
+          localStorage.setItem("gta6-news-seen", "2026-06-24");
+        }
+      });
+      pair.panel.querySelector(".panel-close").addEventListener("click", () => setPanel(pair, false, true));
+    });
+
+    if (localStorage.getItem("gta6-news-seen") === "2026-06-24") document.querySelector(".news-trigger").classList.add("seen");
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      const openPair = panelPairs.find((pair) => pair.panel.dataset.open === "true");
+      if (openPair) setPanel(openPair, false, true);
+    });
+    document.addEventListener("pointerdown", (event) => {
+      panelPairs.forEach((pair) => {
+        if (pair.panel.dataset.open === "true" && !pair.panel.contains(event.target) && !pair.trigger.contains(event.target)) setPanel(pair, false);
+      });
+    });
+
+    let preferences = {};
+    try { preferences = JSON.parse(localStorage.getItem("gta6-preferences") || "{}"); } catch { preferences = {}; }
+    const controls = {
+      motion: document.getElementById("motion-setting"),
+      silent: document.getElementById("silent-setting"),
+      dim: document.getElementById("dim-setting")
+    };
+    const dimValue = document.getElementById("dim-value");
+
+    controls.motion.checked = preferences.motion ?? !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    controls.silent.checked = preferences.silent ?? true;
+    controls.dim.value = preferences.dim ?? 70;
+    preferences.background ||= "slideshow";
+
+    function selectBackground(value, save = true) {
+      const image = document.getElementById("custom-image");
+      const video = document.getElementById("custom-video");
+      const youtube = document.getElementById("custom-youtube");
+      document.body.classList.remove("custom-background", "custom-image-background", "custom-video-background", "custom-youtube-background");
+      video.pause();
+      youtube.src = "about:blank";
+      if (value.startsWith("youtube:")) {
+        const videoId = value.slice(8);
+        if (controls.motion.checked) {
+          youtube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&origin=https%3A%2F%2Fgtavi.ghostwebstudios.com`;
+          document.body.classList.add("custom-background", "custom-youtube-background");
+        } else {
+          image.src = "extra/Official_Cover_Art_landscape.jpg";
+          document.body.classList.add("custom-background", "custom-image-background");
+        }
+      } else if (value.startsWith("video:")) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.src = value.slice(6);
+        video.load();
+        document.body.classList.add("custom-background", "custom-video-background");
+        if (controls.motion.checked) video.play().catch(() => {});
+      } else if (value !== "slideshow") {
+        image.src = value;
+        document.body.classList.add("custom-background", "custom-image-background");
+      }
+      document.querySelectorAll(".background-choice").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.background === value)));
+      if (save) preferences.background = value;
+    }
+
+    function applyPreferences() {
+      document.body.classList.toggle("motion-off", !controls.motion.checked);
+      const customVideo = document.getElementById("custom-video");
+      if (document.body.classList.contains("custom-video-background")) {
+        if (controls.motion.checked) customVideo.play().catch(() => {});
+        else customVideo.pause();
+      }
+      if (preferences.background?.startsWith("youtube:")) {
+        const streamVisible = document.body.classList.contains("custom-youtube-background");
+        if (streamVisible !== controls.motion.checked) selectBackground(preferences.background, false);
+      }
+      document.documentElement.style.setProperty("--scene-dim", controls.dim.value / 100);
+      dimValue.value = `${controls.dim.value}%`;
+      localStorage.setItem("gta6-preferences", JSON.stringify({ motion: controls.motion.checked, silent: controls.silent.checked, dim: controls.dim.value, background: preferences.background }));
+    }
+
+    const extraBackgrounds = [
+      ["Boobie Ike", "Boobie_Ike_landscape.jpg"], ["Brian Heder", "Brian_Heder_landscape.jpg"],
+      ["Cal Hampton", "Cal_Hampton_landscape.jpg"], ["Dre'Quan", "DreQuan_Priest_landscape.jpg"],
+      ["Jason & Lucia", "Jason_and_Lucia_01_landscape.jpg"], ["Jason & Lucia", "Jason_and_Lucia_03_landscape.jpg"],
+      ["Motel", "Jason_and_Lucia_Motel_landscape.jpg"], ["Robbery", "Jason_and_Lucia_Robbery_landscape.jpg"],
+      ["Cover Art", "Official_Cover_Art_landscape.jpg"], ["Raul", "Raul_Bautista_landscape.jpg"],
+      ["Real Dimez", "Real_Dimez_landscape.jpg"],
+      ["Trailer 2 · Video", "youtube:VQRLujxTm3c", "Official_Cover_Art_landscape.jpg"]
+    ];
+    const extraGrid = document.getElementById("extra-backgrounds");
+    extraBackgrounds.forEach(([label, filename, previewFile]) => {
+      const isStream = filename.startsWith("youtube:");
+      const path = isStream ? filename : `extra/${filename}`;
+      const button = document.createElement("button");
+      button.className = "background-choice";
+      button.type = "button";
+      button.dataset.background = path;
+      button.setAttribute("aria-label", label);
+      button.setAttribute("aria-pressed", String(preferences.background === path));
+      const preview = document.createElement("img");
+      preview.src = `extra/thumbs/${previewFile || filename}`;
+      preview.alt = "";
+      preview.loading = "lazy";
+      const caption = document.createElement("span");
+      caption.textContent = label;
+      button.append(preview, caption);
+      extraGrid.append(button);
+    });
+
+    Object.values(controls).forEach((control) => control.addEventListener("input", applyPreferences));
+    document.querySelectorAll(".background-choice").forEach((button) => button.addEventListener("click", () => { selectBackground(button.dataset.background); applyPreferences(); }));
+
+    document.getElementById("background-upload").addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const image = document.getElementById("custom-image");
+      const video = document.getElementById("custom-video");
+      document.getElementById("custom-youtube").src = "about:blank";
+      document.body.classList.remove("custom-image-background", "custom-video-background", "custom-youtube-background");
+      document.body.classList.add("custom-background");
+      if (file.type.startsWith("video/")) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.src = url;
+        video.load();
+        if (controls.motion.checked) video.play().catch(() => {});
+        document.body.classList.add("custom-video-background");
+      } else {
+        image.src = url;
+        document.body.classList.add("custom-image-background");
+      }
+      document.querySelectorAll(".background-choice").forEach((button) => button.setAttribute("aria-pressed", "false"));
+    });
+
+    document.querySelectorAll(".news-card").forEach((button) => button.addEventListener("click", () => {
+      const item = button.closest(".news-item");
+      const expanded = item.dataset.expanded !== "true";
+      document.querySelectorAll(".news-item").forEach((other) => { other.dataset.expanded = "false"; other.querySelector(".news-card").setAttribute("aria-expanded", "false"); });
+      item.dataset.expanded = String(expanded);
+      button.setAttribute("aria-expanded", String(expanded));
+    }));
+
+    selectBackground(preferences.background, false);
+    applyPreferences();
 
     function setValue(name, value) {
       if (previous[name] === value) return;

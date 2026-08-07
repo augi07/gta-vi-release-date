@@ -1,0 +1,7 @@
+# Large local background videos should not be committed.
+extra/*.mp4
+extra/*.mov
+extra/*.mkv
+extra/**/*.mp4
+extra/**/*.mov
+extra/**/*.mkv
