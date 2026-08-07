@@ -275,7 +275,7 @@
       font-size: .82rem;
       font-weight: 650;
       text-decoration: none;
-      transition: transform .3s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
+      transition: transform .3s ease, background-color .45s ease, color .4s ease, border-color .4s ease, box-shadow .45s ease;
       animation: enter .9s .24s cubic-bezier(.2,.8,.2,1) both;
     }
 
@@ -283,10 +283,21 @@
       width: 1.05rem;
       height: 1.05rem;
       flex: 0 0 auto;
-      color: #fff;
+      color: currentColor;
       transition: transform .3s ease;
     }
-    .official-link:hover { transform: translateY(-3px); background: rgba(255,79,163,.16); border-color: rgba(255,125,187,.5); box-shadow: 0 16px 35px rgba(0,0,0,.3); }
+    .official-link-text {
+      color: #fff;
+      background: linear-gradient(100deg, #fff 0%, #fff 38%, #fff2a1 46%, #ffd54a 54%, #ff9f2f 62%, #fff 74%, #fff 100%);
+      background-size: 260% 100%;
+      background-position: 100% 0;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background-position .85s cubic-bezier(.2,.8,.2,1);
+    }
+    .official-link:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.3); box-shadow: 0 16px 35px rgba(0,0,0,.3); }
+    .official-link:hover .official-link-text { background-position: 0 0; }
     .official-link:hover svg { transform: translateX(4px); }
     .official-link:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
 
@@ -367,7 +378,9 @@
     .news-meta { display: block; margin-bottom: .35rem; color: var(--muted); font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
     .news-title { display: block; font-size: .9rem; font-weight: 700; line-height: 1.35; }
     .panel-footer { margin-top: .9rem; display: flex; justify-content: space-between; align-items: center; gap: .75rem; color: var(--muted); font-size: .68rem; }
-    .panel-footer a { color: #fff; font-weight: 700; text-decoration: none; }
+    .panel-footer a { display: inline-flex; align-items: center; gap: .4rem; color: #fff; font-weight: 700; text-decoration: none; }
+    .panel-footer a svg { width: 14px; height: 14px; transition: transform .25s ease; }
+    .panel-footer a:hover svg { transform: translateX(3px); }
 
     .setting-group { padding: .85rem 0; border-top: 1px solid rgba(255,255,255,.1); }
     .setting-group:first-of-type { border-top: 0; }
@@ -444,10 +457,19 @@
     .panel-close:hover { transform: rotate(90deg); background: rgba(255,255,255,.15); }
 
     .news-list { gap: .75rem; }
-    .x-feed { min-height: 320px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: #0f1017; }
+    .x-feed { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: #0f1017; }
     .x-feed-loading { min-height: 320px; display: grid; place-items: center; padding: 2rem; color: rgba(255,255,255,.62); font-size: .76rem; text-align: center; }
     .x-feed-error { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; padding: 1.5rem; color: rgba(255,255,255,.66); font-size: .76rem; line-height: 1.5; text-align: center; }
     .x-feed-error a { padding: .65rem .9rem; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; color: #fff; background: rgba(255,255,255,.07); font-weight: 750; text-decoration: none; }
+    .x-profile-card { padding: 1rem; display: flex; align-items: center; gap: .8rem; }
+    .x-profile-mark { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 13px; color: #fff; background: #050505; }
+    .x-profile-mark svg { width: 19px; height: 19px; }
+    .x-profile-copy { min-width: 0; flex: 1; }
+    .x-profile-copy strong { display: block; color: #fff; font-size: .83rem; }
+    .x-profile-copy small { display: block; margin-top: .2rem; color: rgba(255,255,255,.55); font-size: .68rem; }
+    .x-profile-link { width: 35px; height: 35px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.16); border-radius: 50%; color: #fff; background: rgba(255,255,255,.06); transition: transform .25s ease, background .25s ease; }
+    .x-profile-link:hover { transform: translateX(3px); background: rgba(255,255,255,.13); }
+    .x-profile-link svg { width: 16px; height: 16px; }
     .news-subtitle { margin: 1.1rem 0 .65rem; color: rgba(255,255,255,.48); font-size: .62rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
     .news-item { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: rgba(255,255,255,.045); transition: border-color .25s ease, background .25s ease; }
     .news-item[data-expanded="true"] { border-color: color-mix(in srgb, var(--pink) 45%, transparent); background: rgba(255,255,255,.075); }
@@ -568,7 +590,7 @@
     </section>
 
     <a class="official-link" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">
-      Visit the official Rockstar Games website
+      <span class="official-link-text">Visit the official Rockstar Games website</span>
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -586,14 +608,20 @@
 
   <aside class="panel news-panel" id="news-panel" data-open="false" aria-hidden="true" aria-labelledby="news-title" role="dialog" inert><div class="panel-scroll">
     <div class="panel-header"><div><p class="panel-kicker">Rockstar radar</p><h2 id="news-title">Latest GTA VI updates</h2></div><button class="panel-close" type="button" aria-label="Close notifications">Close</button></div>
-    <div class="x-feed" id="x-feed"><div class="x-feed-loading">Open updates to load the latest seven official Rockstar posts from X.</div></div>
+    <div class="x-feed">
+      <div class="x-profile-card">
+        <span class="x-profile-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.24l-4.89-6.39L6.48 22H3.36l7.26-8.3L2.97 2h6.4l4.42 5.84L18.9 2Zm-1.1 17.84h1.72L8.43 4.05H6.58L17.8 19.84Z"/></svg></span>
+        <span class="x-profile-copy"><strong>Rockstar Games on X</strong><small>View the latest official posts and media</small></span>
+        <a class="x-profile-link" href="https://x.com/RockstarGames" target="_blank" rel="noopener noreferrer" aria-label="Open Rockstar Games on X"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
     <h3 class="news-subtitle">GTA VI highlights</h3>
     <ul class="news-list">
       <li class="news-item" data-expanded="false"><button class="news-card" type="button" aria-expanded="false"><img class="news-thumb" src="assets/Image9.webp" alt="GTA VI scene" loading="lazy" /><span><span class="news-meta">June 24, 2026 &middot; Rockstar</span><span class="news-title">Pre-order GTA VI and explore the available editions</span></span><svg class="news-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="news-detail"><div class="news-detail-inner"><img class="news-hero" src="assets/Image9.webp" alt="Grand Theft Auto VI official artwork" loading="lazy" /><div class="news-body"><p>Rockstar detailed GTA VI pre-orders, editions and bonuses. The game is a single-player experience coming to PlayStation 5 and Xbox Series X|S on November 19, 2026.</p><a class="news-source" href="https://www.rockstargames.com/newswire/article/5171972o3ak5oa/pre-order-grand-theft-auto-vi-on-june-25" target="_blank" rel="noopener noreferrer">Read on Rockstar <span aria-hidden="true">&#8599;</span></a></div></div></div></li>
       <li class="news-item" data-expanded="false"><button class="news-card" type="button" aria-expanded="false"><img class="news-thumb" src="assets/Image3.webp" alt="Vice City scene" loading="lazy" /><span><span class="news-meta">June 18, 2026 &middot; Rockstar</span><span class="news-title">GTA VI pre-orders begin June 25</span></span><svg class="news-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="news-detail"><div class="news-detail-inner"><img class="news-hero" src="assets/Image3.webp" alt="Vice City at sunset" loading="lazy" /><div class="news-body"><p>Rockstar announced the opening date for GTA VI pre-orders and directed players to the official game page for platform and edition information.</p><a class="news-source" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Open official page <span aria-hidden="true">&#8599;</span></a></div></div></div></li>
       <li class="news-item" data-expanded="false"><button class="news-card" type="button" aria-expanded="false"><img class="news-thumb" src="assets/Image7.webp" alt="GTA VI character scene" loading="lazy" /><span><span class="news-meta">May 6, 2025 &middot; Rockstar</span><span class="news-title">Grand Theft Auto VI Trailer 2 is available now</span></span><svg class="news-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="news-detail"><div class="news-detail-inner"><img class="news-hero" src="assets/Image7.webp" alt="GTA VI character artwork" loading="lazy" /><div class="news-body"><p>Trailer 2 introduces more of Jason and Lucia's story and offers another look at modern-day Vice City and the wider state of Leonida.</p><a class="news-source" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Watch at Rockstar <span aria-hidden="true">&#8599;</span></a></div></div></div></li>
     </ul>
-    <div class="panel-footer"><span>Official sources only</span><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">All Newswire &#8594;</a></div>
+    <div class="panel-footer"><span>Official sources only</span><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">All Newswire <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
   </div></aside>
 
   <button class="utility-button settings-trigger" type="button" aria-label="Open personalization settings" aria-controls="settings-panel" aria-expanded="false">
@@ -641,36 +669,6 @@
       { trigger: document.querySelector(".settings-trigger"), panel: document.getElementById("settings-panel") }
     ];
 
-    let xFeedRequested = false;
-    function showXFeedFallback() {
-      const feed = document.getElementById("x-feed");
-      if (feed.querySelector("iframe")) return;
-      feed.innerHTML = '<div class="x-feed-error"><span>X prevented the embedded timeline from loading. This can happen with tracking protection or an ad blocker.</span><a href="https://x.com/RockstarGames" target="_blank" rel="noopener noreferrer">View Rockstar Games on X &#8599;</a></div>';
-    }
-
-    function loadXFeed() {
-      if (xFeedRequested) return;
-      xFeedRequested = true;
-      const feed = document.getElementById("x-feed");
-      feed.replaceChildren();
-      const timeline = document.createElement("a");
-      timeline.className = "twitter-timeline";
-      timeline.href = "https://twitter.com/RockstarGames";
-      timeline.dataset.theme = "dark";
-      timeline.dataset.tweetLimit = "7";
-      timeline.dataset.chrome = "noheader nofooter noborders transparent";
-      timeline.dataset.dnt = "true";
-      timeline.textContent = "Latest posts from Rockstar Games on X";
-      feed.append(timeline);
-      const script = document.createElement("script");
-      script.src = "https://platform.twitter.com/widgets.js";
-      script.async = true;
-      script.charset = "utf-8";
-      script.onerror = showXFeedFallback;
-      document.head.append(script);
-      setTimeout(showXFeedFallback, 8000);
-    }
-
     function setPanel(pair, open, returnFocus = false) {
       pair.panel.dataset.open = String(open);
       pair.panel.setAttribute("aria-hidden", String(!open));
@@ -686,7 +684,6 @@
         panelPairs.forEach((other) => setPanel(other, false));
         setPanel(pair, shouldOpen);
         if (pair.trigger.classList.contains("news-trigger")) {
-          loadXFeed();
           pair.trigger.classList.add("seen");
           localStorage.setItem("gta6-news-seen", "2026-06-24");
         }
