@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+  <title>Ghost Web Studios</title>
+  <defs>
+    <clipPath id="rounded-icon">
+      <rect width="256" height="256" rx="40" />
+    </clipPath>
+  </defs>
+  <image width="256" height="256" href="/logo.png" xlink:href="/logo.png" clip-path="url(#rounded-icon)" />
+</svg>
