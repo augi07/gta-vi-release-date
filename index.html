@@ -2,243 +2,319 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GTA VI Countdown</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <meta name="theme-color" content="#090611" />
+  <meta name="description" content="Countdown to the release of Grand Theft Auto VI." />
+  <title>GTA VI — Release Countdown</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <style>
     :root {
-      --accent: #34e3ff;
-      --text-main: #fff;
-      --text-muted: #c7c7c7;
-      --font-main: system-ui, sans-serif;
-
-      /* colores del blur-box que quitamos */
-      --card-grad-1: rgba(255, 255, 255, 0.06);
-      --card-grad-2: rgba(255, 255, 255, 0.01);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-glow-1: rgba(111, 66, 193, 0.18);
-      --card-glow-2: rgba(52, 227, 255, 0.15);
+      --pink: #ff4fa3;
+      --orange: #ff9f45;
+      --cyan: #58e4ff;
+      --text: #fffafc;
+      --muted: rgba(255, 250, 252, .68);
+      --glass: rgba(18, 12, 27, .52);
+      --border: rgba(255, 255, 255, .16);
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
 
     body {
-      height: 100vh;
-      overflow: hidden;
-      font-family: var(--font-main);
-      color: var(--text-main);
-      background: radial-gradient(circle at top, #171b2f, #050509 55%, #000);
+      min-height: 100svh;
+      overflow-x: hidden;
+      font-family: var(--font);
+      color: var(--text);
+      background: #090611;
     }
 
-    /* ===== background ===== */
-    .background-slider {
+    .background-slider,
+    .background-slide,
+    .atmosphere {
       position: fixed;
       inset: 0;
-      overflow: hidden;
+    }
+
+    .background-slider { z-index: -3; overflow: hidden; background: #090611; }
+
+    .background-slide {
+      opacity: 0;
+      background-position: center;
+      background-size: cover;
+      animation: crossfade 80s ease-in-out infinite, drift 16s ease-in-out infinite alternate;
+      will-change: opacity, transform;
+    }
+
+    .background-slide:nth-child(1)  { background-image: url("assets/Image1.webp");  animation-delay: 0s, 0s; }
+    .background-slide:nth-child(2)  { background-image: url("assets/Image2.jpg");   animation-delay: 8s, -3s; }
+    .background-slide:nth-child(3)  { background-image: url("assets/Image3.webp");  animation-delay: 16s, -6s; }
+    .background-slide:nth-child(4)  { background-image: url("assets/Image4.webp");  animation-delay: 24s, -9s; }
+    .background-slide:nth-child(5)  { background-image: url("assets/Image5.webp");  animation-delay: 32s, -12s; }
+    .background-slide:nth-child(6)  { background-image: url("assets/Image6.jpg");   animation-delay: 40s, -15s; }
+    .background-slide:nth-child(7)  { background-image: url("assets/Image7.webp");  animation-delay: 48s, -2s; }
+    .background-slide:nth-child(8)  { background-image: url("assets/Image8.webp");  animation-delay: 56s, -5s; }
+    .background-slide:nth-child(9)  { background-image: url("assets/Image9.webp");  animation-delay: 64s, -8s; }
+    .background-slide:nth-child(10) { background-image: url("assets/Image10.webp"); animation-delay: 72s, -11s; }
+
+    @keyframes crossfade {
+      0% { opacity: 0; }
+      2.5%, 10% { opacity: 1; }
+      12.5%, 100% { opacity: 0; }
+    }
+
+    @keyframes drift {
+      from { transform: scale(1.04) translate3d(-.4%, 0, 0); }
+      to { transform: scale(1.1) translate3d(.4%, -.4%, 0); }
+    }
+
+    .atmosphere {
       z-index: -2;
-    }
-
-    .slider-track {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      width: 1000%;
-      height: 100%;
-      animation: slide-bg 140s linear infinite;
-    }
-
-    .slide { flex: 0 0 10%; }
-
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.5) contrast(1.05);
-      transform: scale(1.05);
-    }
-
-    @keyframes slide-bg {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-90%); }
-    }
-
-    .dark-vignette {
-      position: fixed;
-      inset: 0;
       pointer-events: none;
-      z-index: -1;
-      background: radial-gradient(circle at top, rgba(0,0,0,.3), rgba(0,0,0,.85) 60%, #000);
+      background:
+        linear-gradient(180deg, rgba(8, 4, 15, .22), rgba(8, 4, 15, .7)),
+        radial-gradient(circle at 50% 38%, transparent 0, rgba(3, 2, 8, .18) 42%, rgba(3, 2, 8, .78) 100%);
     }
 
-    /* ===== layout ===== */
     .content {
-      height: 100vh;
-      width: 100vw;
+      width: min(1100px, 100%);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4.5rem) 1.25rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2rem;
-      padding: 2rem;
+      gap: clamp(1.4rem, 3vw, 2.4rem);
       text-align: center;
     }
 
-    .gta-logo {
-      height: 180px;
-      object-fit: contain;
+    .hero { animation: enter .9s cubic-bezier(.2, .8, .2, 1) both; }
+
+    .eyebrow {
+      margin-bottom: .65rem;
+      color: rgba(255,255,255,.8);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .32em;
+      text-transform: uppercase;
     }
 
-    /* ===== time boxes w/ card-colors ===== */
+    .gta-logo {
+      display: block;
+      width: clamp(230px, 38vw, 440px);
+      height: auto;
+      margin: 0 auto;
+      filter: drop-shadow(0 22px 34px rgba(0,0,0,.48)) drop-shadow(0 0 42px rgba(255,79,163,.14));
+      transition: transform .5s cubic-bezier(.2,.8,.2,1), filter .5s ease;
+    }
+
+    .gta-logo:hover {
+      transform: translateY(-5px) scale(1.025);
+      filter: drop-shadow(0 28px 38px rgba(0,0,0,.55)) drop-shadow(0 0 52px rgba(255,79,163,.25));
+    }
+
+    .release-line {
+      margin-top: .75rem;
+      color: var(--muted);
+      font-size: clamp(.8rem, 1.8vw, .95rem);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
     .countdown-grid {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      justify-content: center;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(135px, 1fr));
+      gap: clamp(.7rem, 1.6vw, 1.1rem);
+      animation: enter .9s .12s cubic-bezier(.2,.8,.2,1) both;
     }
 
     .time-box {
-      padding: 1.3rem 2.2rem;
-      border-radius: 22px;
-
-      /* mismo estilo del blur box que quitaste */
-      background: linear-gradient(135deg, var(--card-grad-1), var(--card-grad-2));
-      border: 1px solid var(--card-border);
       position: relative;
-
-      box-shadow:
-        0 25px 60px rgba(0,0,0,0.9),
-        0 0 80px rgba(52,227,255,0.1);
-
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
+      isolation: isolate;
+      min-height: 148px;
+      padding: 1.5rem 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(255,255,255,.13), var(--glass) 58%, rgba(255,255,255,.05));
+      box-shadow: 0 22px 55px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.14);
+      backdrop-filter: blur(20px) saturate(135%);
+      -webkit-backdrop-filter: blur(20px) saturate(135%);
+      transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
     }
 
     .time-box::before {
-        display: none;
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 110px;
+      height: 110px;
+      top: -72px;
+      left: 50%;
+      border-radius: 50%;
+      background: var(--pink);
+      filter: blur(42px);
+      opacity: .28;
+      transform: translateX(-50%);
+    }
+
+    .time-box:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.3);
+      box-shadow: 0 30px 70px rgba(0,0,0,.4), 0 0 36px rgba(255,79,163,.1), inset 0 1px 0 rgba(255,255,255,.2);
     }
 
     .number {
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: .05em;
-      text-shadow: 0 0 20px rgba(0,0,0,.9);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      font-weight: 750;
+      line-height: .95;
+      letter-spacing: -.045em;
+      text-shadow: 0 7px 24px rgba(0,0,0,.38);
     }
+
+    .number.tick { animation: tick .48s cubic-bezier(.2,.8,.2,1); }
 
     .label {
-      margin-top: .4rem;
-      font-size: .8rem;
-      letter-spacing: .25em;
+      margin-top: .8rem;
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .28em;
       text-transform: uppercase;
-      color: var(--text-muted);
     }
 
-    .badge {
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      padding: 0.22rem 0.55rem;
-      font-size: 0.65rem;
+    .official-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .82rem 1.18rem;
+      border: 1px solid rgba(255,255,255,.18);
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(0,0,0,0.8);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: #ccc;
-    }
-
-    .footer-text {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .footer-text a {
-      color: var(--accent);
+      color: var(--text);
+      background: rgba(10, 6, 16, .5);
+      box-shadow: 0 12px 30px rgba(0,0,0,.22);
+      backdrop-filter: blur(14px);
+      font-size: .82rem;
+      font-weight: 650;
       text-decoration: none;
-      font-weight: 600;
+      transition: transform .3s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
+      animation: enter .9s .24s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .official-link svg {
+      width: 1.05rem;
+      height: 1.05rem;
+      flex: 0 0 auto;
+      color: #fff;
+      transition: transform .3s ease;
+    }
+    .official-link:hover { transform: translateY(-3px); background: rgba(255,79,163,.16); border-color: rgba(255,125,187,.5); box-shadow: 0 16px 35px rgba(0,0,0,.3); }
+    .official-link:hover svg { transform: translateX(4px); }
+    .official-link:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+
+    @keyframes tick {
+      0% { opacity: .35; transform: translateY(-9px) scale(.96); filter: blur(2px); }
+      100% { opacity: 1; transform: none; filter: blur(0); }
+    }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 700px) {
+      .content { justify-content: center; padding-block: 1.5rem; gap: 1.35rem; }
+      .countdown-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); max-width: 520px; }
+      .time-box { min-height: 112px; padding: 1.15rem .75rem 1rem; border-radius: 21px; }
+      .label { margin-top: .55rem; }
+    }
+
+    @media (max-width: 380px) {
+      .content { padding-inline: .8rem; }
+      .countdown-grid { gap: .55rem; }
+      .time-box { min-height: 102px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .background-slide:first-child { opacity: 1; }
     }
   </style>
 </head>
 <body>
-
-  <!-- BG slider -->
-  <div class="background-slider">
-    <div class="slider-track">
-      <div class="slide"><img src="assets/Image1.webp" /></div>
-      <div class="slide"><img src="assets/Image2.jpg" /></div>
-      <div class="slide"><img src="assets/Image3.webp" /></div>
-      <div class="slide"><img src="assets/Image4.webp" /></div>
-      <div class="slide"><img src="assets/Image5.webp" /></div>
-      <div class="slide"><img src="assets/Image6.jpg" /></div>
-      <div class="slide"><img src="assets/Image7.webp" /></div>
-      <div class="slide"><img src="assets/Image8.webp" /></div>
-      <div class="slide"><img src="assets/Image9.webp" /></div>
-      <div class="slide"><img src="assets/Image10.webp" /></div>
-    </div>
+  <div class="background-slider" aria-hidden="true">
+    <div class="background-slide"></div><div class="background-slide"></div>
+    <div class="background-slide"></div><div class="background-slide"></div>
+    <div class="background-slide"></div><div class="background-slide"></div>
+    <div class="background-slide"></div><div class="background-slide"></div>
+    <div class="background-slide"></div><div class="background-slide"></div>
   </div>
+  <div class="atmosphere" aria-hidden="true"></div>
 
-  <div class="dark-vignette"></div>
+  <main class="content">
+    <header class="hero">
+      <p class="eyebrow">The countdown is on</p>
+      <img src="assets/GTA6Logo.webp" class="gta-logo" alt="Grand Theft Auto VI" />
+      <p class="release-line">Coming November 19, 2026</p>
+    </header>
 
-  <div class="content">
+    <section class="countdown-grid" aria-label="Time until release" aria-live="polite">
+      <div class="time-box"><span class="number" id="days">000</span><span class="label">Days</span></div>
+      <div class="time-box"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
+      <div class="time-box"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
+      <div class="time-box"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
+    </section>
 
-    <img src="assets/GTA6Logo.webp" class="gta-logo" />
-
-    <div class="countdown-grid">
-      <div class="time-box">
-        <span class="number" id="days">000</span>
-        <span class="label">Days</span>
-      </div>
-      <div class="time-box">
-        <span class="number" id="hours">00</span>
-        <span class="label">Hours</span>
-      </div>
-      <div class="time-box">
-        <span class="number" id="minutes">00</span>
-        <span class="label">Minutes</span>
-      </div>
-      <div class="time-box">
-        <span class="number" id="seconds">00</span>
-        <span class="label">Seconds</span>
-      </div>
-    </div>
-
-    <p class="footer-text">
-      Visit the <a href="https://www.rockstargames.com/VI" target="_blank">official Rockstar Games website</a>
-    </p>
-
-  </div>
+    <a class="official-link" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">
+      Visit the official Rockstar Games website
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </main>
 
   <script>
     const releaseDate = new Date("2026-11-19T00:00:00");
-    const startDate = new Date();
+    const elements = {
+      days: document.getElementById("days"),
+      hours: document.getElementById("hours"),
+      minutes: document.getElementById("minutes"),
+      seconds: document.getElementById("seconds")
+    };
+    const previous = {};
+    const pad = (value, size = 2) => String(value).padStart(size, "0");
 
-    const d = document.getElementById("days");
-    const h = document.getElementById("hours");
-    const m = document.getElementById("minutes");
-    const s = document.getElementById("seconds");
-
-    const pad = (n, size=2) => String(n).padStart(size, "0");
-
-    function update() {
-      const now = new Date();
-      let diff = releaseDate - now;
-
-      if (diff <= 0) diff = 0;
-
-      const total = Math.floor(diff / 1000);
-      const days = Math.floor(total / 86400);
-      const hours = Math.floor((total % 86400) / 3600);
-      const minutes = Math.floor((total % 3600) / 60);
-      const seconds = total % 60;
-
-      d.textContent = pad(days, 3);
-      h.textContent = pad(hours);
-      m.textContent = pad(minutes);
-      s.textContent = pad(seconds);
+    function setValue(name, value) {
+      if (previous[name] === value) return;
+      const element = elements[name];
+      element.textContent = value;
+      element.classList.remove("tick");
+      void element.offsetWidth;
+      element.classList.add("tick");
+      previous[name] = value;
     }
 
-    update();
-    setInterval(update, 1000);
-  </script>
+    function updateCountdown() {
+      const difference = Math.max(0, releaseDate.getTime() - Date.now());
+      const totalSeconds = Math.floor(difference / 1000);
 
+      setValue("days", pad(Math.floor(totalSeconds / 86400), 3));
+      setValue("hours", pad(Math.floor((totalSeconds % 86400) / 3600)));
+      setValue("minutes", pad(Math.floor((totalSeconds % 3600) / 60)));
+      setValue("seconds", pad(totalSeconds % 60));
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
