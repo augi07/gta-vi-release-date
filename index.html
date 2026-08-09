@@ -93,6 +93,12 @@
 
     html, body { min-height: 100%; }
 
+    html { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
+    html::-webkit-scrollbar { width: 6px; }
+    html::-webkit-scrollbar-track { background: transparent; }
+    html::-webkit-scrollbar-thumb { border-radius: 999px; background: rgba(255,255,255,.2); }
+    html::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.32); }
+
     body {
       min-height: 100svh;
       overflow-x: hidden;
@@ -183,6 +189,7 @@
       letter-spacing: .16em;
       text-transform: uppercase;
     }
+    .netflix-word { color: #e50914; font-family: Arial, Helvetica, sans-serif; font-size: 1.08em; font-weight: 900; letter-spacing: -.04em; text-shadow: 0 2px 12px rgba(229,9,20,.3); }
 
     .countdown-grid {
       width: 100%;
@@ -356,7 +363,7 @@
     }
 
     .panel[data-open="true"] { opacity: 1; visibility: visible; transform: none; }
-    .news-panel { left: 1.25rem; bottom: 4.5rem; }
+    .news-panel { left: 1.25rem; bottom: 5.25rem; }
     .settings-panel { right: 1.25rem; }
     .panel-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
     .panel-kicker { margin-bottom: .3rem; color: var(--pink); font-size: .65rem; font-weight: 750; letter-spacing: .18em; text-transform: uppercase; }
@@ -423,8 +430,8 @@
       overflow: hidden;
       border-radius: 28px;
       background:
-        radial-gradient(circle at 90% 0, rgba(255,79,163,.16), transparent 34%),
-        linear-gradient(155deg, rgba(30,20,40,.94), rgba(8,6,14,.92));
+        radial-gradient(circle at 90% 0, #25112d 0, #160d20 34%, transparent 58%),
+        linear-gradient(155deg, #1b1125, #09060f);
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       contain: layout paint;
@@ -441,7 +448,7 @@
       -webkit-overflow-scrolling: touch;
     }
     .panel-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
-    .panel-header { position: sticky; top: -1.25rem; z-index: 3; margin: -1.25rem -1.25rem 1rem; padding: 1.25rem; align-items: center; background: linear-gradient(rgba(15,10,22,.96) 65%, transparent); }
+    .panel-header { position: sticky; top: -1.25rem; z-index: 3; margin: -1.25rem -1.25rem 1rem; padding: 1.25rem; align-items: center; background: linear-gradient(#100a18 72%, rgba(16,10,24,0)); }
     .panel-close { display: grid; place-items: center; font-size: 0; transition: transform .25s ease, background .25s ease; }
     .panel-close::before, .panel-close::after { content: ""; position: absolute; width: 14px; height: 1.5px; border-radius: 2px; background: currentColor; transform: rotate(45deg); }
     .panel-close::after { transform: rotate(-45deg); }
@@ -458,14 +465,15 @@
     .x-profile-copy { min-width: 0; flex: 1; }
     .x-profile-copy strong { display: block; color: #fff; font-size: .83rem; }
     .x-profile-copy small { display: block; margin-top: .2rem; color: rgba(255,255,255,.55); font-size: .68rem; }
-    .x-profile-link { width: 35px; height: 35px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.16); border-radius: 50%; color: #fff; background: rgba(255,255,255,.06); transition: transform .25s ease, background .25s ease; }
-    .x-profile-link:hover { transform: translateX(3px); background: rgba(255,255,255,.13); }
+    .x-profile-link { width: 35px; height: 35px; flex: 0 0 auto; display: grid; place-items: center; border: 0; border-radius: 50%; color: #15111a; background: #ebe9ed; opacity: 1; transition: opacity .25s ease; }
+    .x-profile-link:hover { opacity: .75; }
     .x-profile-link svg { width: 16px; height: 16px; }
     .news-subtitle { margin: 1.1rem 0 .65rem; color: rgba(255,255,255,.58); font-family: Georgia, "Times New Roman", serif; font-size: .78rem; font-style: italic; font-weight: 400; letter-spacing: .08em; text-transform: none; }
     .news-item { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: rgba(255,255,255,.045); transition: border-color .25s ease, background .25s ease; }
     .news-item[data-expanded="true"] { border-color: color-mix(in srgb, var(--pink) 45%, transparent); background: rgba(255,255,255,.075); }
     .news-card { width: 100%; padding: .95rem; display: grid; grid-template-columns: 64px 1fr 22px; align-items: center; gap: .8rem; border: 0; border-radius: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
-    .news-card:hover { transform: none; background: rgba(255,255,255,.055); }
+    .news-card { transition: opacity .25s ease, background .25s ease; }
+    .news-card:hover { opacity: .75; transform: none; background: rgba(255,255,255,.055); }
     .news-thumb { width: 64px; height: 58px; object-fit: cover; border-radius: 13px; }
     .news-chevron { width: 18px; height: 18px; transition: transform .3s ease; }
     .news-item[data-expanded="true"] .news-chevron { transform: rotate(180deg); }
@@ -475,7 +483,15 @@
     .news-hero { width: calc(100% - 1.8rem); height: 165px; margin: 0 .9rem; object-fit: cover; border-radius: 15px; }
     .news-body { padding: .85rem .95rem 1rem; }
     .news-body p { color: var(--muted); font-size: .78rem; line-height: 1.6; }
-    .news-source { margin-top: .75rem; display: inline-flex; align-items: center; gap: .35rem; color: #fff; font-size: .74rem; font-weight: 750; text-decoration: none; }
+    .news-source { width: 100%; margin-top: .85rem; padding: .68rem .9rem; display: inline-flex; align-items: center; justify-content: center; gap: .45rem; border-radius: 999px; color: #15111a; background: #ebe9ed; font-size: .72rem; font-weight: 750; text-decoration: none; opacity: 1; transition: opacity .25s ease; }
+    .news-source:hover { opacity: .75; }
+    .news-source > span { display: none; }
+    .news-source::after { content: ""; width: 6px; height: 6px; border-top: 1.7px solid currentColor; border-right: 1.7px solid currentColor; transform: rotate(45deg); }
+
+    .news-panel .panel-footer { margin-top: 1.8rem; padding-top: 1rem; flex-direction: column; align-items: stretch; border-top: 1px solid rgba(255,255,255,.08); }
+    .news-panel .panel-footer > span { text-align: center; }
+    .news-panel .panel-footer a { width: 100%; min-height: 40px; justify-content: center; border-radius: 999px; color: #15111a; background: #ebe9ed; opacity: 1; transition: opacity .25s ease; }
+    .news-panel .panel-footer a:hover { opacity: .75; }
 
     .settings-section { margin-top: 1.2rem; }
     .settings-section:first-of-type { margin-top: 0; }
@@ -514,11 +530,13 @@
     .upload-button svg { width: 16px; height: 16px; }
     .custom-media { position: fixed; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; display: none; opacity: 1; transition: opacity 1.45s cubic-bezier(.4,0,.2,1); }
     body.custom-image-background #custom-image, body.custom-video-background #custom-video, body.custom-youtube-background #custom-youtube { display: block; }
-    #custom-youtube { width: 120%; height: 120%; inset: -10%; border: 0; pointer-events: none; }
+    #custom-youtube { width: 140%; height: 140%; inset: -20%; border: 0; pointer-events: none; opacity: 0; transition: opacity .9s ease; }
+    body.custom-youtube-background #custom-youtube.is-ready { opacity: 1; }
     body.custom-background .background-slider { display: none; }
     .event-background { position: fixed; inset: 0; z-index: -3; opacity: 0; background: url("extra/Jason_and_Lucia_Robbery_landscape.jpg") center/cover; transform: scale(1.05); transition: opacity 1.45s cubic-bezier(.4,0,.2,1); }
     body.extended-view .event-background { opacity: 1; animation: drift 16s ease-in-out infinite alternate; }
     body.extended-view .custom-media { opacity: 0; }
+    body.extended-view #custom-youtube.is-ready { opacity: 0 !important; }
     .event-title { display: none; margin-top: .4rem; font-size: clamp(2.1rem, 6vw, 4.4rem); line-height: .95; letter-spacing: -.045em; text-transform: uppercase; background: linear-gradient(100deg, #fff3bc, #ff9f45 48%, #ff4fa3); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 10px 22px rgba(0,0,0,.35)); }
     body.extended-view .event-title { display: block; }
     body.extended-view .gta-logo { width: clamp(150px, 23vw, 250px); }
@@ -797,7 +815,8 @@
       document.body.classList.toggle("extended-view", showExtendedLook);
       countdownTarget = showExtendedLook ? extendedLookDate : releaseDate;
       heroEyebrow.textContent = showExtendedLook ? "Rockstar Games presents" : "The countdown is on";
-      releaseLine.textContent = showExtendedLook ? "August 27, 2026 · 3 PM ET · Netflix" : "Coming November 19, 2026";
+      if (showExtendedLook) releaseLine.innerHTML = 'August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word">Netflix</span>';
+      else releaseLine.textContent = "Coming November 19, 2026";
       pageHeading.textContent = showExtendedLook ? "GTA VI An Extended Look countdown" : "Grand Theft Auto VI release countdown";
       officialLink.href = showExtendedLook ? "https://www.netflix.com/GTAVI" : "https://www.rockstargames.com/VI";
       officialLinkText.textContent = showExtendedLook ? "Watch An Extended Look on Netflix" : "Visit the official Rockstar Games website";
@@ -859,21 +878,28 @@
     controls.silent.checked = preferences.silent ?? true;
     controls.dim.value = preferences.dim ?? 70;
     preferences.background ||= "slideshow";
+    let youtubeReadyTimer;
 
     function selectBackground(value, save = true) {
       const image = document.getElementById("custom-image");
       const video = document.getElementById("custom-video");
       const youtube = document.getElementById("custom-youtube");
+      clearTimeout(youtubeReadyTimer);
+      youtube.onload = null;
+      youtube.classList.remove("is-ready");
       document.body.classList.remove("custom-background", "custom-image-background", "custom-video-background", "custom-youtube-background");
       video.pause();
       youtube.src = "about:blank";
       if (value.startsWith("youtube:")) {
         const videoId = value.slice(8);
+        image.src = videoId === "VQRLujxTm3c" ? "assets/Image1.webp" : "extra/Jason_and_Lucia_01_landscape.jpg";
         if (controls.motion.checked) {
-          youtube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&origin=https%3A%2F%2Fgtavi.ghostwebstudios.com`;
-          document.body.classList.add("custom-background", "custom-youtube-background");
+          youtube.onload = () => {
+            youtubeReadyTimer = setTimeout(() => youtube.classList.add("is-ready"), 1800);
+          };
+          youtube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&origin=https%3A%2F%2Fgtavi.ghostwebstudios.com`;
+          document.body.classList.add("custom-background", "custom-image-background", "custom-youtube-background");
         } else {
-          image.src = "extra/Official_Cover_Art_landscape.jpg";
           document.body.classList.add("custom-background", "custom-image-background");
         }
       } else if (value.startsWith("video:")) {
