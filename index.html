@@ -200,6 +200,7 @@
     }
 
     .time-box {
+      --timer-corner: 16px;
       position: relative;
       isolation: isolate;
       contain: paint;
@@ -210,9 +211,10 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      clip-path: inset(0 round 26px);
       border: 1px solid var(--border);
-      border-radius: 26px;
+      border-radius: var(--timer-corner);
+      corner-shape: squircle;
+      corner-shape: superellipse(2);
       background: linear-gradient(145deg, rgba(255,255,255,.13), var(--glass) 58%, rgba(255,255,255,.05));
       box-shadow: 0 22px 55px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.14);
       backdrop-filter: blur(20px) saturate(135%);
@@ -596,7 +598,7 @@
     @media (max-width: 700px) {
       .content { justify-content: center; padding-block: 1.5rem; gap: 1.35rem; }
       .countdown-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); max-width: 520px; }
-      .time-box { min-height: 112px; padding: 1.15rem .75rem 1rem; border-radius: 21px; }
+      .time-box { min-height: 112px; padding: 1.15rem .75rem 1rem; }
       .label { margin-top: .55rem; }
       .utility-button { bottom: .75rem; padding: .7rem; }
       .utility-button .button-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
