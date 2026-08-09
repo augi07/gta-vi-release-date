@@ -114,7 +114,7 @@
       inset: 0;
     }
 
-    .background-slider { z-index: -3; overflow: hidden; background: #090611; }
+    .background-slider { z-index: -3; overflow: hidden; background: #090611; opacity: 1; transition: opacity 1.6s cubic-bezier(.4,0,.2,1); }
 
     .background-slide {
       opacity: 0;
@@ -202,6 +202,7 @@
     .time-box {
       position: relative;
       isolation: isolate;
+      contain: paint;
       min-height: 148px;
       padding: 1.5rem 1rem 1.25rem;
       display: flex;
@@ -209,6 +210,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      clip-path: inset(0 round 26px);
       border: 1px solid var(--border);
       border-radius: 26px;
       background: linear-gradient(145deg, rgba(255,255,255,.13), var(--glass) 58%, rgba(255,255,255,.05));
@@ -221,7 +223,7 @@
     .time-box::before {
       content: "";
       position: absolute;
-      z-index: -1;
+      z-index: 0;
       width: 110px;
       height: 110px;
       top: -72px;
@@ -240,6 +242,8 @@
     }
 
     .number {
+      position: relative;
+      z-index: 1;
       font-variant-numeric: tabular-nums;
       font-size: clamp(2.6rem, 6vw, 4.4rem);
       font-weight: 750;
@@ -251,6 +255,8 @@
     .number.tick { animation: tick .48s cubic-bezier(.2,.8,.2,1); }
 
     .label {
+      position: relative;
+      z-index: 1;
       margin-top: .8rem;
       color: var(--muted);
       font-size: .67rem;
@@ -530,9 +536,12 @@
     .upload-button svg { width: 16px; height: 16px; }
     .custom-media { position: fixed; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; display: none; opacity: 1; transition: opacity 1.45s cubic-bezier(.4,0,.2,1); }
     body.custom-image-background #custom-image, body.custom-video-background #custom-video, body.custom-youtube-background #custom-youtube { display: block; }
-    #custom-youtube { width: 140%; height: 140%; inset: -20%; border: 0; pointer-events: none; opacity: 0; transition: opacity .9s ease; }
+    #custom-youtube { width: 140%; height: 140%; inset: -20%; border: 0; pointer-events: none; opacity: 0; transition: opacity 1.6s cubic-bezier(.4,0,.2,1); }
     body.custom-youtube-background #custom-youtube.is-ready { opacity: 1; }
-    body.custom-background .background-slider { display: none; }
+    body.custom-youtube-background #custom-image { transition: opacity 1.6s cubic-bezier(.4,0,.2,1); }
+    body.custom-youtube-background.youtube-ready #custom-image { opacity: 0; }
+    body.custom-background:not(.media-loading) .background-slider { opacity: 0; }
+    body.media-loading .custom-media { opacity: 0; }
     .event-background { position: fixed; inset: 0; z-index: -3; opacity: 0; background: url("extra/Jason_and_Lucia_Robbery_landscape.jpg") center/cover; transform: scale(1.05); transition: opacity 1.45s cubic-bezier(.4,0,.2,1); }
     body.extended-view .event-background { opacity: 1; animation: drift 16s ease-in-out infinite alternate; }
     body.extended-view .custom-media { opacity: 0; }
@@ -540,7 +549,6 @@
     .event-title { display: none; margin-top: .4rem; font-size: clamp(2.1rem, 6vw, 4.4rem); line-height: .95; letter-spacing: -.045em; text-transform: uppercase; background: linear-gradient(100deg, #fff3bc, #ff9f45 48%, #ff4fa3); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 10px 22px rgba(0,0,0,.35)); }
     body.extended-view .event-title { display: block; }
     body.extended-view .gta-logo { width: clamp(150px, 23vw, 250px); }
-
     .view-switch { right: 1.25rem; top: 50%; bottom: auto; border-radius: 999px; transform: translateY(-50%); transition: left .45s ease, right .45s ease, transform .25s ease, background .25s ease, border-color .25s ease; }
     .view-switch:hover { transform: translateY(calc(-50% - 3px)); }
     .view-switch svg { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
@@ -879,25 +887,34 @@
     controls.dim.value = preferences.dim ?? 70;
     preferences.background ||= "slideshow";
     let youtubeReadyTimer;
+    let backgroundSelectionId = 0;
 
     function selectBackground(value, save = true) {
       const image = document.getElementById("custom-image");
       const video = document.getElementById("custom-video");
       const youtube = document.getElementById("custom-youtube");
+      const selectionId = ++backgroundSelectionId;
       clearTimeout(youtubeReadyTimer);
       youtube.onload = null;
       youtube.classList.remove("is-ready");
-      document.body.classList.remove("custom-background", "custom-image-background", "custom-video-background", "custom-youtube-background");
+      document.body.classList.remove("custom-background", "custom-image-background", "custom-video-background", "custom-youtube-background", "youtube-ready", "media-loading");
       video.pause();
+      video.oncanplay = null;
       youtube.src = "about:blank";
       if (value.startsWith("youtube:")) {
         const videoId = value.slice(8);
         image.src = videoId === "VQRLujxTm3c" ? "assets/Image1.webp" : "extra/Jason_and_Lucia_01_landscape.jpg";
         if (controls.motion.checked) {
           youtube.onload = () => {
-            youtubeReadyTimer = setTimeout(() => youtube.classList.add("is-ready"), 1800);
+            /* YouTube's transient centre overlay is rendered inside its iframe.
+               Keep the poster visible until that overlay has had time to clear. */
+            youtubeReadyTimer = setTimeout(() => {
+              if (selectionId !== backgroundSelectionId) return;
+              youtube.classList.add("is-ready");
+              document.body.classList.add("youtube-ready");
+            }, 4200);
           };
-          youtube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&origin=https%3A%2F%2Fgtavi.ghostwebstudios.com`;
+          youtube.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&autohide=1&loop=1&playlist=${videoId}&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&origin=https%3A%2F%2Fgtavi.ghostwebstudios.com`;
           document.body.classList.add("custom-background", "custom-image-background", "custom-youtube-background");
         } else {
           document.body.classList.add("custom-background", "custom-image-background");
@@ -908,7 +925,12 @@
         video.volume = 0;
         video.src = value.slice(6);
         video.load();
-        document.body.classList.add("custom-background", "custom-video-background");
+        document.body.classList.add("custom-background", "custom-video-background", "media-loading");
+        video.oncanplay = () => {
+          if (selectionId !== backgroundSelectionId) return;
+          document.body.classList.remove("media-loading");
+          video.oncanplay = null;
+        };
         if (controls.motion.checked) video.play().catch(() => {});
       } else if (value !== "slideshow") {
         image.src = value;
@@ -1037,11 +1059,14 @@
     function updateCountdown() {
       const difference = Math.max(0, countdownTarget.getTime() - Date.now());
       const totalSeconds = Math.floor(difference / 1000);
+      const values = {
+        days: Math.floor(totalSeconds / 86400),
+        hours: Math.floor((totalSeconds % 86400) / 3600),
+        minutes: Math.floor((totalSeconds % 3600) / 60),
+        seconds: totalSeconds % 60
+      };
 
-      setValue("days", pad(Math.floor(totalSeconds / 86400), 3));
-      setValue("hours", pad(Math.floor((totalSeconds % 86400) / 3600)));
-      setValue("minutes", pad(Math.floor((totalSeconds % 3600) / 60)));
-      setValue("seconds", pad(totalSeconds % 60));
+      Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 
     updateCountdown();
