@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#090611" />
   <meta name="description" content="Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings." />
   <meta name="robots" content="index, follow" />
@@ -91,7 +91,7 @@
       border: 0;
     }
 
-    html, body { min-height: 100%; }
+    html, body { min-height: 100%; background: #090611; }
 
     html { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
     html::-webkit-scrollbar { width: 6px; }
@@ -100,6 +100,8 @@
     html::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.32); }
 
     body {
+      position: relative;
+      isolation: isolate;
       min-height: 100svh;
       overflow-x: hidden;
       font-family: var(--font);
@@ -559,7 +561,7 @@
     body.extended-view .view-switch svg { transform: rotate(180deg); }
     .view-switch-hint { display: none; }
 
-    .site-footer { position: relative; z-index: 5; padding: 2.5rem max(1.25rem, env(safe-area-inset-left)) 6rem; border-top: 1px solid rgba(255,255,255,.09); background: linear-gradient(180deg, rgba(8,5,13,.86), #08050d); text-align: center; }
+    .site-footer { position: relative; z-index: 5; margin-top: -1px; padding: 3rem max(1.25rem, env(safe-area-inset-left)) 6rem; border-top: 0; background: linear-gradient(180deg, rgba(8,5,13,.52) 0, rgba(8,5,13,.82) 18%, rgba(8,5,13,.94) 58%, #08050d 100%); text-align: center; }
     .footer-inner { width: min(850px, 100%); margin: 0 auto; }
     .footer-disclaimer { color: rgba(255,255,255,.58); font-size: .72rem; line-height: 1.7; }
     .footer-disclaimer strong { display: block; margin-bottom: .25rem; color: rgba(255,255,255,.82); font-size: .78rem; }
@@ -643,19 +645,25 @@
       body { min-height: 100lvh; }
       .content { min-height: 100lvh; }
       .background-slider, .atmosphere, .event-background, .custom-media {
-        top: -8lvh;
-        right: -4vw;
-        bottom: -8lvh;
-        left: -4vw;
-        width: auto;
-        height: auto;
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        width: 100vw;
+        height: 100lvh;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
       }
-      .background-slide { inset: 0; animation: none !important; transform: scale(1.04); }
+      .background-slide { inset: 0; animation: none !important; transform: none !important; background-size: cover; background-attachment: scroll; }
       .custom-media { object-fit: cover; }
+      #custom-youtube { top: -20lvh; left: -20vw; width: 140vw; height: 140lvh; }
       .panel { top: max(.75rem, env(safe-area-inset-top)); right: max(.75rem, env(safe-area-inset-right)); left: max(.75rem, env(safe-area-inset-left)); }
       .panel-scroll { height: 100%; }
-      .panel-header { padding-right: max(1.25rem, env(safe-area-inset-right)); }
-      .panel-close { margin-left: auto; margin-right: 0; }
+      .panel-header { padding-right: max(.55rem, env(safe-area-inset-right)); }
+      .panel-close { margin-left: auto; margin-right: -.15rem; }
+      .site-footer { margin-top: -2px; background: linear-gradient(180deg, rgba(8,5,13,.48), rgba(8,5,13,.86) 22%, #08050d 72%); }
       .news-trigger { left: max(.75rem, env(safe-area-inset-left)); }
       .settings-trigger { right: max(.75rem, env(safe-area-inset-right)); }
     }
