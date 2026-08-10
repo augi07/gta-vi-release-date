@@ -191,7 +191,12 @@
       letter-spacing: .16em;
       text-transform: uppercase;
     }
-    .netflix-word { color: #e50914; font-family: Arial, Helvetica, sans-serif; font-size: 1.08em; font-weight: 900; letter-spacing: -.04em; text-shadow: 0 2px 12px rgba(229,9,20,.3); }
+    .netflix-word { display: inline-flex; align-items: center; color: #e50914; font-family: Impact, "Arial Narrow", sans-serif; font-size: 1.14em; font-weight: 900; line-height: .8; letter-spacing: -.055em; transform: scaleX(.84); transform-origin: center; text-shadow: 0 2px 12px rgba(229,9,20,.32); }
+    .netflix-word span { display: inline-block; }
+    .netflix-word span:nth-child(1), .netflix-word span:nth-child(7) { transform: translateY(2px) scaleY(1.08); }
+    .netflix-word span:nth-child(2), .netflix-word span:nth-child(6) { transform: translateY(.7px) scaleY(1.04); }
+    .netflix-word span:nth-child(3), .netflix-word span:nth-child(5) { transform: translateY(-.4px); }
+    .netflix-word span:nth-child(4) { transform: translateY(-1px) scaleY(.98); }
 
     .countdown-grid {
       width: 100%;
@@ -459,9 +464,9 @@
     }
     .panel-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
     .panel-header { position: sticky; top: -1.25rem; z-index: 3; margin: -1.25rem -1.25rem 1rem; padding: 1.25rem; align-items: center; background: linear-gradient(#100a18 72%, rgba(16,10,24,0)); }
-    .panel-close { display: grid; place-items: center; font-size: 0; transition: transform .25s ease, background .25s ease; }
-    .panel-close::before, .panel-close::after { content: ""; position: absolute; width: 14px; height: 1.5px; border-radius: 2px; background: currentColor; transform: rotate(45deg); }
-    .panel-close::after { transform: rotate(-45deg); }
+    .panel-close { position: relative; display: grid; place-items: center; font-size: 0; transition: transform .25s ease, background .25s ease; }
+    .panel-close::before, .panel-close::after { content: ""; position: absolute; top: 50%; left: 50%; width: 14px; height: 1.5px; border-radius: 2px; background: currentColor; transform: translate(-50%, -50%) rotate(45deg); transform-origin: center; }
+    .panel-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
     .panel-close:hover { transform: rotate(90deg); background: rgba(255,255,255,.15); }
 
     .news-list { gap: .75rem; }
@@ -560,6 +565,10 @@
     body.extended-view .view-switch { right: auto; left: 1.25rem; }
     body.extended-view .view-switch svg { transform: rotate(180deg); }
     .view-switch-hint { display: none; }
+
+    @media (min-width: 701px) {
+      .view-switch, body.extended-view .view-switch { top: 50dvh; }
+    }
 
     .site-footer { position: relative; z-index: 5; margin-top: 0; padding: 3rem max(1.25rem, env(safe-area-inset-left)) calc(6rem + env(safe-area-inset-bottom)); border-top: 0; background: #08050d; text-align: center; }
     .site-footer::before { content: ""; position: absolute; z-index: -1; right: 0; bottom: 100%; left: 0; height: 4rem; pointer-events: none; background: linear-gradient(180deg, transparent, #08050d); }
@@ -662,8 +671,8 @@
       #custom-youtube { top: -20lvh; left: -20vw; width: 140vw; height: 140lvh; }
       .panel { top: max(.75rem, env(safe-area-inset-top)); right: max(.75rem, env(safe-area-inset-right)); left: max(.75rem, env(safe-area-inset-left)); }
       .panel-scroll { height: 100%; }
-      .panel-header { padding-right: max(.15rem, env(safe-area-inset-right)); }
-      .panel-close { margin-left: auto; margin-right: -.4rem; }
+      .panel-header { padding-right: max(1.25rem, env(safe-area-inset-right)); }
+      .panel-close { margin-left: auto; margin-right: 0; }
       .site-footer { margin-top: 0; background: #08050d; }
       .news-trigger { left: max(.75rem, env(safe-area-inset-left)); }
       .settings-trigger { right: max(.75rem, env(safe-area-inset-right)); }
@@ -889,7 +898,7 @@
       document.body.classList.toggle("extended-view", showExtendedLook);
       countdownTarget = showExtendedLook ? extendedLookDate : releaseDate;
       heroEyebrow.textContent = showExtendedLook ? "Rockstar Games presents" : "The countdown is on";
-      if (showExtendedLook) releaseLine.innerHTML = 'August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word">Netflix</span>';
+      if (showExtendedLook) releaseLine.innerHTML = 'August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word" role="img" aria-label="Netflix"><span aria-hidden="true">N</span><span aria-hidden="true">E</span><span aria-hidden="true">T</span><span aria-hidden="true">F</span><span aria-hidden="true">L</span><span aria-hidden="true">I</span><span aria-hidden="true">X</span></span>';
       else releaseLine.textContent = "Coming November 19, 2026";
       pageHeading.textContent = showExtendedLook ? "GTA VI An Extended Look countdown" : "Grand Theft Auto VI release countdown";
       officialLink.href = showExtendedLook ? "https://www.netflix.com/GTAVI" : "https://www.rockstargames.com/VI";
