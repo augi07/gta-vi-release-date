@@ -564,14 +564,37 @@
 
     @media (min-width: 701px) {
       .view-switch,
-      body.extended-view .view-switch {
-        top: 0;
-        bottom: 0;
-        margin-block: auto;
-        transform: none;
+      body.extended-view .view-switch,
+      .view-switch-test {
+        position: fixed;
+        z-index: 20;
+        top: calc(50% - 26px) !important;
+        bottom: auto !important;
+        width: 52px;
+        min-width: 52px;
+        height: 52px;
+        min-height: 52px;
+        margin: 0;
+        padding: 0;
+        border-radius: 999px;
+        transform: none !important;
       }
       .view-switch:hover,
-      body.extended-view .view-switch:hover { transform: none; }
+      body.extended-view .view-switch:hover,
+      .view-switch-test:hover { transform: none; }
+      .view-switch svg,
+      body.extended-view .view-switch svg { width: 21.6px; height: 21.6px; }
+      body:not(.extended-view) .view-switch { right: 1.25rem; left: auto; }
+      body.extended-view .view-switch { display: none; right: 1.25rem; left: auto; }
+      .view-switch-test {
+        display: none;
+        left: 1.25rem;
+        right: auto;
+      }
+      body.extended-view .view-switch-test { display: inline-flex; }
+      .view-switch svg,
+      body.extended-view .view-switch svg { transform: none; animation: none; }
+      .view-switch-test svg { width: 21.6px; height: 21.6px; transform: rotate(180deg); animation: none; }
     }
 
     .site-footer { position: relative; z-index: 5; margin-top: 0; padding: 3rem max(1.25rem, env(safe-area-inset-left)) calc(6rem + env(safe-area-inset-bottom)); border-top: 0; background: #08050d; text-align: center; }
@@ -614,6 +637,7 @@
     }
 
     @media (max-width: 700px) {
+      .view-switch-test { display: none; }
       .content { justify-content: center; padding-block: 1.5rem; gap: 1.35rem; }
       .countdown-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); max-width: 520px; }
       .time-box { min-height: 112px; padding: 1.15rem .75rem 1rem; }
@@ -737,6 +761,9 @@
   <button class="utility-button view-switch" type="button" aria-label="Show An Extended Look countdown" title="An Extended Look">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span class="view-switch-hint" aria-hidden="true">Swipe left</span>
+  </button>
+  <button class="utility-button view-switch-test" type="button" aria-label="Temporary left button alignment test" title="Alignment test">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
   <video class="custom-media" id="custom-video" preload="metadata" autoplay muted loop playsinline aria-hidden="true"></video>
@@ -885,6 +912,7 @@
     ];
 
     const viewSwitch = document.querySelector(".view-switch");
+    const viewSwitchTest = document.querySelector(".view-switch-test");
     const heroEyebrow = document.getElementById("hero-eyebrow");
     const releaseLine = document.getElementById("release-line");
     const pageHeading = document.getElementById("page-heading");
@@ -917,7 +945,11 @@
       }));
     }
 
-    viewSwitch.addEventListener("click", () => setCountdownView(!document.body.classList.contains("extended-view")));
+    viewSwitch.addEventListener("click", () => {
+      if (window.matchMedia("(min-width: 701px)").matches) setCountdownView(true);
+      else setCountdownView(!document.body.classList.contains("extended-view"));
+    });
+    viewSwitchTest.addEventListener("click", () => setCountdownView(false));
 
     let swipeStartX = 0;
     document.addEventListener("touchstart", (event) => {
