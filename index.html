@@ -561,7 +561,8 @@
     body.extended-view .view-switch svg { transform: rotate(180deg); }
     .view-switch-hint { display: none; }
 
-    .site-footer { position: relative; z-index: 5; margin-top: -1px; padding: 3rem max(1.25rem, env(safe-area-inset-left)) 6rem; border-top: 0; background: linear-gradient(180deg, rgba(8,5,13,.52) 0, rgba(8,5,13,.82) 18%, rgba(8,5,13,.94) 58%, #08050d 100%); text-align: center; }
+    .site-footer { position: relative; z-index: 5; margin-top: 0; padding: 3rem max(1.25rem, env(safe-area-inset-left)) calc(6rem + env(safe-area-inset-bottom)); border-top: 0; background: #08050d; text-align: center; }
+    .site-footer::before { content: ""; position: absolute; z-index: -1; right: 0; bottom: 100%; left: 0; height: 4rem; pointer-events: none; background: linear-gradient(180deg, transparent, #08050d); }
     .footer-inner { width: min(850px, 100%); margin: 0 auto; }
     .footer-disclaimer { color: rgba(255,255,255,.58); font-size: .72rem; line-height: 1.7; }
     .footer-disclaimer strong { display: block; margin-bottom: .25rem; color: rgba(255,255,255,.82); font-size: .78rem; }
@@ -661,9 +662,9 @@
       #custom-youtube { top: -20lvh; left: -20vw; width: 140vw; height: 140lvh; }
       .panel { top: max(.75rem, env(safe-area-inset-top)); right: max(.75rem, env(safe-area-inset-right)); left: max(.75rem, env(safe-area-inset-left)); }
       .panel-scroll { height: 100%; }
-      .panel-header { padding-right: max(.55rem, env(safe-area-inset-right)); }
-      .panel-close { margin-left: auto; margin-right: -.15rem; }
-      .site-footer { margin-top: -2px; background: linear-gradient(180deg, rgba(8,5,13,.48), rgba(8,5,13,.86) 22%, #08050d 72%); }
+      .panel-header { padding-right: max(.15rem, env(safe-area-inset-right)); }
+      .panel-close { margin-left: auto; margin-right: -.4rem; }
+      .site-footer { margin-top: 0; background: #08050d; }
       .news-trigger { left: max(.75rem, env(safe-area-inset-left)); }
       .settings-trigger { right: max(.75rem, env(safe-area-inset-right)); }
     }
@@ -880,7 +881,8 @@
 
     let viewIsSwitching = false;
     async function setCountdownView(showExtendedLook) {
-      if (viewIsSwitching) return;
+      const currentlyExtended = document.body.classList.contains("extended-view");
+      if (viewIsSwitching || showExtendedLook === currentlyExtended) return;
       viewIsSwitching = true;
       document.body.classList.add("view-transitioning");
       await new Promise((resolve) => setTimeout(resolve, 280));
