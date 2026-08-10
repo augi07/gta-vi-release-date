@@ -191,12 +191,8 @@
       letter-spacing: .16em;
       text-transform: uppercase;
     }
-    .netflix-word { display: inline-flex; align-items: center; color: #e50914; font-family: Impact, "Arial Narrow", sans-serif; font-size: 1.14em; font-weight: 900; line-height: .8; letter-spacing: -.055em; transform: scaleX(.84); transform-origin: center; text-shadow: 0 2px 12px rgba(229,9,20,.32); }
-    .netflix-word span { display: inline-block; }
-    .netflix-word span:nth-child(1), .netflix-word span:nth-child(7) { transform: translateY(2px) scaleY(1.08); }
-    .netflix-word span:nth-child(2), .netflix-word span:nth-child(6) { transform: translateY(.7px) scaleY(1.04); }
-    .netflix-word span:nth-child(3), .netflix-word span:nth-child(5) { transform: translateY(-.4px); }
-    .netflix-word span:nth-child(4) { transform: translateY(-1px) scaleY(.98); }
+    .netflix-word { position: relative; width: 4.8em; height: 1.18em; overflow: hidden; display: inline-block; vertical-align: -.31em; filter: drop-shadow(0 3px 8px rgba(229,9,20,.28)); }
+    .netflix-word img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
 
     .countdown-grid {
       width: 100%;
@@ -567,7 +563,15 @@
     .view-switch-hint { display: none; }
 
     @media (min-width: 701px) {
-      .view-switch, body.extended-view .view-switch { top: 50dvh; }
+      .view-switch,
+      body.extended-view .view-switch {
+        top: 0;
+        bottom: 0;
+        margin-block: auto;
+        transform: none;
+      }
+      .view-switch:hover,
+      body.extended-view .view-switch:hover { transform: none; }
     }
 
     .site-footer { position: relative; z-index: 5; margin-top: 0; padding: 3rem max(1.25rem, env(safe-area-inset-left)) calc(6rem + env(safe-area-inset-bottom)); border-top: 0; background: #08050d; text-align: center; }
@@ -898,7 +902,7 @@
       document.body.classList.toggle("extended-view", showExtendedLook);
       countdownTarget = showExtendedLook ? extendedLookDate : releaseDate;
       heroEyebrow.textContent = showExtendedLook ? "Rockstar Games presents" : "The countdown is on";
-      if (showExtendedLook) releaseLine.innerHTML = 'August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word" role="img" aria-label="Netflix"><span aria-hidden="true">N</span><span aria-hidden="true">E</span><span aria-hidden="true">T</span><span aria-hidden="true">F</span><span aria-hidden="true">L</span><span aria-hidden="true">I</span><span aria-hidden="true">X</span></span>';
+      if (showExtendedLook) releaseLine.innerHTML = 'August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word" role="img" aria-label="Netflix"><img src="assets/215-2154144_transparent-background-netflix-logo.png" alt="" aria-hidden="true" /></span>';
       else releaseLine.textContent = "Coming November 19, 2026";
       pageHeading.textContent = showExtendedLook ? "GTA VI An Extended Look countdown" : "Grand Theft Auto VI release countdown";
       officialLink.href = showExtendedLook ? "https://www.netflix.com/GTAVI" : "https://www.rockstargames.com/VI";
