@@ -630,12 +630,15 @@
     body.countdown-neon .time-box { border-color: var(--pink); background: rgba(12,6,20,.65); box-shadow: 0 0 18px color-mix(in srgb, var(--pink) 45%, transparent), inset 0 0 24px color-mix(in srgb, var(--pink) 15%, transparent); }
     body.countdown-neon .number { color: #fff; text-shadow: 0 0 16px var(--pink), 0 0 30px var(--pink); }
 
-    body.countdown-retro .time-box { border: 2px solid rgba(255, 159, 69, 0.45); border-radius: 20px; background: #0c0a07; box-shadow: inset 0 2px 10px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.5); }
-    body.countdown-retro .time-box::before { background: var(--orange); opacity: 0.2; }
-    body.countdown-retro .number { color: #ff9f45; font-family: "Courier New", Courier, monospace; letter-spacing: -0.02em; text-shadow: 0 0 12px rgba(255, 159, 69, 0.8), 0 0 24px rgba(255, 159, 69, 0.4); }
-    body.countdown-retro .label { color: rgba(255, 159, 69, 0.7); font-family: "Courier New", Courier, monospace; }
+    body.countdown-airport .time-box { border: 2px solid #282c34; border-radius: 18px; background: linear-gradient(180deg, #1f232b 0%, #161920 50%, #0d0e12 51%, #161920 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -2px 5px rgba(0,0,0,0.8), 0 12px 35px rgba(0,0,0,0.6); }
+    body.countdown-airport .time-box::before { content: ""; position: absolute; inset: 50% 0 auto 0; height: 2px; background: #07080a; z-index: 2; box-shadow: 0 1px 0 rgba(255,255,255,0.08); border-radius: 0; filter: none; width: 100%; top: auto; left: 0; transform: translateY(-50%); }
+    body.countdown-airport .number { color: #f0f2f5; font-family: "Courier New", Courier, monospace; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+    body.countdown-airport .label { color: rgba(240,242,245,0.65); letter-spacing: 0.28em; }
 
-    body.countdown-solid .time-box { border: 0; background: linear-gradient(145deg, color-mix(in srgb, var(--pink) 85%, #34142d), #17101f); backdrop-filter: none; -webkit-backdrop-filter: none; }
+    body.countdown-matrix .time-box { border: 1px solid #00ff66; border-radius: 18px; background: rgba(4, 18, 10, 0.8); box-shadow: 0 0 18px rgba(0,255,102,0.35), inset 0 0 22px rgba(0,255,102,0.12); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    body.countdown-matrix .time-box::before { background: #00ff66; opacity: 0.25; }
+    body.countdown-matrix .number { color: #00ff66; font-family: "Courier New", Courier, monospace; font-weight: 750; text-shadow: 0 0 12px rgba(0,255,102,0.8), 0 0 24px rgba(0,255,102,0.5); }
+    body.countdown-matrix .label { color: rgba(0,255,102,0.75); font-family: "Courier New", Courier, monospace; letter-spacing: 0.28em; }
 
     body.countdown-outline .time-box { border: 2px solid rgba(255,255,255,.72); background: rgba(0,0,0,.16); box-shadow: inset 0 0 0 5px rgba(255,255,255,.035); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     body.countdown-outline .number { text-shadow: 0 0 10px rgba(88,228,255,.4); }
@@ -834,9 +837,9 @@
         <div class="style-grid" id="timer-style-grid">
           <button class="style-choice" type="button" data-style="default" aria-pressed="true">Glass</button>
           <button class="style-choice" type="button" data-style="countdown-neon" aria-pressed="false">Neon</button>
-          <button class="style-choice" type="button" data-style="countdown-retro" aria-pressed="false">Retro</button>
+          <button class="style-choice" type="button" data-style="countdown-airport" aria-pressed="false">Airport</button>
+          <button class="style-choice" type="button" data-style="countdown-matrix" aria-pressed="false">Matrix</button>
           <button class="style-choice" type="button" data-style="countdown-minimal" aria-pressed="false">Minimal</button>
-          <button class="style-choice" type="button" data-style="countdown-solid" aria-pressed="false">Solid</button>
           <button class="style-choice" type="button" data-style="countdown-outline" aria-pressed="false">Outline</button>
         </div>
       </div>
@@ -1157,9 +1160,9 @@
     function selectTimerStyle(styleName, save = true) {
       document.body.classList.remove(
         "countdown-neon",
-        "countdown-retro",
+        "countdown-airport",
+        "countdown-matrix",
         "countdown-minimal",
-        "countdown-solid",
         "countdown-outline"
       );
       if (styleName && styleName !== "default") {
