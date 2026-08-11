@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "GTA VI Release Countdown",
+  description = "Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings."
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090611" />
+  <meta name="description" content={description} />
+  <meta name="robots" content="index, follow" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="canonical" href="https://gtavi.ghostwebstudios.com/" />
+  <title>{title}</title>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gtavi.ghostwebstudios.com/" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content="https://gtavi.ghostwebstudios.com/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="GTA VI fan-made release countdown" />
+  <meta property="og:site_name" content="GTA VI Release Countdown" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@GhostWebStudios" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content="https://gtavi.ghostwebstudios.com/og-image.jpg" />
+  <meta name="twitter:image:alt" content="GTA VI fan-made release countdown" />
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/GTA6Logo.webp" as="image" type="image/webp" />
+  <link rel="preload" href="/assets/Image1.webp" as="image" type="image/webp" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://gtavi.ghostwebstudios.com/#webpage",
+      "url": "https://gtavi.ghostwebstudios.com/",
+      "name": "GTA VI Release Countdown",
+      "description": "Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings.",
+      "inLanguage": "en-US",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://gtavi.ghostwebstudios.com/#website",
+        "url": "https://gtavi.ghostwebstudios.com/",
+        "name": "GTA VI Release Countdown"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ghost Web Studios"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://gtavi.ghostwebstudios.com/og-image.jpg",
+        "width": 1200,
+        "height": 630
+      }
+    }
+  </script>
+</head>
+<body>
+  <slot />
+</body>
+</html>
