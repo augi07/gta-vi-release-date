@@ -240,10 +240,24 @@
       transform: translateX(-50%);
     }
 
+    .time-box::after {
+      content: "";
+      position: absolute;
+      inset: auto 15% 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--pink), var(--orange), transparent);
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+
     .time-box:hover {
       transform: translateY(-6px);
       border-color: rgba(255,255,255,.3);
       box-shadow: 0 30px 70px rgba(0,0,0,.4), 0 0 36px rgba(255,79,163,.1), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    .time-box:hover::after {
+      opacity: .8;
     }
 
     .number {
@@ -627,8 +641,8 @@
     body.light-mode .setting-group, body.light-mode .news-item { border-color: rgba(33,23,39,.1); background: rgba(255,255,255,.35); }
 
     @keyframes tick {
-      0% { opacity: .35; transform: translateY(-9px) scale(.96); filter: blur(2px); }
-      100% { opacity: 1; transform: none; filter: blur(0); }
+      0% { opacity: .4; transform: translateY(-6px) scale(.97); filter: blur(1.5px); text-shadow: 0 0 16px var(--pink); }
+      100% { opacity: 1; transform: none; filter: blur(0); text-shadow: 0 7px 24px rgba(0,0,0,.38); }
     }
 
     @keyframes enter {
@@ -1246,7 +1260,10 @@
         seconds: totalSeconds % 60
       };
 
-      Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
+      setValue("days", pad(values.days, 3));
+      setValue("hours", pad(values.hours, 2));
+      setValue("minutes", pad(values.minutes, 2));
+      setValue("seconds", pad(values.seconds, 2));
     }
 
     updateCountdown();
