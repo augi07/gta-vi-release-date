@@ -758,10 +758,10 @@
     </header>
 
     <section class="countdown-grid" aria-label="Time until release" role="timer" aria-live="off">
-      <div class="time-box"><span class="number" id="days">000</span><span class="label">Days</span></div>
-      <div class="time-box"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
-      <div class="time-box"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
-      <div class="time-box"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
+      <div class="time-box"><span class="number" id="days">0</span><span class="label">Days</span></div>
+      <div class="time-box"><span class="number" id="hours">0</span><span class="label">Hours</span></div>
+      <div class="time-box"><span class="number" id="minutes">0</span><span class="label">Minutes</span></div>
+      <div class="time-box"><span class="number" id="seconds">0</span><span class="label">Seconds</span></div>
     </section>
 
     <a class="official-link" id="official-link" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">
@@ -1260,10 +1260,7 @@
         seconds: totalSeconds % 60
       };
 
-      setValue("days", pad(values.days, 3));
-      setValue("hours", pad(values.hours, 2));
-      setValue("minutes", pad(values.minutes, 2));
-      setValue("seconds", pad(values.seconds, 2));
+      Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 
     updateCountdown();
