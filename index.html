@@ -630,10 +630,80 @@
     body.countdown-neon .time-box { border-color: var(--pink); background: rgba(12,6,20,.65); box-shadow: 0 0 18px color-mix(in srgb, var(--pink) 45%, transparent), inset 0 0 24px color-mix(in srgb, var(--pink) 15%, transparent); }
     body.countdown-neon .number { color: #fff; text-shadow: 0 0 16px var(--pink), 0 0 30px var(--pink); }
 
-    body.countdown-airport .time-box { border: 2px solid #282c34; border-radius: 18px; background: linear-gradient(180deg, #1f232b 0%, #161920 50%, #0d0e12 51%, #161920 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -2px 5px rgba(0,0,0,0.8), 0 12px 35px rgba(0,0,0,0.6); }
-    body.countdown-airport .time-box::before { content: ""; position: absolute; inset: 50% 0 auto 0; height: 2px; background: #07080a; z-index: 2; box-shadow: 0 1px 0 rgba(255,255,255,0.08); border-radius: 0; filter: none; width: 100%; top: auto; left: 0; transform: translateY(-50%); }
-    body.countdown-airport .number { color: #f0f2f5; font-family: "Courier New", Courier, monospace; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-    body.countdown-airport .label { color: rgba(240,242,245,0.65); letter-spacing: 0.28em; }
+    /* Realistic Airport Terminal Split-Flap Board (Solari Board) */
+    body.countdown-airport .time-box {
+      min-height: 155px;
+      padding: 1.25rem 0.75rem 1.1rem;
+      border: 3px solid #1c1e24;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 20%, #22262f, #0c0e12 90%);
+      box-shadow:
+        0 14px 40px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.14),
+        inset 0 -3px 8px rgba(0,0,0,0.9);
+      perspective: 600px;
+    }
+
+    body.countdown-airport .time-box::before {
+      content: "";
+      position: absolute;
+      inset: 50% 0 auto 0;
+      width: 100%;
+      height: 2.5px;
+      z-index: 10;
+      background: #08090c;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.08);
+      border-radius: 0;
+      filter: none;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    body.countdown-airport .time-box::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 10px;
+      transform: translateY(-50%);
+      z-index: 11;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 6px 5px, #484e5a 0, #16181f 3px, transparent 4px),
+        radial-gradient(circle at calc(100% - 6px) 5px, #484e5a 0, #16181f 3px, transparent 4px);
+      opacity: 1;
+    }
+
+    body.countdown-airport .number {
+      position: relative;
+      z-index: 1;
+      font-family: "Impact", "DIN Alternate", "Trebuchet MS", "Courier New", monospace;
+      font-size: clamp(2.8rem, 6.5vw, 4.6rem);
+      font-weight: 800;
+      color: #f7ede2;
+      letter-spacing: -0.01em;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.9);
+    }
+
+    body.countdown-airport .number.tick {
+      animation: airport-flip 0.46s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    }
+
+    @keyframes airport-flip {
+      0% { transform: rotateX(0deg); filter: brightness(1); }
+      49% { transform: rotateX(-90deg); filter: brightness(0.55); }
+      50% { transform: rotateX(90deg); filter: brightness(0.55); }
+      100% { transform: rotateX(0deg); filter: brightness(1); }
+    }
+
+    body.countdown-airport .label {
+      color: rgba(247, 237, 226, 0.72);
+      font-family: "Impact", "DIN Alternate", sans-serif;
+      letter-spacing: 0.3em;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
 
     body.countdown-matrix .time-box { border: 1px solid #00ff66; border-radius: 18px; background: rgba(4, 18, 10, 0.8); box-shadow: 0 0 18px rgba(0,255,102,0.35), inset 0 0 22px rgba(0,255,102,0.12); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
     body.countdown-matrix .time-box::before { background: #00ff66; opacity: 0.25; }
