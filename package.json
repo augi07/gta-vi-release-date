@@ -1,0 +1,21 @@
+{
+  "name": "gta-vi-release-date",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^11.0.0",
+    "astro": "^4.16.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
