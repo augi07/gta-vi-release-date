@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AirportFlap from '../components/AirportFlap';
 ---
 
 <Layout title="GTA VI Release Countdown">
@@ -23,10 +24,10 @@ import Layout from '../layouts/Layout.astro';
     </header>
 
     <section class="countdown-grid" aria-label="Time until release" role="timer" aria-live="off">
-      <div class="time-box"><span class="number" id="days">0</span><span class="label">Days</span></div>
-      <div class="time-box"><span class="number" id="hours">0</span><span class="label">Hours</span></div>
-      <div class="time-box"><span class="number" id="minutes">0</span><span class="label">Minutes</span></div>
-      <div class="time-box"><span class="number" id="seconds">0</span><span class="label">Seconds</span></div>
+      <div class="time-box"><div class="number" id="days"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="days" digits={2} client:only="react" /></div></div><span class="label">Days</span></div>
+      <div class="time-box"><div class="number" id="hours"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="hours" client:only="react" /></div></div><span class="label">Hours</span></div>
+      <div class="time-box"><div class="number" id="minutes"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="minutes" client:only="react" /></div></div><span class="label">Minutes</span></div>
+      <div class="time-box"><div class="number" id="seconds"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="seconds" client:only="react" /></div></div><span class="label">Seconds</span></div>
     </section>
 
     <a class="official-link" id="official-link" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">
@@ -88,12 +89,12 @@ import Layout from '../layouts/Layout.astro';
       <div class="setting-group">
         <div class="setting-copy" style="margin-bottom:.75rem"><strong>Tile design</strong><small>Choose between Apple glass, neon & retro styles</small></div>
         <div class="style-grid" id="timer-style-grid">
-          <button class="style-choice" type="button" data-style="default" aria-pressed="true">Glass</button>
-          <button class="style-choice" type="button" data-style="countdown-neon" aria-pressed="false">Neon</button>
-          <button class="style-choice" type="button" data-style="countdown-airport" aria-pressed="false">Airport</button>
-          <button class="style-choice" type="button" data-style="countdown-matrix" aria-pressed="false">Matrix</button>
-          <button class="style-choice" type="button" data-style="countdown-minimal" aria-pressed="false">Minimal</button>
-          <button class="style-choice" type="button" data-style="countdown-outline" aria-pressed="false">Outline</button>
+          <button class="style-choice preview-glass" type="button" data-style="default" aria-pressed="true"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Glass</span></button>
+          <button class="style-choice preview-neon" type="button" data-style="countdown-neon" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Neon</span></button>
+          <button class="style-choice preview-airport" type="button" data-style="countdown-airport" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Airport</span></button>
+          <button class="style-choice preview-matrix" type="button" data-style="countdown-matrix" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Matrix</span></button>
+          <button class="style-choice preview-minimal" type="button" data-style="countdown-minimal" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Minimal</span></button>
+          <button class="style-choice preview-outline" type="button" data-style="countdown-outline" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Outline</span></button>
         </div>
       </div>
     </section>
@@ -555,10 +556,12 @@ import Layout from '../layouts/Layout.astro';
       if (previous[name] === value) return;
       const element = elements[name];
       if (!element) return;
-      element.textContent = value;
+      element.setAttribute("aria-label", value);
+      element.querySelector<HTMLElement>(".number-value")!.textContent = value;
       element.classList.remove("tick");
       void element.offsetWidth;
       element.classList.add("tick");
+      window.dispatchEvent(new CustomEvent(`countdown:${name}`, { detail: value }));
       previous[name] = value;
     }
 
