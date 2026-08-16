@@ -487,7 +487,6 @@ body.high-contrast .time-box, body.high-contrast .panel { background-color: rgba
 .preview-airport .style-preview { border: 2px solid #252a31; border-radius: 6px; color: #eee8d9; background: linear-gradient(#171a1e 49%, #050607 50%, #111317 51%); box-shadow: inset 0 0 0 1px #050607, inset 0 1px rgba(255,255,255,.08); }
 .preview-airport .style-preview::after { content: ""; position: absolute; top: 50%; right: 0; left: 0; height: 1px; background: #000; box-shadow: 0 1px rgba(255,255,255,.1); }
 .preview-airport .style-preview b { font-family: "Arial Narrow", Impact, sans-serif; font-stretch: condensed; }
-.preview-matrix .style-preview { color: #20ff72; border-color: #00c94e; background: #031008; font-family: "Courier New", monospace; text-shadow: 0 0 7px #00ff66; }
 .preview-minimal .style-preview { border-color: transparent; background: transparent; box-shadow: none; }
 .preview-outline .style-preview { border: 2px solid rgba(255,255,255,.78); background: rgba(0,0,0,.14); box-shadow: inset 0 0 0 3px rgba(255,255,255,.035); }
 .background-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .45rem; margin-top: .75rem; }
@@ -567,51 +566,57 @@ body.extended-view .view-switch svg { transform: rotate(180deg); }
 .social-link:hover { color: #fff; transform: translateY(-3px); border-color: var(--settings-accent); background: rgba(172,52,188,.13); }
 .social-link svg { width: 17px; height: 17px; }
 
-/* Six countdown treatments */
+/* Countdown treatments */
 body.countdown-minimal .time-box { min-height: 120px; border-color: transparent; background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
 body.countdown-minimal .time-box::before, body.countdown-minimal .time-box::after { display: none; }
 
 body.countdown-neon .time-box { border-color: var(--pink); background: rgba(12,6,20,.65); box-shadow: 0 0 18px color-mix(in srgb, var(--pink) 45%, transparent), inset 0 0 24px color-mix(in srgb, var(--pink) 15%, transparent); }
 body.countdown-neon .number { color: #fff; text-shadow: 0 0 16px var(--pink), 0 0 30px var(--pink); }
 
-/* Package-powered per-digit airport split flap. */
-.airport-flap { display: none; }
-body.countdown-airport .time-box { min-height: 155px; padding: 1rem .7rem .9rem; border: 3px solid #292d34; border-radius: 10px; background: linear-gradient(145deg, #252930, #090a0d 72%); box-shadow: 0 16px 38px rgba(0,0,0,.72), inset 0 0 0 1px #050608, inset 0 1px rgba(255,255,255,.13); }
-body.countdown-airport .time-box::before { display: none; }
-body.countdown-airport .time-box::after { content: ""; position: absolute; z-index: 8; top: 50%; right: 0; left: 0; height: 8px; background: radial-gradient(circle at 5px 50%, #69707a 0 1px, #090a0d 2px 3px, transparent 3.5px), radial-gradient(circle at calc(100% - 5px) 50%, #69707a 0 1px, #090a0d 2px 3px, transparent 3.5px); opacity: 1; transform: translateY(-50%); pointer-events: none; }
-body.countdown-airport .number { width: auto; min-width: 0; display: grid; place-items: center; font-family: "Arial Narrow", Impact, sans-serif; font-size: clamp(2.8rem, 5.4vw, 4rem); font-weight: 800; line-height: normal; }
-body.countdown-airport .number.tick { animation: none; }
-body.countdown-airport .number-value { display: none; }
-body.countdown-airport .airport-flap { display: block; }
-body.countdown-airport .airport-flap-display { align-items: stretch; gap: .1em; line-height: normal; filter: drop-shadow(0 7px 7px rgba(0,0,0,.78)); perspective: 900px; }
-body.countdown-airport .airport-flap-display > * { position: relative; width: .68em !important; height: 1.18em; padding: 0 !important; overflow: hidden; border: 1px solid #2d3239; border-radius: 6px; line-height: 1.18em; background: #101216 !important; box-shadow: 0 4px 9px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.13), inset 0 -2px rgba(0,0,0,.82); }
-body.countdown-airport .airport-flap-display > *::before { content: ""; position: absolute; z-index: 7; top: 50%; right: 0; left: 0; height: 3px; pointer-events: none; background: #020203; box-shadow: 0 -1px rgba(0,0,0,.95), 0 1px rgba(255,255,255,.12); transform: translateY(-50%); }
-body.countdown-airport .airport-flap-display > *::after { content: ""; position: absolute; z-index: 8; top: 50%; right: 1px; left: 1px; height: 7px; pointer-events: none; background: radial-gradient(circle at 2px 50%, #707680 0 1px, #050608 1.5px 3px, transparent 3.5px), radial-gradient(circle at calc(100% - 2px) 50%, #707680 0 1px, #050608 1.5px 3px, transparent 3.5px); transform: translateY(-50%); }
-body.countdown-airport .airport-flap-display > * > [data-position] { position: absolute; right: 0; left: 0; width: 100%; height: 50%; overflow: hidden; display: block; }
-body.countdown-airport .airport-flap-display > * > [data-position="top"] { top: 0; bottom: auto; background: linear-gradient(180deg, #242830 0%, #191c22 70%, #101216 100%); box-shadow: inset 0 1px rgba(255,255,255,.08); }
-body.countdown-airport .airport-flap-display > * > [data-position="bottom"] { top: auto; bottom: 0; background: linear-gradient(180deg, #0b0c0f 0%, #14171c 28%, #1d2026 100%); box-shadow: inset 0 -1px rgba(255,255,255,.045); }
-body.countdown-airport .airport-flap-display > * > [data-position] > [data-position] { position: absolute; left: 0; width: 100%; height: 200%; display: grid; place-items: center; color: #eee9dc; line-height: 1.18em; background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; -webkit-text-fill-color: #eee9dc !important; }
-body.countdown-airport .airport-flap-display > * > [data-position="top"] > [data-position] { top: 0; bottom: auto; }
-body.countdown-airport .airport-flap-display > * > [data-position="bottom"] > [data-position] { top: auto; bottom: 0; }
-body.countdown-airport .airport-flap-display > * > [data-direction] { position: absolute; right: 0; left: 0; width: 100%; height: 50%; overflow: hidden; z-index: 6; border: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-body.countdown-airport .airport-flap-display > * > [data-direction="out"] { top: 0; bottom: auto; transform-origin: center bottom; background: linear-gradient(180deg, #313640, #14171b 72%, #08090b) !important; box-shadow: 0 5px 10px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.16); }
-body.countdown-airport .airport-flap-display > * > [data-direction="in"] { top: auto; bottom: 0; transform-origin: center top; background: linear-gradient(180deg, #08090b, #171a20 34%, #272b32) !important; box-shadow: 0 -5px 10px rgba(0,0,0,.68), inset 0 -1px rgba(255,255,255,.09); }
-body.countdown-airport .airport-flap-display > * > [data-direction] > [data-position] { position: absolute; left: 0; width: 100%; height: 200%; display: grid; place-items: center; line-height: 1.18em; background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; -webkit-text-fill-color: #eee9dc !important; }
-body.countdown-airport .airport-flap-display > * > [data-direction="out"] > [data-position] { top: 0; }
-body.countdown-airport .airport-flap-display > * > [data-direction="in"] > [data-position] { bottom: 0; }
-body.countdown-airport .airport-flap-display > *:has([data-direction]) { border-color: #454b54; box-shadow: 0 7px 13px rgba(0,0,0,.86), 0 0 10px rgba(255,255,255,.055), inset 0 1px rgba(255,255,255,.16); }
-
-body.countdown-airport .label {
-  color: rgba(247, 237, 226, 0.72);
-  font-family: "Impact", "DIN Alternate", sans-serif;
-  letter-spacing: 0.3em;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+/* Mechanical flip-clock treatment. */
+.flip-clock-shell { display: none; }
+body.countdown-airport .countdown-grid { display: block; max-width: none; }
+body.countdown-airport .time-box { display: none; }
+body.countdown-airport .flip-clock-shell { display: flex; justify-content: center; width: 100%; }
+.airport-flip-clock {
+  --fcc-flip-duration: .6s;
+  --fcc-spacing: clamp(9px, 1.5vw, 18px);
+  --fcc-digit-block-width: clamp(38px, 5.5vw, 61px);
+  --fcc-digit-block-height: clamp(62px, 8.8vw, 96px);
+  --fcc-digit-block-radius: 6px;
+  --fcc-digit-block-spacing: clamp(3px, .55vw, 6px);
+  --fcc-digit-font-size: clamp(2.4rem, 5.4vw, 4.25rem);
+  --fcc-label-font-size: clamp(.62rem, 1.15vw, .78rem);
+  --fcc-label-color: #fffdf4;
+  --fcc-background: linear-gradient(180deg, #272a2f 0%, #111317 100%);
+  --fcc-digit-color: #fffdf4;
+  --fcc-divider-color: rgba(0,0,0,.95);
+  --fcc-divider-height: 2px;
+  --fcc-shadow: 0 9px 20px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.13);
+  --fcc-separator-size: 5px;
+  --fcc-separator-color: rgba(255,253,244,.85);
+  padding: .5rem .25rem 2.2rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-synthesis: none;
 }
+.airport-flip-clock .fcc__digit_block,
+.airport-flip-clock .fcc__digit_block > div,
+.airport-flip-clock .fcc__digit_block > div > div {
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-weight: 700;
+  font-synthesis: none;
+}
+.airport-flip-clock .fcc__label { font-weight: 700; letter-spacing: .1em; text-shadow: 0 2px 7px #000; }
 
-body.countdown-matrix .time-box { border: 1px solid #00ff66; border-radius: 18px; background: rgba(4, 18, 10, 0.8); box-shadow: 0 0 18px rgba(0,255,102,0.35), inset 0 0 22px rgba(0,255,102,0.12); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-body.countdown-matrix .time-box::before { background: #00ff66; opacity: 0.25; }
-body.countdown-matrix .number { color: #00ff66; font-family: "Courier New", Courier, monospace; font-weight: 750; text-shadow: 0 0 12px rgba(0,255,102,0.8), 0 0 24px rgba(0,255,102,0.5); }
-body.countdown-matrix .label { color: rgba(0,255,102,0.75); font-family: "Courier New", Courier, monospace; letter-spacing: 0.28em; }
+@media (max-width: 700px) {
+  .airport-flip-clock { --fcc-spacing: 5px; --fcc-digit-block-width: clamp(29px, 9vw, 42px); --fcc-digit-block-height: clamp(48px, 14vw, 67px); --fcc-digit-font-size: clamp(1.85rem, 9vw, 2.8rem); padding: .45rem 0 2rem; }
+}
 
 body.countdown-outline .time-box { border: 2px solid rgba(255,255,255,.72); background: rgba(0,0,0,.16); box-shadow: inset 0 0 0 5px rgba(255,255,255,.035); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 body.countdown-outline .number { text-shadow: 0 0 10px rgba(88,228,255,.4); }

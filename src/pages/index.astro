@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AirportFlap from '../components/AirportFlap';
+import FlipClockTimer from '../components/FlipClockTimer';
 ---
 
 <Layout title="GTA VI Release Countdown">
@@ -24,10 +24,11 @@ import AirportFlap from '../components/AirportFlap';
     </header>
 
     <section class="countdown-grid" aria-label="Time until release" role="timer" aria-live="off">
-      <div class="time-box"><div class="number" id="days"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="days" digits={2} client:only="react" /></div></div><span class="label">Days</span></div>
-      <div class="time-box"><div class="number" id="hours"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="hours" client:only="react" /></div></div><span class="label">Hours</span></div>
-      <div class="time-box"><div class="number" id="minutes"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="minutes" client:only="react" /></div></div><span class="label">Minutes</span></div>
-      <div class="time-box"><div class="number" id="seconds"><span class="number-value">0</span><div class="airport-flap"><AirportFlap name="seconds" client:only="react" /></div></div><span class="label">Seconds</span></div>
+      <div class="time-box"><div class="number" id="days"><span class="number-value">0</span></div><span class="label">Days</span></div>
+      <div class="time-box"><div class="number" id="hours"><span class="number-value">0</span></div><span class="label">Hours</span></div>
+      <div class="time-box"><div class="number" id="minutes"><span class="number-value">0</span></div><span class="label">Minutes</span></div>
+      <div class="time-box"><div class="number" id="seconds"><span class="number-value">0</span></div><span class="label">Seconds</span></div>
+      <FlipClockTimer client:only="react" />
     </section>
 
     <a class="official-link" id="official-link" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">
@@ -87,12 +88,11 @@ import AirportFlap from '../components/AirportFlap';
     </section>
     <section class="settings-section"><h3 class="settings-section-title">Timer Style</h3>
       <div class="setting-group">
-        <div class="setting-copy" style="margin-bottom:.75rem"><strong>Tile design</strong><small>Choose between Apple glass, neon & retro styles</small></div>
+        <div class="setting-copy" style="margin-bottom:.75rem"><strong>Tile design</strong><small>Choose a clean, neon, or retro timer</small></div>
         <div class="style-grid" id="timer-style-grid">
           <button class="style-choice preview-glass" type="button" data-style="default" aria-pressed="true"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Glass</span></button>
           <button class="style-choice preview-neon" type="button" data-style="countdown-neon" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Neon</span></button>
           <button class="style-choice preview-airport" type="button" data-style="countdown-airport" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Airport</span></button>
-          <button class="style-choice preview-matrix" type="button" data-style="countdown-matrix" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Matrix</span></button>
           <button class="style-choice preview-minimal" type="button" data-style="countdown-minimal" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Minimal</span></button>
           <button class="style-choice preview-outline" type="button" data-style="countdown-outline" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Outline</span></button>
         </div>
@@ -222,6 +222,7 @@ import AirportFlap from '../components/AirportFlap';
       await new Promise((resolve) => setTimeout(resolve, 280));
       document.body.classList.toggle("extended-view", showExtendedLook);
       countdownTarget = showExtendedLook ? EXTENDED_LOOK_DATE : RELEASE_DATE;
+      window.dispatchEvent(new CustomEvent("countdown:target", { detail: countdownTarget.getTime() }));
       heroEyebrow.textContent = showExtendedLook ? "Rockstar Games presents" : "The countdown is on";
       if (showExtendedLook) releaseLine.innerHTML = 'August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word" role="img" aria-label="Netflix"><img src="/assets/215-2154144_transparent-background-netflix-logo.png" alt="" aria-hidden="true" /></span>';
       else releaseLine.textContent = "Coming November 19, 2026";
@@ -412,10 +413,11 @@ import AirportFlap from '../components/AirportFlap';
     }
 
     function selectTimerStyle(styleName: string, save = true) {
+      const availableStyles = new Set(["default", "countdown-neon", "countdown-airport", "countdown-minimal", "countdown-outline"]);
+      if (!availableStyles.has(styleName)) styleName = "default";
       document.body.classList.remove(
         "countdown-neon",
         "countdown-airport",
-        "countdown-matrix",
         "countdown-minimal",
         "countdown-outline"
       );
