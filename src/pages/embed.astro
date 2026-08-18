@@ -1,0 +1,310 @@
+---
+import FlipClockTimer from '../components/FlipClockTimer';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en" class="embed-html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>GTA VI Countdown Widget</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    html.embed-html, body.embed-body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .embed-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .embed-content-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center center;
+      transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+      width: max-content;
+      max-width: none;
+    }
+
+    .embed-media-layer {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      object-fit: cover;
+      display: none;
+    }
+
+    .embed-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: rgba(9, 6, 17, var(--embed-dim, 0.7));
+      display: none;
+    }
+
+    .embed-logo {
+      width: 160px;
+      height: auto;
+      margin-bottom: 0.65rem;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,0.7));
+      display: none;
+    }
+
+    .embed-body.show-logo .embed-logo {
+      display: block;
+    }
+
+    .embed-title {
+      font-size: 1.05rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.92);
+      margin-bottom: 0.75rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+      display: none;
+      white-space: nowrap;
+    }
+
+    .embed-body.show-date .embed-title {
+      display: block;
+    }
+
+    .embed-body .countdown-grid {
+      margin: 0;
+      width: auto;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .embed-body.hide-labels .time-box .label {
+      display: none;
+    }
+
+    .embed-body.hide-labels .time-box {
+      min-height: auto;
+      padding: 0.8rem 1.2rem;
+    }
+
+    /* Custom solid backgrounds */
+    .embed-body.bg-dark {
+      background: #090611;
+    }
+  </style>
+</head>
+<body class="embed-body">
+  <div class="embed-overlay" id="embed-overlay"></div>
+  <img class="embed-media-layer" id="embed-bg-image" alt="" aria-hidden="true" />
+  <video class="embed-media-layer" id="embed-bg-video" autoplay muted loop playsinline aria-hidden="true"></video>
+
+  <main class="embed-container" id="embed-container">
+    <div class="embed-content-wrap" id="embed-content-wrap">
+      <img src="/assets/GTA6Logo.webp" class="embed-logo" id="embed-logo" alt="Grand Theft Auto VI" />
+      <p class="embed-title" id="embed-title">Coming November 19, 2026</p>
+
+      <section class="countdown-grid" id="embed-countdown" aria-label="Time until release" role="timer">
+        <div class="time-box"><div class="number" id="days"><span class="number-value">0</span></div><span class="label">Days</span></div>
+        <div class="time-box"><div class="number" id="hours"><span class="number-value">0</span></div><span class="label">Hours</span></div>
+        <div class="time-box"><div class="number" id="minutes"><span class="number-value">0</span></div><span class="label">Minutes</span></div>
+        <div class="time-box"><div class="number" id="seconds"><span class="number-value">0</span></div><span class="label">Seconds</span></div>
+        <FlipClockTimer client:only="react" />
+      </section>
+    </div>
+  </main>
+
+  <script>
+    import { calculateTimeRemaining, RELEASE_DATE, EXTENDED_LOOK_DATE } from '../utils/countdown';
+
+    const params = new URLSearchParams(window.location.search);
+    const body = document.body;
+
+    // Auto-fit responsive scaling engine
+    const container = document.getElementById('embed-container');
+    const content = document.getElementById('embed-content-wrap');
+
+    function autoFitWidget() {
+      if (!container || !content) return;
+      const padding = 16;
+      const availW = Math.max(container.clientWidth - padding, 40);
+      const availH = Math.max(container.clientHeight - padding, 40);
+
+      // Reset transform temporarily to measure natural unscaled dimensions
+      content.style.transform = 'none';
+      const naturalW = content.offsetWidth;
+      const naturalH = content.offsetHeight;
+
+      if (naturalW > 0 && naturalH > 0) {
+        const scaleW = availW / naturalW;
+        const scaleH = availH / naturalH;
+        const scale = Math.min(scaleW, scaleH);
+        // Allow smooth scaling from small overlays up to huge 4K screens
+        content.style.transform = `scale(${scale.toFixed(4)})`;
+      }
+    }
+
+    // Timer Style: default (glass), countdown-neon, countdown-airport, countdown-minimal, countdown-outline
+    const styleParam = params.get('style') || 'default';
+    const validStyles: Record<string, string> = {
+      'glass': 'default',
+      'default': 'default',
+      'neon': 'countdown-neon',
+      'countdown-neon': 'countdown-neon',
+      'airport': 'countdown-airport',
+      'flip': 'countdown-airport',
+      'countdown-airport': 'countdown-airport',
+      'minimal': 'countdown-minimal',
+      'countdown-minimal': 'countdown-minimal',
+      'outline': 'countdown-outline',
+      'countdown-outline': 'countdown-outline'
+    };
+    const styleClass = validStyles[styleParam.toLowerCase()] || 'default';
+    if (styleClass !== 'default') {
+      body.classList.add(styleClass);
+    }
+
+    // Logo & Labels & Date visibility
+    const showLogo = params.get('logo') === '1' || params.get('logo') === 'true';
+    if (showLogo) body.classList.add('show-logo');
+
+    const hideLabels = params.get('labels') === '0' || params.get('labels') === 'false';
+    if (hideLabels) body.classList.add('hide-labels');
+
+    const showDate = params.get('date') === '1' || params.get('date') === 'true';
+    if (showDate) body.classList.add('show-date');
+
+    // Target calculation
+    let countdownTarget = RELEASE_DATE;
+    const targetParam = params.get('target');
+    const embedTitle = document.getElementById('embed-title');
+
+    if (targetParam === 'extended' || targetParam === 'netflix') {
+      countdownTarget = EXTENDED_LOOK_DATE;
+      if (embedTitle) embedTitle.textContent = 'An Extended Look · August 27, 2026 · 3 PM ET';
+      if (params.get('date') !== '0') body.classList.add('show-date');
+    } else if (targetParam && !isNaN(Date.parse(targetParam))) {
+      countdownTarget = new Date(targetParam);
+      if (embedTitle) embedTitle.textContent = targetParam;
+    }
+
+    window.dispatchEvent(new CustomEvent('countdown:target', { detail: countdownTarget.getTime() }));
+
+    // Custom title override
+    const customTitle = params.get('title');
+    if (customTitle && embedTitle) {
+      embedTitle.textContent = customTitle;
+      body.classList.add('show-date');
+    }
+
+    // Background handling
+    const bg = params.get('bg') || 'transparent';
+    const dim = params.get('dim') || '70';
+    const overlay = document.getElementById('embed-overlay');
+    const bgImage = document.getElementById('embed-bg-image') as HTMLImageElement;
+    const bgVideo = document.getElementById('embed-bg-video') as HTMLVideoElement;
+
+    if (overlay && dim) {
+      overlay.style.setProperty('--embed-dim', String(Number(dim) / 100));
+    }
+
+    if (bg === 'dark' || bg === 'solid') {
+      body.classList.add('bg-dark');
+    } else if (bg.startsWith('http://') || bg.startsWith('https://') || bg.startsWith('/')) {
+      if (bg.endsWith('.mp4') || bg.endsWith('.webm')) {
+        bgVideo.src = bg;
+        bgVideo.style.display = 'block';
+        if (overlay) overlay.style.display = 'block';
+      } else {
+        bgImage.src = bg;
+        bgImage.style.display = 'block';
+        if (overlay) overlay.style.display = 'block';
+      }
+    } else if (bg === 'extended') {
+      bgImage.src = '/extra/Jason_and_Lucia_Robbery_landscape.jpg';
+      bgImage.style.display = 'block';
+      if (overlay) overlay.style.display = 'block';
+    } else if (bg === 'city') {
+      bgImage.src = '/assets/Image3.webp';
+      bgImage.style.display = 'block';
+      if (overlay) overlay.style.display = 'block';
+    } else if (bg === 'story') {
+      bgImage.src = '/assets/Image7.webp';
+      bgImage.style.display = 'block';
+      if (overlay) overlay.style.display = 'block';
+    } else if (bg === 'art') {
+      bgImage.src = '/assets/Image9.webp';
+      bgImage.style.display = 'block';
+      if (overlay) overlay.style.display = 'block';
+    } else if (bg !== 'transparent') {
+      bgImage.src = `/extra/${bg.includes('.') ? bg : bg + '.jpg'}`;
+      bgImage.style.display = 'block';
+      if (overlay) overlay.style.display = 'block';
+    }
+
+    // Countdown tick loop
+    const elements: Record<string, HTMLElement | null> = {
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      seconds: document.getElementById('seconds')
+    };
+    const previous: Record<string, string> = {};
+
+    function setValue(name: string, value: string) {
+      if (previous[name] === value) return;
+      const element = elements[name];
+      if (!element) return;
+      element.setAttribute('aria-label', value);
+      const valElem = element.querySelector<HTMLElement>('.number-value');
+      if (valElem) valElem.textContent = value;
+      element.classList.remove('tick');
+      void element.offsetWidth;
+      element.classList.add('tick');
+      window.dispatchEvent(new CustomEvent(`countdown:${name}`, { detail: value }));
+      previous[name] = value;
+    }
+
+    function updateCountdown() {
+      const values = calculateTimeRemaining(countdownTarget);
+      Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Initial scale and observer setup
+    autoFitWidget();
+    window.addEventListener('resize', autoFitWidget, { passive: true });
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(autoFitWidget).observe(document.body);
+    }
+    // Re-check after font loading or render
+    setTimeout(autoFitWidget, 100);
+    setTimeout(autoFitWidget, 500);
+  </script>
+</body>
+</html>
