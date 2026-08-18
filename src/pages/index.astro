@@ -82,6 +82,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
   <aside class="panel settings-panel" id="settings-panel" data-open="false" aria-hidden="true" aria-labelledby="settings-title" role="dialog" inert><div class="panel-scroll">
     <div class="panel-header"><div><p class="panel-kicker">Vice City control</p><h2 id="settings-title">Personalize</h2></div><button class="panel-close" type="button" aria-label="Close settings">Close</button></div>
     <section class="settings-section"><h3 class="settings-section-title">Experience</h3>
+      <div class="setting-group setting-row"><div class="setting-copy"><strong>Only Clock mode</strong><small>Show only the countdown timer</small></div><label class="switch"><input id="onlyclock-setting" type="checkbox" aria-label="Only clock mode" /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Background motion</strong><small>Disable background motion</small></div><label class="switch"><input id="motion-setting" type="checkbox" aria-label="Background motion" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Turn off notifications</strong><small>Keep notifications off</small></div><label class="switch"><input id="silent-setting" type="checkbox" aria-label="Turn off notifications" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><input class="range" id="dim-setting" type="range" min="45" max="88" value="70" aria-label="Background darkness" /><output class="range-value" id="dim-value">70%</output></div></div>
@@ -101,7 +102,162 @@ import FlipClockTimer from '../components/FlipClockTimer';
     <section class="settings-section"><h3 class="settings-section-title">Background</h3><div class="setting-group"><div class="setting-copy"><strong>Choose the scene</strong><small>Use the slideshow or one fixed image</small></div><div class="background-grid">
       <button class="background-choice" type="button" data-background="slideshow" aria-label="Slideshow" aria-pressed="true" style="background-image:url('/assets/Image1.webp')"><span>Auto</span></button><button class="background-choice" type="button" data-background="/assets/Image3.webp" aria-label="Vice City" aria-pressed="false" style="background-image:url('/assets/Image3.webp')"><span>City</span></button><button class="background-choice" type="button" data-background="/assets/Image7.webp" aria-label="Characters" aria-pressed="false" style="background-image:url('/assets/Image7.webp')"><span>Story</span></button><button class="background-choice" type="button" data-background="/assets/Image9.webp" aria-label="Artwork" aria-pressed="false" style="background-image:url('/assets/Image9.webp')"><span>Art</span></button>
     </div><p class="settings-section-title" style="margin-top:.85rem">Extra collection</p><div class="background-grid" id="extra-backgrounds"></div><p class="settings-section-title" style="margin-top:.85rem">Videos</p><div class="background-grid" id="video-backgrounds"></div><label class="upload-button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Upload image or video<input class="upload-input" id="background-upload" type="file" accept="image/*,video/*" aria-label="Upload image or video" /></label></div></section>
+    <section class="settings-section"><h3 class="settings-section-title">OBS & Embed Widget</h3>
+      <div class="setting-group">
+        <div class="setting-copy"><strong>Streaming & Web Integration</strong><small>Embed in OBS Studio, Twitch, or external sites</small></div>
+        <div class="obs-controls">
+          <div class="obs-option-row">
+            <strong>Event / Target</strong>
+            <select id="obs-event-select" class="obs-select">
+              <option value="release">GTA VI Release (Nov 19, 2026)</option>
+              <option value="extended">An Extended Look (Aug 27, 2026)</option>
+            </select>
+          </div>
+          <div class="obs-option-row">
+            <strong>Background</strong>
+            <select id="obs-bg-select" class="obs-select">
+              <option value="transparent">Transparent (OBS overlay)</option>
+              <option value="dark">Solid Dark</option>
+              <option value="city">Vice City</option>
+              <option value="story">Characters</option>
+              <option value="art">Artwork</option>
+              <option value="Boobie_Ike_landscape.jpg">Boobie Ike</option>
+              <option value="Official_Cover_Art_landscape.jpg">Cover Art</option>
+            </select>
+          </div>
+          <div class="obs-option-row">
+            <strong>Style</strong>
+            <select id="obs-style-select" class="obs-select">
+              <option value="default">Glass</option>
+              <option value="neon">Neon</option>
+              <option value="airport">Airport Flip</option>
+              <option value="minimal">Minimal</option>
+              <option value="outline">Outline</option>
+            </select>
+          </div>
+          <div class="obs-option-row">
+            <strong>Show GTA VI Logo</strong>
+            <label class="switch"><input id="obs-logo-toggle" type="checkbox" aria-label="Show logo in widget" /><span aria-hidden="true"></span></label>
+          </div>
+          <div class="obs-option-row">
+            <strong>Show Labels</strong>
+            <label class="switch"><input id="obs-labels-toggle" type="checkbox" aria-label="Show labels in widget" checked /><span aria-hidden="true"></span></label>
+          </div>
+          <div class="obs-preview-box">
+            <div class="obs-preview-header">
+              <span class="obs-preview-indicator"><span class="obs-preview-dot"></span>Live Preview (Auto-fit)</span>
+              <a class="obs-preview-popout" id="preview-embed-link" href="/embed" target="_blank" rel="noopener noreferrer" title="Open widget in new tab">
+                <span>Pop out</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+            <div class="obs-preview-frame-wrapper" id="obs-preview-frame-wrapper">
+              <iframe id="obs-live-preview-frame" class="obs-preview-frame" src="/embed?style=default&amp;bg=transparent" title="Live widget preview" allowtransparency="true" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="obs-code-box">
+            <div class="obs-url-preview" id="obs-url-display">/embed?style=default&amp;bg=transparent</div>
+            <div class="obs-button-group">
+              <button class="obs-btn primary" id="copy-obs-url" type="button" title="Copy OBS Browser Source URL">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Copy OBS URL
+              </button>
+              <button class="obs-btn" id="copy-iframe-code" type="button" title="Copy iframe embed code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Copy &lt;iframe&gt;
+              </button>
+            </div>
+          </div>
+          <div class="obs-instructions">
+            <strong>How to use in OBS Studio:</strong>
+            <ol>
+              <li>Add a new <strong>Browser Source</strong> in OBS</li>
+              <li>Paste the copied URL</li>
+              <li><strong>Auto-fit:</strong> Resize the Browser Source box to any size on your canvas, and the timer will automatically scale!</li>
+              <li>Check <em>"Shutdown source when not visible"</em></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
   </div></aside>
+
+  <section class="seo-container" aria-label="Grand Theft Auto VI Information and FAQs">
+    <!-- Sitemap Navigation Bar -->
+    <nav class="seo-nav-bar" aria-label="Quick site navigation">
+      <a href="/" class="seo-nav-link active">GTA VI Countdown</a>
+      <a href="/extended" class="seo-nav-link highlight">Netflix Premiere Countdown</a>
+      <a href="/embed" class="seo-nav-link">OBS Stream Widget</a>
+      <a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer" class="seo-nav-link">Official Rockstar Site</a>
+    </nav>
+
+    <!-- Key Info Cards -->
+    <div class="seo-card-grid">
+      <article class="seo-card">
+        <span class="seo-card-badge">Launch Date</span>
+        <h3>November 19, 2026</h3>
+        <p>Rockstar Games announced GTA VI will release worldwide on Thursday, November 19, 2026 across major next-gen consoles.</p>
+      </article>
+      <article class="seo-card">
+        <span class="seo-card-badge">Supported Platforms</span>
+        <h3>PS5 &amp; Xbox Series X|S</h3>
+        <p>Built exclusively from the ground up for PlayStation 5 and Xbox Series X|S hardware to deliver cutting-edge fidelity.</p>
+      </article>
+      <article class="seo-card">
+        <span class="seo-card-badge">Location &amp; Setting</span>
+        <h3>Vice City &amp; Leonida</h3>
+        <p>Explore modern-day Vice City, the neon-lit beaches, alligator-filled wetlands, and the vast open state of Leonida.</p>
+      </article>
+      <article class="seo-card">
+        <span class="seo-card-badge">Dual Protagonists</span>
+        <h3>Lucia &amp; Jason</h3>
+        <p>Experience a gripping storyline inspired by modern crime sagas with Lucia and Jason in an explosive dual protagonist dynamic.</p>
+      </article>
+    </div>
+
+    <!-- Feature Banner: Netflix Extended Look -->
+    <div class="seo-feature-banner">
+      <div class="seo-feature-body">
+        <span class="seo-card-badge">Special Premiere Event</span>
+        <h2>GTA VI: An Extended Look on Netflix</h2>
+        <p>Rockstar Games and Netflix present an exclusive extended look at GTA VI gameplay, story, and world premiere on Thursday, August 27, 2026 at 3 PM ET.</p>
+        <a href="/extended" class="seo-btn-cta">
+          <span>View Extended Look Countdown</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="seo-feature-media">
+        <img src="/extra/Jason_and_Lucia_Robbery_landscape.jpg" alt="GTA VI An Extended Look scene on Netflix" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- FAQ Section for Google Rich Snippets -->
+    <div class="seo-faq-section" id="faq">
+      <h2 class="seo-faq-title">Frequently Asked Questions</h2>
+      <div class="seo-faq-list">
+        <details class="seo-faq-item" open>
+          <summary class="seo-faq-summary">What is the official release date of GTA VI?</summary>
+          <div class="seo-faq-answer">Grand Theft Auto VI is scheduled to release worldwide on <strong>Thursday, November 19, 2026</strong> for PlayStation 5 and Xbox Series X|S.</div>
+        </details>
+        <details class="seo-faq-item">
+          <summary class="seo-faq-summary">When does GTA VI: An Extended Look premiere on Netflix?</summary>
+          <div class="seo-faq-answer">GTA VI: An Extended Look premieres on Netflix on <strong>Thursday, August 27, 2026 at 3:00 PM ET</strong> (12:00 PM PT / 7:00 PM UTC), followed by Rockstar Games channels.</div>
+        </details>
+        <details class="seo-faq-item">
+          <summary class="seo-faq-summary">Which consoles will GTA 6 be available on at launch?</summary>
+          <div class="seo-faq-answer">GTA VI is launching on <strong>PlayStation 5</strong> and <strong>Xbox Series X|S</strong>. A PC version has not yet been dated by Rockstar Games.</div>
+        </details>
+        <details class="seo-faq-item">
+          <summary class="seo-faq-summary">Where does GTA VI take place?</summary>
+          <div class="seo-faq-answer">Grand Theft Auto VI is set in the fictional state of <strong>Leonida</strong>, which includes a modern, sprawling recreation of <strong>Vice City</strong>, tropical keys, and surrounding wilderness.</div>
+        </details>
+        <details class="seo-faq-item">
+          <summary class="seo-faq-summary">How can I embed the live GTA VI countdown timer into OBS Studio or my website?</summary>
+          <div class="seo-faq-answer">You can use our dedicated <a href="/embed" style="color:var(--pink)">/embed</a> widget URL as a transparent Browser Source in OBS Studio or embed it as an <code>&lt;iframe&gt;</code> on any webpage with custom dimensions and styles.</div>
+        </details>
+      </div>
+    </div>
+  </section>
 
   <footer class="site-footer">
     <div class="footer-inner">
@@ -116,6 +272,11 @@ import FlipClockTimer from '../components/FlipClockTimer';
       </div>
     </div>
   </footer>
+
+  <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="copy-toast-msg">Copied to clipboard!</span>
+  </div>
 
   <script>
     import { calculateTimeRemaining, RELEASE_DATE, EXTENDED_LOOK_DATE } from '../utils/countdown';
@@ -232,6 +393,10 @@ import FlipClockTimer from '../components/FlipClockTimer';
       viewSwitch.setAttribute("aria-label", showExtendedLook ? "Return to GTA VI release countdown" : "Show An Extended Look countdown");
       viewSwitch.title = showExtendedLook ? "GTA VI release countdown" : "An Extended Look";
       viewSwitchHint.textContent = showExtendedLook ? "Swipe right" : "Swipe left";
+      if (obsEventSelect) {
+        obsEventSelect.value = showExtendedLook ? "extended" : "release";
+        updateObsGenerator();
+      }
       updateCountdown();
       requestAnimationFrame(() => requestAnimationFrame(() => {
         document.body.classList.remove("view-transitioning");
@@ -295,13 +460,19 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
     let preferences: any = {};
     try { preferences = JSON.parse(localStorage.getItem("gta6-preferences") || "{}"); } catch { preferences = {}; }
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("mode") === "clock" || urlParams.get("onlyClock") === "1" || urlParams.get("clock") === "1") {
+      preferences.onlyClock = true;
+    }
     const controls = {
+      onlyClock: document.getElementById("onlyclock-setting") as HTMLInputElement,
       motion: document.getElementById("motion-setting") as HTMLInputElement,
       silent: document.getElementById("silent-setting") as HTMLInputElement,
       dim: document.getElementById("dim-setting") as HTMLInputElement
     };
     const dimValue = document.getElementById("dim-value") as HTMLOutputElement;
 
+    if (controls.onlyClock) controls.onlyClock.checked = preferences.onlyClock ?? false;
     if (controls.motion) controls.motion.checked = preferences.motion ?? !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (controls.silent) controls.silent.checked = preferences.silent ?? true;
     if (controls.dim) controls.dim.value = preferences.dim ?? 70;
@@ -427,6 +598,10 @@ import FlipClockTimer from '../components/FlipClockTimer';
       document.querySelectorAll<HTMLElement>("#timer-style-grid .style-choice").forEach((button) => {
         button.setAttribute("aria-pressed", String(button.dataset.style === (styleName || "default")));
       });
+      if (obsStyleSelect) {
+        obsStyleSelect.value = styleName === "default" ? "default" : styleName.replace("countdown-", "");
+        updateObsGenerator();
+      }
       if (save) {
         preferences.timerStyle = styleName;
         applyPreferences();
@@ -434,6 +609,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
     }
 
     function applyPreferences() {
+      document.body.classList.toggle("only-clock-mode", !!controls.onlyClock?.checked);
       document.body.classList.toggle("motion-off", !controls.motion?.checked);
       const customVideo = document.getElementById("custom-video") as HTMLVideoElement;
       if (document.body.classList.contains("custom-video-background")) {
@@ -450,7 +626,14 @@ import FlipClockTimer from '../components/FlipClockTimer';
         controls.dim.style.setProperty("--range-progress", `${rangeProgress}%`);
         if (dimValue) dimValue.value = `${controls.dim.value}%`;
       }
-      localStorage.setItem("gta6-preferences", JSON.stringify({ motion: controls.motion?.checked, silent: controls.silent?.checked, dim: controls.dim?.value, background: preferences.background, timerStyle: preferences.timerStyle }));
+      localStorage.setItem("gta6-preferences", JSON.stringify({
+        onlyClock: controls.onlyClock?.checked,
+        motion: controls.motion?.checked,
+        silent: controls.silent?.checked,
+        dim: controls.dim?.value,
+        background: preferences.background,
+        timerStyle: preferences.timerStyle
+      }));
     }
 
     const extraBackgrounds = [
@@ -572,6 +755,85 @@ import FlipClockTimer from '../components/FlipClockTimer';
       Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 
+    // OBS & Embed Widget Generator
+    const obsEventSelect = document.getElementById("obs-event-select") as HTMLSelectElement;
+    const obsBgSelect = document.getElementById("obs-bg-select") as HTMLSelectElement;
+    const obsStyleSelect = document.getElementById("obs-style-select") as HTMLSelectElement;
+    const obsLogoToggle = document.getElementById("obs-logo-toggle") as HTMLInputElement;
+    const obsLabelsToggle = document.getElementById("obs-labels-toggle") as HTMLInputElement;
+    const obsUrlDisplay = document.getElementById("obs-url-display");
+    const copyObsUrlBtn = document.getElementById("copy-obs-url");
+    const copyIframeBtn = document.getElementById("copy-iframe-code");
+    const previewEmbedLink = document.getElementById("preview-embed-link") as HTMLAnchorElement;
+    const obsLivePreviewFrame = document.getElementById("obs-live-preview-frame") as HTMLIFrameElement;
+    const copyToast = document.getElementById("copy-toast");
+    const copyToastMsg = document.getElementById("copy-toast-msg");
+    let copyToastTimeout: ReturnType<typeof setTimeout>;
+
+    function showToast(msg: string) {
+      if (!copyToast || !copyToastMsg) return;
+      copyToastMsg.textContent = msg;
+      copyToast.classList.add("show");
+      clearTimeout(copyToastTimeout);
+      copyToastTimeout = setTimeout(() => copyToast.classList.remove("show"), 2800);
+    }
+
+    function updateObsGenerator() {
+      const targetEvent = obsEventSelect?.value || (document.body.classList.contains("extended-view") ? "extended" : "release");
+      const bg = obsBgSelect?.value || "transparent";
+      const style = obsStyleSelect?.value || "default";
+      const showLogo = obsLogoToggle?.checked || false;
+      const showLabels = obsLabelsToggle?.checked ?? true;
+
+      const queryParams = new URLSearchParams();
+      if (style !== "default") queryParams.set("style", style);
+      if (bg !== "transparent") queryParams.set("bg", bg);
+      if (showLogo) queryParams.set("logo", "1");
+      if (!showLabels) queryParams.set("labels", "0");
+      if (targetEvent === "extended") queryParams.set("target", "extended");
+
+      const queryString = queryParams.toString();
+      const relativeUrl = `/embed${queryString ? `?${queryString}` : ""}`;
+      const fullUrl = `${window.location.origin}${relativeUrl}`;
+
+      if (obsUrlDisplay) obsUrlDisplay.textContent = fullUrl;
+      if (previewEmbedLink) previewEmbedLink.href = relativeUrl;
+      if (obsLivePreviewFrame && obsLivePreviewFrame.getAttribute("data-last-src") !== relativeUrl) {
+        obsLivePreviewFrame.src = relativeUrl;
+        obsLivePreviewFrame.setAttribute("data-last-src", relativeUrl);
+      }
+    }
+
+    [obsEventSelect, obsBgSelect, obsStyleSelect, obsLogoToggle, obsLabelsToggle].forEach(el => {
+      el?.addEventListener("change", updateObsGenerator);
+    });
+
+    copyObsUrlBtn?.addEventListener("click", async () => {
+      const url = obsUrlDisplay?.textContent || "";
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast("OBS URL copied to clipboard!");
+      } catch {
+        showToast("URL copied!");
+      }
+    });
+
+    copyIframeBtn?.addEventListener("click", async () => {
+      const url = obsUrlDisplay?.textContent || "";
+      const iframeCode = `<iframe src="${url}" width="100%" height="260" frameborder="0" style="border:0;width:100%;height:260px;overflow:hidden;" allowtransparency="true"></iframe>`;
+      try {
+        await navigator.clipboard.writeText(iframeCode);
+        showToast("<iframe> code copied to clipboard!");
+      } catch {
+        showToast("Code copied!");
+      }
+    });
+
+    if (urlParams.get("view") === "extended" || urlParams.get("event") === "extended" || urlParams.get("extended") === "1") {
+      setCountdownView(true);
+    }
+
+    updateObsGenerator();
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>

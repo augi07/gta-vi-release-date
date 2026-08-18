@@ -25,4 +25,20 @@ describe('Astro Build and Asset Integrity Tests', () => {
     expect(fs.existsSync(path.join(assetsDir, 'GTA6Logo.webp'))).toBe(true);
     expect(fs.existsSync(path.join(assetsDir, 'Image1.webp'))).toBe(true);
   });
+
+  it('should have required Astro pages including index, embed, and extended', () => {
+    const pagesDir = path.resolve(__dirname, '../src/pages');
+    expect(fs.existsSync(path.join(pagesDir, 'index.astro'))).toBe(true);
+    expect(fs.existsSync(path.join(pagesDir, 'embed.astro'))).toBe(true);
+    expect(fs.existsSync(path.join(pagesDir, 'extended.astro'))).toBe(true);
+  });
+
+  it('should have sitemaps containing extended and embed routes', () => {
+    const sitemapXml = fs.readFileSync(path.resolve(__dirname, '../public/sitemap.xml'), 'utf-8');
+    const sitemapTxt = fs.readFileSync(path.resolve(__dirname, '../public/sitemap.txt'), 'utf-8');
+    expect(sitemapXml).toContain('https://gtavi.ghostwebstudios.com/extended');
+    expect(sitemapXml).toContain('https://gtavi.ghostwebstudios.com/embed');
+    expect(sitemapTxt).toContain('https://gtavi.ghostwebstudios.com/extended');
+    expect(sitemapTxt).toContain('https://gtavi.ghostwebstudios.com/embed');
+  });
 });
