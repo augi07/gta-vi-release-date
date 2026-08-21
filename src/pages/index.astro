@@ -498,20 +498,16 @@ import FlipClockTimer from '../components/FlipClockTimer';
         if (dimValue) dimValue.value = `${darkness}%`;
         preferences.dim = darkness;
       }
-<<<<<<< HEAD
-      localStorage.setItem("gta6-preferences", JSON.stringify({ motion: controls.motion?.checked, silent: controls.silent?.checked, dim: preferences.dim, background: preferences.background, timerStyle: preferences.timerStyle }));
-=======
       updateObsGenerator();
       localStorage.setItem("gta6-preferences", JSON.stringify({
         onlyClock: controls.onlyClock?.checked,
         showLabels: controls.labels?.checked,
         motion: controls.motion?.checked,
         silent: controls.silent?.checked,
-        dim: controls.dim?.value,
+        dim: preferences.dim,
         background: preferences.background,
         timerStyle: preferences.timerStyle
       }));
->>>>>>> f77a9a78e39703215c90f88f24d453b4ea8c23ee
     }
 
     const extraBackgrounds = [
