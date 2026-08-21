@@ -84,7 +84,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
     <section class="settings-section"><h3 class="settings-section-title">Experience</h3>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Background motion</strong><small>Disable background motion</small></div><label class="switch"><input id="motion-setting" type="checkbox" aria-label="Background motion" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Turn off notifications</strong><small>Keep notifications off</small></div><label class="switch"><input id="silent-setting" type="checkbox" aria-label="Turn off notifications" checked /><span aria-hidden="true"></span></label></div>
-      <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><input class="range" id="dim-setting" type="range" min="45" max="88" value="70" aria-label="Background darkness" /><output class="range-value" id="dim-value">70%</output></div></div>
+      <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><input class="range" id="dim-setting" type="range" min="0" max="100" value="58" aria-label="Background darkness" /><output class="range-value" id="dim-value">70%</output></div></div>
     </section>
     <section class="settings-section"><h3 class="settings-section-title">Timer Style</h3>
       <div class="setting-group">
@@ -304,7 +304,10 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
     if (controls.motion) controls.motion.checked = preferences.motion ?? !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (controls.silent) controls.silent.checked = preferences.silent ?? true;
-    if (controls.dim) controls.dim.value = preferences.dim ?? 70;
+    const minDarkness = 45;
+    const maxDarkness = 88;
+    const savedDarkness = Math.min(maxDarkness, Math.max(minDarkness, Number(preferences.dim) || 70));
+    if (controls.dim) controls.dim.value = String(((savedDarkness - minDarkness) / (maxDarkness - minDarkness)) * 100);
     preferences.background ||= "slideshow";
     let youtubeReadyTimer: ReturnType<typeof setTimeout>;
     let backgroundSelectionId = 0;
@@ -445,12 +448,14 @@ import FlipClockTimer from '../components/FlipClockTimer';
         if (streamVisible !== controls.motion?.checked) selectBackground(preferences.background, false);
       }
       if (controls.dim) {
-        document.documentElement.style.setProperty("--scene-dim", String(Number(controls.dim.value) / 100));
-        const rangeProgress = ((Number(controls.dim.value) - Number(controls.dim.min)) / (Number(controls.dim.max) - Number(controls.dim.min))) * 100;
+        const rangeProgress = Number(controls.dim.value);
+        const darkness = Math.round(minDarkness + (rangeProgress / 100) * (maxDarkness - minDarkness));
+        document.documentElement.style.setProperty("--scene-dim", String(darkness / 100));
         controls.dim.style.setProperty("--range-progress", `${rangeProgress}%`);
-        if (dimValue) dimValue.value = `${controls.dim.value}%`;
+        if (dimValue) dimValue.value = `${darkness}%`;
+        preferences.dim = darkness;
       }
-      localStorage.setItem("gta6-preferences", JSON.stringify({ motion: controls.motion?.checked, silent: controls.silent?.checked, dim: controls.dim?.value, background: preferences.background, timerStyle: preferences.timerStyle }));
+      localStorage.setItem("gta6-preferences", JSON.stringify({ motion: controls.motion?.checked, silent: controls.silent?.checked, dim: preferences.dim, background: preferences.background, timerStyle: preferences.timerStyle }));
     }
 
     const extraBackgrounds = [
