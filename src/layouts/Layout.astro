@@ -1,81 +1,220 @@
 ---
+import { SEO } from 'astro-seo';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  pageType?: 'website' | 'article';
 }
 
 const {
-  title = "GTA VI Release Countdown",
-  description = "Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings."
+  title = "GTA VI Release Countdown | Live Grand Theft Auto VI Timer & Launch Tracker",
+  description = "Track the official GTA VI launch with a live countdown to November 19, 2026. Features 4K Vice City wallpapers, official Rockstar Games updates, OBS stream overlays, and Netflix Extended Look countdown.",
+  canonical = Astro.url.pathname === '/' ? 'https://gtavi.ghostwebstudios.com/' : `https://gtavi.ghostwebstudios.com${Astro.url.pathname}`,
+  ogImage = "https://gtavi.ghostwebstudios.com/og-image.jpg",
+  noindex = false,
+  pageType = 'website'
 } = Astro.props;
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://gtavi.ghostwebstudios.com/#website",
+    "url": "https://gtavi.ghostwebstudios.com/",
+    "name": "GTA VI Release Countdown",
+    "alternateName": ["GTA 6 Countdown", "Grand Theft Auto VI Release Date Tracker", "GTA VI Timer"],
+    "description": description,
+    "inLanguage": "en-US",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ghost Web Studios",
+      "url": "https://gtavi.ghostwebstudios.com/",
+      "logo": "https://gtavi.ghostwebstudios.com/logo.png",
+      "sameAs": [
+        "https://x.com/ghostwebstudios",
+        "https://www.youtube.com/@ghostwebstudios",
+        "https://www.instagram.com/ghostwebstudios"
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Grand Theft Auto VI",
+    "alternateName": ["GTA VI", "GTA 6", "Grand Theft Auto 6"],
+    "description": "Grand Theft Auto VI heads to the state of Leonida, home to the neon-soaked streets of Vice City and beyond in the biggest, most immersive evolution of the Grand Theft Auto series yet.",
+    "genre": ["Action-adventure", "Open world"],
+    "gamePlatform": ["PlayStation 5", "Xbox Series X", "Xbox Series S"],
+    "releaseDate": "2026-11-19",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Rockstar Games",
+      "url": "https://www.rockstargames.com/VI"
+    },
+    "image": "https://gtavi.ghostwebstudios.com/og-image.jpg",
+    "url": "https://www.rockstargames.com/VI"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Grand Theft Auto VI Worldwide Release",
+    "startDate": "2026-11-19T00:00:00Z",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "location": {
+      "@type": "VirtualLocation",
+      "url": "https://gtavi.ghostwebstudios.com/"
+    },
+    "image": "https://gtavi.ghostwebstudios.com/og-image.jpg",
+    "description": "Worldwide launch of Rockstar Games' Grand Theft Auto VI for PlayStation 5 and Xbox Series X|S.",
+    "organizer": {
+      "@type": "Organization",
+      "name": "Rockstar Games",
+      "url": "https://www.rockstargames.com/"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "GTA VI: An Extended Look - Netflix Premiere",
+    "startDate": "2026-08-27T19:00:00Z",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "location": {
+      "@type": "VirtualLocation",
+      "url": "https://www.netflix.com/GTAVI"
+    },
+    "image": "https://gtavi.ghostwebstudios.com/extra/Jason_and_Lucia_Robbery_landscape.jpg",
+    "description": "Grand Theft Auto VI: An Extended Look special presentation premiering on Netflix on August 27, 2026 at 3 PM ET.",
+    "organizer": {
+      "@type": "Organization",
+      "name": "Netflix & Rockstar Games",
+      "url": "https://www.netflix.com/"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the official release date of Grand Theft Auto VI (GTA 6)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Grand Theft Auto VI is scheduled to release worldwide on Thursday, November 19, 2026 for PlayStation 5 and Xbox Series X|S."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When does GTA VI: An Extended Look premiere on Netflix?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GTA VI: An Extended Look premieres on Netflix on Thursday, August 27, 2026 at 3:00 PM Eastern Time (12:00 PM Pacific Time / 7:00 PM UTC)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What consoles and platforms will GTA 6 be available on?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GTA VI will launch on PlayStation 5 and Xbox Series X|S at launch. A PC release date has not yet been announced by Rockstar Games."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is GTA 6 set?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Grand Theft Auto VI takes place in the state of Leonida, featuring modern-day Vice City, the surrounding wetlands, beaches, and sprawling urban areas."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add this GTA VI countdown timer widget to OBS Studio or Twitch stream?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! You can use the dedicated /embed URL as an OBS Browser Source with transparent background and custom dimensions (like 800x300 or 1920x1080)."
+        }
+      }
+    ]
+  }
+];
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#090611" />
-  <meta name="description" content={description} />
-  <meta name="robots" content="index, follow" />
+  <meta name="color-scheme" content="dark" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <link rel="canonical" href="https://gtavi.ghostwebstudios.com/" />
-  <title>{title}</title>
+  <meta name="generator" content={Astro.generator} />
 
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://gtavi.ghostwebstudios.com/" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content="https://gtavi.ghostwebstudios.com/og-image.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="GTA VI fan-made release countdown" />
-  <meta property="og:site_name" content="GTA VI Release Countdown" />
-  <meta property="og:locale" content="en_US" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@GhostWebStudios" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content="https://gtavi.ghostwebstudios.com/og-image.jpg" />
-  <meta name="twitter:image:alt" content="GTA VI fan-made release countdown" />
-
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" href="/assets/GTA6Logo.webp" as="image" type="image/webp" />
-  <link rel="preload" href="/assets/Image1.webp" as="image" type="image/webp" />
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "@id": "https://gtavi.ghostwebstudios.com/#webpage",
-      "url": "https://gtavi.ghostwebstudios.com/",
-      "name": "GTA VI Release Countdown",
-      "description": "Track the GTA VI release with a live countdown, cinematic backgrounds, official Rockstar updates, and customizable display settings.",
-      "inLanguage": "en-US",
-      "isPartOf": {
-        "@type": "WebSite",
-        "@id": "https://gtavi.ghostwebstudios.com/#website",
-        "url": "https://gtavi.ghostwebstudios.com/",
-        "name": "GTA VI Release Countdown"
+  <SEO
+    title={title}
+    description={description}
+    canonical={canonical}
+    noindex={noindex}
+    nofollow={noindex}
+    openGraph={{
+      basic: {
+        title: title,
+        type: pageType,
+        image: ogImage,
+        url: canonical,
       },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Ghost Web Studios"
+      optional: {
+        description: description,
+        siteName: "GTA VI Release Countdown",
+        locale: "en_US",
       },
-      "primaryImageOfPage": {
-        "@type": "ImageObject",
-        "url": "https://gtavi.ghostwebstudios.com/og-image.jpg",
-        "width": 1200,
-        "height": 630
+      image: {
+        url: ogImage,
+        secureUrl: ogImage,
+        type: "image/jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Grand Theft Auto VI Release Countdown",
       }
-    }
-  </script>
+    }}
+    twitter={{
+      card: "summary_large_image",
+      site: "@GhostWebStudios",
+      creator: "@GhostWebStudios",
+      title: title,
+      description: description,
+      image: ogImage,
+      imageAlt: "Grand Theft Auto VI Release Countdown",
+    }}
+    extend={{
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+        { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png?v=4" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png?v=4" },
+        { rel: "manifest", href: "/site.webmanifest" },
+        { rel: "preload", href: "/assets/GTA6Logo.webp", as: "image", type: "image/webp" },
+        { rel: "preload", href: "/assets/Image1.webp", as: "image", type: "image/webp" }
+      ],
+      meta: [
+        { name: "keywords", content: "GTA 6 release date, GTA VI countdown, Grand Theft Auto VI release date, GTA 6 timer, GTA VI Netflix, GTA 6 countdown timer OBS, Vice City GTA 6, Leonida, Lucia and Jason GTA 6, Rockstar Games GTA VI" },
+        { name: "author", content: "Ghost Web Studios" },
+        { name: "application-name", content: "GTA VI Countdown" },
+        { name: "apple-mobile-web-app-title", content: "GTA VI Timer" },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+        { name: "format-detection", content: "telephone=no" }
+      ]
+    }}
+  />
+
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 </head>
 <body>
   <slot />

@@ -82,6 +82,8 @@ import FlipClockTimer from '../components/FlipClockTimer';
   <aside class="panel settings-panel" id="settings-panel" data-open="false" aria-hidden="true" aria-labelledby="settings-title" role="dialog" inert><div class="panel-scroll">
     <div class="panel-header"><div><p class="panel-kicker">Vice City control</p><h2 id="settings-title">Personalize</h2></div><button class="panel-close" type="button" aria-label="Close settings">Close</button></div>
     <section class="settings-section"><h3 class="settings-section-title">Experience</h3>
+      <div class="setting-group setting-row"><div class="setting-copy"><strong>Only Clock mode</strong><small>Show only the countdown timer</small></div><label class="switch"><input id="onlyclock-setting" type="checkbox" aria-label="Only clock mode" /><span aria-hidden="true"></span></label></div>
+      <div class="setting-group setting-row"><div class="setting-copy"><strong>Show labels</strong><small>Display days, hours, minutes, seconds labels</small></div><label class="switch"><input id="labels-setting" type="checkbox" aria-label="Show labels" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Background motion</strong><small>Disable background motion</small></div><label class="switch"><input id="motion-setting" type="checkbox" aria-label="Background motion" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Turn off notifications</strong><small>Keep notifications off</small></div><label class="switch"><input id="silent-setting" type="checkbox" aria-label="Turn off notifications" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><input class="range" id="dim-setting" type="range" min="0" max="100" value="58" aria-label="Background darkness" /><output class="range-value" id="dim-value">70%</output></div></div>
@@ -101,6 +103,30 @@ import FlipClockTimer from '../components/FlipClockTimer';
     <section class="settings-section"><h3 class="settings-section-title">Background</h3><div class="setting-group"><div class="setting-copy"><strong>Choose the scene</strong><small>Use the slideshow or one fixed image</small></div><div class="background-grid">
       <button class="background-choice" type="button" data-background="slideshow" aria-label="Slideshow" aria-pressed="true" style="background-image:url('/assets/Image1.webp')"><span>Auto</span></button><button class="background-choice" type="button" data-background="/assets/Image3.webp" aria-label="Vice City" aria-pressed="false" style="background-image:url('/assets/Image3.webp')"><span>City</span></button><button class="background-choice" type="button" data-background="/assets/Image7.webp" aria-label="Characters" aria-pressed="false" style="background-image:url('/assets/Image7.webp')"><span>Story</span></button><button class="background-choice" type="button" data-background="/assets/Image9.webp" aria-label="Artwork" aria-pressed="false" style="background-image:url('/assets/Image9.webp')"><span>Art</span></button>
     </div><p class="settings-section-title" style="margin-top:.85rem">Extra collection</p><div class="background-grid" id="extra-backgrounds"></div><p class="settings-section-title" style="margin-top:.85rem">Videos</p><div class="background-grid" id="video-backgrounds"></div><label class="upload-button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Upload image or video<input class="upload-input" id="background-upload" type="file" accept="image/*,video/*" aria-label="Upload image or video" /></label></div></section>
+    <section class="settings-section"><h3 class="settings-section-title">OBS &amp; Embed Widget</h3>
+      <div class="setting-group">
+        <div class="setting-copy" style="margin-bottom:.85rem"><strong>Streaming &amp; Web Integration</strong><small>Embeds with your current customized style and scene</small></div>
+        <div class="obs-controls">
+          <div class="obs-option-row">
+            <strong>Transparent background</strong>
+            <label class="switch"><input id="obs-transparent-toggle" type="checkbox" aria-label="Transparent background in widget" checked /><span aria-hidden="true"></span></label>
+          </div>
+          <div class="obs-code-box" style="margin-top:.75rem">
+            <div class="obs-url-preview" id="obs-url-display">/embed?style=default&amp;bg=transparent</div>
+            <div class="obs-button-group">
+              <button class="obs-btn primary" id="copy-obs-url" type="button" title="Copy OBS Browser Source URL">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Copy OBS URL
+              </button>
+              <button class="obs-btn" id="copy-iframe-code" type="button" title="Copy iframe embed code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Copy &lt;iframe&gt;
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div></aside>
 
   <footer class="site-footer">
@@ -116,6 +142,11 @@ import FlipClockTimer from '../components/FlipClockTimer';
       </div>
     </div>
   </footer>
+
+  <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="copy-toast-msg">Copied to clipboard!</span>
+  </div>
 
   <script>
     import { calculateTimeRemaining, RELEASE_DATE, EXTENDED_LOOK_DATE } from '../utils/countdown';
@@ -232,6 +263,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
       viewSwitch.setAttribute("aria-label", showExtendedLook ? "Return to GTA VI release countdown" : "Show An Extended Look countdown");
       viewSwitch.title = showExtendedLook ? "GTA VI release countdown" : "An Extended Look";
       viewSwitchHint.textContent = showExtendedLook ? "Swipe right" : "Swipe left";
+      updateObsGenerator();
       updateCountdown();
       requestAnimationFrame(() => requestAnimationFrame(() => {
         document.body.classList.remove("view-transitioning");
@@ -295,13 +327,21 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
     let preferences: any = {};
     try { preferences = JSON.parse(localStorage.getItem("gta6-preferences") || "{}"); } catch { preferences = {}; }
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("mode") === "clock" || urlParams.get("onlyClock") === "1" || urlParams.get("clock") === "1") {
+      preferences.onlyClock = true;
+    }
     const controls = {
+      onlyClock: document.getElementById("onlyclock-setting") as HTMLInputElement,
+      labels: document.getElementById("labels-setting") as HTMLInputElement,
       motion: document.getElementById("motion-setting") as HTMLInputElement,
       silent: document.getElementById("silent-setting") as HTMLInputElement,
       dim: document.getElementById("dim-setting") as HTMLInputElement
     };
     const dimValue = document.getElementById("dim-value") as HTMLOutputElement;
 
+    if (controls.onlyClock) controls.onlyClock.checked = preferences.onlyClock ?? false;
+    if (controls.labels) controls.labels.checked = preferences.showLabels ?? true;
     if (controls.motion) controls.motion.checked = preferences.motion ?? !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (controls.silent) controls.silent.checked = preferences.silent ?? true;
     const minDarkness = 45;
@@ -430,6 +470,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
       document.querySelectorAll<HTMLElement>("#timer-style-grid .style-choice").forEach((button) => {
         button.setAttribute("aria-pressed", String(button.dataset.style === (styleName || "default")));
       });
+      updateObsGenerator();
       if (save) {
         preferences.timerStyle = styleName;
         applyPreferences();
@@ -437,6 +478,8 @@ import FlipClockTimer from '../components/FlipClockTimer';
     }
 
     function applyPreferences() {
+      document.body.classList.toggle("only-clock-mode", !!controls.onlyClock?.checked);
+      document.body.classList.toggle("hide-labels", !controls.labels?.checked);
       document.body.classList.toggle("motion-off", !controls.motion?.checked);
       const customVideo = document.getElementById("custom-video") as HTMLVideoElement;
       if (document.body.classList.contains("custom-video-background")) {
@@ -455,7 +498,20 @@ import FlipClockTimer from '../components/FlipClockTimer';
         if (dimValue) dimValue.value = `${darkness}%`;
         preferences.dim = darkness;
       }
+<<<<<<< HEAD
       localStorage.setItem("gta6-preferences", JSON.stringify({ motion: controls.motion?.checked, silent: controls.silent?.checked, dim: preferences.dim, background: preferences.background, timerStyle: preferences.timerStyle }));
+=======
+      updateObsGenerator();
+      localStorage.setItem("gta6-preferences", JSON.stringify({
+        onlyClock: controls.onlyClock?.checked,
+        showLabels: controls.labels?.checked,
+        motion: controls.motion?.checked,
+        silent: controls.silent?.checked,
+        dim: controls.dim?.value,
+        background: preferences.background,
+        timerStyle: preferences.timerStyle
+      }));
+>>>>>>> f77a9a78e39703215c90f88f24d453b4ea8c23ee
     }
 
     const extraBackgrounds = [
@@ -577,6 +633,78 @@ import FlipClockTimer from '../components/FlipClockTimer';
       Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 
+    // OBS & Embed Widget Generator
+    const obsTransparentToggle = document.getElementById("obs-transparent-toggle") as HTMLInputElement;
+    const obsUrlDisplay = document.getElementById("obs-url-display");
+    const copyObsUrlBtn = document.getElementById("copy-obs-url");
+    const copyIframeBtn = document.getElementById("copy-iframe-code");
+    const copyToast = document.getElementById("copy-toast");
+    const copyToastMsg = document.getElementById("copy-toast-msg");
+    let copyToastTimeout: ReturnType<typeof setTimeout>;
+
+    function showToast(msg: string) {
+      if (!copyToast || !copyToastMsg) return;
+      copyToastMsg.textContent = msg;
+      copyToast.classList.add("show");
+      clearTimeout(copyToastTimeout);
+      copyToastTimeout = setTimeout(() => copyToast.classList.remove("show"), 2800);
+    }
+
+    function updateObsGenerator() {
+      const isExtended = document.body.classList.contains("extended-view");
+      const currentStyle = preferences.timerStyle && preferences.timerStyle !== "default"
+        ? preferences.timerStyle.replace("countdown-", "")
+        : "default";
+      const isTransparent = obsTransparentToggle?.checked ?? true;
+      const showLabels = controls.labels?.checked ?? true;
+
+      const queryParams = new URLSearchParams();
+      if (currentStyle !== "default") queryParams.set("style", currentStyle);
+      if (!isTransparent) {
+        if (preferences.background && preferences.background !== "slideshow" && !preferences.background.startsWith("youtube:") && preferences.background !== "uploaded") {
+          queryParams.set("bg", preferences.background.replace("/assets/", "").replace("/extra/", ""));
+        } else {
+          queryParams.set("bg", "dark");
+        }
+      }
+      if (!showLabels) queryParams.set("labels", "0");
+      if (isExtended) queryParams.set("target", "extended");
+
+      const queryString = queryParams.toString();
+      const relativeUrl = `/embed${queryString ? `?${queryString}` : ""}`;
+      const fullUrl = `${window.location.origin}${relativeUrl}`;
+
+      if (obsUrlDisplay) obsUrlDisplay.textContent = fullUrl;
+    }
+
+    obsTransparentToggle?.addEventListener("change", updateObsGenerator);
+
+    copyObsUrlBtn?.addEventListener("click", async () => {
+      const url = obsUrlDisplay?.textContent || "";
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast("OBS URL copied to clipboard!");
+      } catch {
+        showToast("URL copied!");
+      }
+    });
+
+    copyIframeBtn?.addEventListener("click", async () => {
+      const url = obsUrlDisplay?.textContent || "";
+      const iframeCode = `<iframe src="${url}" width="100%" height="260" frameborder="0" style="border:0;width:100%;height:260px;overflow:hidden;" allowtransparency="true"></iframe>`;
+      try {
+        await navigator.clipboard.writeText(iframeCode);
+        showToast("<iframe> code copied to clipboard!");
+      } catch {
+        showToast("Code copied!");
+      }
+    });
+
+    if (urlParams.get("view") === "extended" || urlParams.get("event") === "extended" || urlParams.get("extended") === "1") {
+      setCountdownView(true);
+    }
+
+    updateObsGenerator();
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>
