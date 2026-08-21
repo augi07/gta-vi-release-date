@@ -86,7 +86,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Show labels</strong><small>Display days, hours, minutes, seconds labels</small></div><label class="switch"><input id="labels-setting" type="checkbox" aria-label="Show labels" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Background motion</strong><small>Disable background motion</small></div><label class="switch"><input id="motion-setting" type="checkbox" aria-label="Background motion" checked /><span aria-hidden="true"></span></label></div>
       <div class="setting-group setting-row"><div class="setting-copy"><strong>Turn off notifications</strong><small>Keep notifications off</small></div><label class="switch"><input id="silent-setting" type="checkbox" aria-label="Turn off notifications" checked /><span aria-hidden="true"></span></label></div>
-      <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><input class="range" id="dim-setting" type="range" min="0" max="100" value="58" aria-label="Background darkness" /><output class="range-value" id="dim-value">70%</output></div></div>
+      <div class="setting-group"><div class="setting-copy"><strong>Background darkness</strong><small>Balance artwork and readability</small></div><div class="range-line"><div class="range-control"><div class="range-visual" aria-hidden="true"><span class="range-fill"></span><span class="range-thumb"></span></div><input class="range" id="dim-setting" type="range" min="0" max="100" value="58" aria-label="Background darkness" /></div><output class="range-value" id="dim-value">70%</output></div></div>
     </section>
     <section class="settings-section"><h3 class="settings-section-title">Timer Style</h3>
       <div class="setting-group">
@@ -494,7 +494,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
         const rangeProgress = Number(controls.dim.value);
         const darkness = Math.round(minDarkness + (rangeProgress / 100) * (maxDarkness - minDarkness));
         document.documentElement.style.setProperty("--scene-dim", String(darkness / 100));
-        controls.dim.style.setProperty("--range-progress", `${rangeProgress}%`);
+        controls.dim.parentElement?.style.setProperty("--range-progress", `${rangeProgress}%`);
         if (dimValue) dimValue.value = `${darkness}%`;
         preferences.dim = darkness;
       }
