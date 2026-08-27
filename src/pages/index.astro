@@ -662,6 +662,16 @@ import FlipClockTimer from '../components/FlipClockTimer';
       const isComplete = Date.now() >= countdownTarget.getTime();
       const isExtendedLook = document.body.classList.contains("extended-view");
       const completionStarted = document.body.classList.contains("countdown-ending") || document.body.classList.contains("countdown-complete");
+
+      // Set the destination before starting the exit animation. This prevents
+      // one painted frame from retaining the CTA from the previously shown view.
+      officialLink.href = isExtendedLook
+        ? "https://www.netflix.com/GTAVI"
+        : "https://www.rockstargames.com/VI";
+      officialLinkText.textContent = isExtendedLook
+        ? (isComplete ? "Go watch on Netflix now" : "Watch An Extended Look on Netflix")
+        : "Visit the official Rockstar Games website";
+
       if (isComplete && !completionStarted) {
         countdown.style.setProperty("--countdown-height", `${countdown.getBoundingClientRect().height}px`);
         const content = document.querySelector<HTMLElement>(".content")!;
@@ -680,9 +690,6 @@ import FlipClockTimer from '../components/FlipClockTimer';
         document.querySelector<HTMLElement>(".content")?.style.removeProperty("--completion-top");
       }
       countdown.setAttribute("aria-hidden", String(isComplete));
-      officialLinkText.textContent = isExtendedLook
-        ? (isComplete ? "Go watch on Netflix now" : "Watch An Extended Look on Netflix")
-        : "Visit the official Rockstar Games website";
       Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 

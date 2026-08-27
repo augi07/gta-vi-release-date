@@ -457,6 +457,30 @@ body.motion-off .official-link,
 body.motion-off .number { animation: none !important; }
 body.motion-off .background-slide { opacity: 0; transition: none; }
 body.motion-off .background-slide:first-child { opacity: 1; }
+
+/* Event completion is functional feedback, not ambient motion. Keep its exit
+   and final extended-look glow active even when background motion is disabled. */
+body.motion-off.countdown-ending .countdown-grid {
+  animation: countdown-complete-out 1.2s cubic-bezier(.55,0,.25,1) forwards !important;
+}
+body.motion-off.countdown-ending .official-link {
+  animation: completion-button-out .42s ease forwards !important;
+}
+body.motion-off.countdown-complete .official-link {
+  animation: completed-cta-in 1s .12s cubic-bezier(.16,1,.3,1) both !important;
+}
+body.motion-off.countdown-complete.extended-view .event-title {
+  animation: completed-title-glow 1.9s ease-in-out infinite alternate !important;
+}
+body.motion-off.countdown-complete.extended-view .release-line {
+  animation: completed-date-glow 1.9s ease-in-out infinite alternate !important;
+}
+body.motion-off.countdown-complete.extended-view .hero::before {
+  animation: completed-logo-aura 2.4s ease-in-out infinite alternate !important;
+}
+body.motion-off.countdown-complete.extended-view .gta-logo {
+  animation: completed-logo-glow 2.4s ease-in-out infinite alternate !important;
+}
 body.compact-countdown .countdown-grid { max-width: 760px; }
 body.compact-countdown .time-box { min-height: 118px; }
 body.high-contrast { --muted: rgba(255,255,255,.92); --border: rgba(255,255,255,.48); }
