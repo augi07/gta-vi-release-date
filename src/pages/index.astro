@@ -97,6 +97,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
           <button class="style-choice preview-airport" type="button" data-style="countdown-airport" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Airport</span></button>
           <button class="style-choice preview-minimal" type="button" data-style="countdown-minimal" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Minimal</span></button>
           <button class="style-choice preview-outline" type="button" data-style="countdown-outline" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Outline</span></button>
+          <button class="style-choice preview-vice-city" type="button" data-style="countdown-vice-city" aria-pressed="false"><span class="style-preview" aria-hidden="true"><b>28</b></span><span>Vice City</span></button>
         </div>
       </div>
     </section>
@@ -150,7 +151,6 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
   <script>
     import { calculateTimeRemaining, RELEASE_DATE, EXTENDED_LOOK_DATE } from '../utils/countdown';
-    import { logCountdownSequence, logCountdownState } from '../utils/countdownDiagnostics';
 
     let countdownTarget = RELEASE_DATE;
     const elements: Record<string, HTMLElement | null> = {
@@ -491,13 +491,16 @@ import FlipClockTimer from '../components/FlipClockTimer';
     }
 
     function selectTimerStyle(styleName: string, save = true) {
-      const availableStyles = new Set(["default", "countdown-neon", "countdown-airport", "countdown-minimal", "countdown-outline"]);
+      if (styleName === "countdown-vice-block") styleName = "countdown-vice-city";
+      const availableStyles = new Set(["default", "countdown-neon", "countdown-airport", "countdown-minimal", "countdown-outline", "countdown-vice-city"]);
       if (!availableStyles.has(styleName)) styleName = "default";
       document.body.classList.remove(
         "countdown-neon",
         "countdown-airport",
         "countdown-minimal",
-        "countdown-outline"
+        "countdown-outline",
+        "countdown-vice-city",
+        "countdown-vice-block"
       );
       if (styleName && styleName !== "default") {
         document.body.classList.add(styleName);
@@ -680,12 +683,10 @@ import FlipClockTimer from '../components/FlipClockTimer';
         content.style.setProperty("--completion-top", `${hero.getBoundingClientRect().top - content.getBoundingClientRect().top}px`);
         void countdown.offsetHeight;
         document.body.classList.add("countdown-ending");
-        logCountdownSequence(countdownTarget);
         window.setTimeout(() => {
           if (Date.now() < countdownTarget.getTime()) return;
           document.body.classList.remove("countdown-ending");
           document.body.classList.add("countdown-complete");
-          logCountdownState("countdown-complete-class-applied", countdownTarget);
         }, 1000);
       } else if (!isComplete && completionStarted) {
         document.body.classList.remove("countdown-ending", "countdown-complete");
@@ -780,7 +781,6 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
     updateObsGenerator();
     updateCountdown();
-    logCountdownState("page-initialized", countdownTarget);
     setInterval(updateCountdown, 1000);
   </script>
 </Layout>

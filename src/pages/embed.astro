@@ -167,7 +167,7 @@ import '../styles/global.css';
       }
     }
 
-    // Timer Style: default (glass), countdown-neon, countdown-airport, countdown-minimal, countdown-outline
+    // Timer Style: default (glass), neon, airport, minimal, outline, or Vice Block
     const styleParam = params.get('style') || 'default';
     const validStyles: Record<string, string> = {
       'glass': 'default',
@@ -180,7 +180,14 @@ import '../styles/global.css';
       'minimal': 'countdown-minimal',
       'countdown-minimal': 'countdown-minimal',
       'outline': 'countdown-outline',
-      'countdown-outline': 'countdown-outline'
+      'countdown-outline': 'countdown-outline',
+      'vice-city': 'countdown-vice-city',
+      'vicecity': 'countdown-vice-city',
+      'countdown-vice-city': 'countdown-vice-city',
+      'vice-block': 'countdown-vice-city',
+      'viceblock': 'countdown-vice-city',
+      'block': 'countdown-vice-city',
+      'countdown-vice-block': 'countdown-vice-city'
     };
     const styleClass = validStyles[styleParam.toLowerCase()] || 'default';
     if (styleClass !== 'default') {

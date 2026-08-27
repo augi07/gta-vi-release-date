@@ -24,6 +24,7 @@ describe('Astro Build and Asset Integrity Tests', () => {
     const assetsDir = path.resolve(__dirname, '../public/assets');
     expect(fs.existsSync(path.join(assetsDir, 'GTA6Logo.webp'))).toBe(true);
     expect(fs.existsSync(path.join(assetsDir, 'Image1.webp'))).toBe(true);
+    expect(fs.existsSync(path.join(assetsDir, '4229764-gta-6.webp'))).toBe(true);
   });
 
   it('should have required Astro pages including index, embed, and extended', () => {

@@ -57,7 +57,6 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
   <script>
     import { calculateTimeRemaining, EXTENDED_LOOK_DATE } from '../utils/countdown';
-    import { logCountdownSequence, logCountdownState } from '../utils/countdownDiagnostics';
 
     document.body.classList.add('extended-view');
     let countdownTarget = EXTENDED_LOOK_DATE;
@@ -129,12 +128,10 @@ import FlipClockTimer from '../components/FlipClockTimer';
         content.style.setProperty('--completion-top', `${hero.getBoundingClientRect().top - content.getBoundingClientRect().top}px`);
         void countdown.offsetHeight;
         document.body.classList.add('countdown-ending');
-        logCountdownSequence(countdownTarget);
         window.setTimeout(() => {
           if (Date.now() < countdownTarget.getTime()) return;
           document.body.classList.remove('countdown-ending');
           document.body.classList.add('countdown-complete');
-          logCountdownState('countdown-complete-class-applied', countdownTarget);
         }, 1000);
       } else if (!isComplete && completionStarted) {
         document.body.classList.remove('countdown-ending', 'countdown-complete');
@@ -156,7 +153,6 @@ import FlipClockTimer from '../components/FlipClockTimer';
     };
 
     updateCountdown();
-    logCountdownState('page-initialized', countdownTarget);
     setInterval(updateCountdown, 1000);
   </script>
 </Layout>
