@@ -286,9 +286,11 @@ body.countdown-complete .content {
 }
 body.countdown-ending .countdown-grid {
   pointer-events: none;
+  animation: countdown-complete-out 1.2s cubic-bezier(.55,0,.25,1) forwards;
 }
 body.countdown-ending .official-link {
   pointer-events: none;
+  animation: completion-button-out .42s ease forwards;
 }
 
 /* Once an event has started, collapse the faded timer and promote its destination. */
@@ -761,6 +763,11 @@ body.light-mode .setting-group, body.light-mode .news-item { border-color: rgba(
   100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
+@keyframes completion-button-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(10px) scale(.95); }
+}
+
 
 @keyframes completed-logo-aura {
   from { opacity: .4; transform: translate(-50%, -50%) scale(.8); filter: blur(28px) brightness(.9); }
@@ -865,6 +872,8 @@ body.light-mode .setting-group, body.light-mode .news-item { border-color: rgba(
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .background-slide:first-child { opacity: 1; }
+  body.countdown-ending .countdown-grid { animation-duration: 1.2s !important; }
+  body.countdown-ending .official-link { animation-duration: .42s !important; }
   body.countdown-complete .countdown-grid { transition-duration: .9s, .9s, .58s, .82s, .65s, 0s !important; }
   body.countdown-complete .official-link { animation-duration: 1s !important; }
   body.countdown-complete.extended-view .event-title,
