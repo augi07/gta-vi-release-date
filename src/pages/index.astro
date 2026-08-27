@@ -643,7 +643,6 @@ import FlipClockTimer from '../components/FlipClockTimer';
       selectTimerStyle(preferences.timerStyle || "default", false);
       applyPreferences();
     }
-    restoreBackground();
 
     function setValue(name: string, value: string) {
       if (previous[name] === value) return;
@@ -760,6 +759,10 @@ import FlipClockTimer from '../components/FlipClockTimer';
         showToast("Code copied!");
       }
     });
+
+    // This can call applyPreferences() -> updateObsGenerator(), so it must run
+    // only after every OBS control referenced by updateObsGenerator exists.
+    restoreBackground();
 
     if (urlParams.get("view") === "extended" || urlParams.get("event") === "extended" || urlParams.get("extended") === "1") {
       setCountdownView(true);
