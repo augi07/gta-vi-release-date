@@ -22,7 +22,7 @@ export default function FlipClockTimer() {
         to={target}
         labels={['DAYS', 'HOURS', 'MINUTES', 'SECONDS']}
         duration={0.6}
-        hideOnComplete={false}
+        hideOnComplete
         renderOnServer
       />
     </div>

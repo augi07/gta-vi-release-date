@@ -22,7 +22,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
       <p class="release-line" id="release-line">August 27, 2026 &middot; 3 PM ET &middot; <span class="netflix-word" role="img" aria-label="Netflix"><img src="/assets/215-2154144_transparent-background-netflix-logo.png" alt="" aria-hidden="true" /></span></p>
     </header>
 
-    <section class="countdown-grid" aria-label="Time until Netflix Extended Look premiere" role="timer" aria-live="off">
+    <section class="countdown-grid" id="countdown" aria-label="Time until Netflix Extended Look premiere" role="timer" aria-live="off">
       <div class="time-box"><div class="number" id="days"><span class="number-value">0</span></div><span class="label">Days</span></div>
       <div class="time-box"><div class="number" id="hours"><span class="number-value">0</span></div><span class="label">Hours</span></div>
       <div class="time-box"><div class="number" id="minutes"><span class="number-value">0</span></div><span class="label">Minutes</span></div>
@@ -68,6 +68,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
       seconds: document.getElementById('seconds')
     };
     const previous: Record<string, string> = {};
+    const countdown = document.getElementById('countdown')!;
 
     function setValue(name: string, value: string) {
       if (previous[name] === value) return;
@@ -85,6 +86,9 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
     function updateCountdown() {
       const values = calculateTimeRemaining(EXTENDED_LOOK_DATE);
+      const isComplete = Date.now() >= EXTENDED_LOOK_DATE.getTime();
+      document.body.classList.toggle('countdown-complete', isComplete);
+      countdown.hidden = isComplete;
       Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 

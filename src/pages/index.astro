@@ -23,7 +23,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
       <p class="release-line" id="release-line">Coming November 19, 2026</p>
     </header>
 
-    <section class="countdown-grid" aria-label="Time until release" role="timer" aria-live="off">
+    <section class="countdown-grid" id="countdown" aria-label="Time until release" role="timer" aria-live="off">
       <div class="time-box"><div class="number" id="days"><span class="number-value">0</span></div><span class="label">Days</span></div>
       <div class="time-box"><div class="number" id="hours"><span class="number-value">0</span></div><span class="label">Hours</span></div>
       <div class="time-box"><div class="number" id="minutes"><span class="number-value">0</span></div><span class="label">Minutes</span></div>
@@ -241,6 +241,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
     const releaseLine = document.getElementById("release-line")!;
     const pageHeading = document.getElementById("page-heading")!;
     const officialLink = document.getElementById("official-link") as HTMLAnchorElement;
+    const countdown = document.getElementById("countdown")!;
     const officialLinkText = officialLink.querySelector<HTMLElement>(".official-link-text")!;
     const viewSwitchHint = viewSwitch.querySelector<HTMLElement>(".view-switch-hint")!;
 
@@ -626,6 +627,9 @@ import FlipClockTimer from '../components/FlipClockTimer';
 
     function updateCountdown() {
       const values = calculateTimeRemaining(countdownTarget);
+      const isComplete = Date.now() >= countdownTarget.getTime();
+      document.body.classList.toggle("countdown-complete", isComplete);
+      countdown.hidden = isComplete;
       Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
 
