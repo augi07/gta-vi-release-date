@@ -132,7 +132,7 @@ import FlipClockTimer from '../components/FlipClockTimer';
           if (Date.now() < countdownTarget.getTime()) return;
           document.body.classList.remove('countdown-ending');
           document.body.classList.add('countdown-complete');
-        }, 1200);
+        }, 1000);
       } else if (!isComplete && completionStarted) {
         document.body.classList.remove('countdown-ending', 'countdown-complete');
         countdown.style.removeProperty('--countdown-height');
