@@ -245,6 +245,39 @@ import FlipClockTimer from '../components/FlipClockTimer';
     const officialLinkText = officialLink.querySelector<HTMLElement>(".official-link-text")!;
     const viewSwitchHint = viewSwitch.querySelector<HTMLElement>(".view-switch-hint")!;
 
+    function playNetflixIntro(event: MouseEvent) {
+      if (!document.body.classList.contains("extended-view")) return;
+      event.preventDefault();
+      if (document.body.classList.contains("netflix-intro-playing")) return;
+      document.body.classList.add("netflix-intro-playing");
+      const intro = document.createElement("div");
+      intro.className = "netflix-intro";
+      intro.innerHTML = '<video class="netflix-intro-video" src="/assets/netflix-intro.mp4" autoplay playsinline preload="auto"></video>';
+      document.body.appendChild(intro);
+      const video = intro.querySelector<HTMLVideoElement>("video")!;
+      let opened = false;
+      let fallbackTimer = 0;
+      const netflixUrl = officialLink.href;
+      const openNetflix = () => {
+        if (opened) return;
+        opened = true;
+        window.clearTimeout(fallbackTimer);
+        window.location.assign(netflixUrl);
+      };
+      video.addEventListener("ended", openNetflix, { once: true });
+      video.addEventListener("error", openNetflix, { once: true });
+      video.addEventListener("loadedmetadata", () => {
+        const maximumWait = Number.isFinite(video.duration)
+          ? Math.max(5000, (video.duration + 2) * 1000)
+          : 30000;
+        fallbackTimer = window.setTimeout(openNetflix, maximumWait);
+      }, { once: true });
+      video.play().catch(openNetflix);
+      fallbackTimer = window.setTimeout(openNetflix, 30000);
+    }
+
+    officialLink.addEventListener("click", playNetflixIntro);
+
     let viewIsSwitching = false;
     async function setCountdownView(showExtendedLook: boolean) {
       const currentlyExtended = document.body.classList.contains("extended-view");
@@ -628,10 +661,49 @@ import FlipClockTimer from '../components/FlipClockTimer';
     function updateCountdown() {
       const values = calculateTimeRemaining(countdownTarget);
       const isComplete = Date.now() >= countdownTarget.getTime();
-      document.body.classList.toggle("countdown-complete", isComplete);
-      countdown.hidden = isComplete;
+      const isExtendedLook = document.body.classList.contains("extended-view");
+      const completionStarted = document.body.classList.contains("countdown-ending") || document.body.classList.contains("countdown-complete");
+      if (isComplete && !completionStarted) {
+        countdown.style.setProperty("--countdown-height", `${countdown.getBoundingClientRect().height}px`);
+        const content = document.querySelector<HTMLElement>(".content")!;
+        const hero = content.querySelector<HTMLElement>(".hero")!;
+        content.style.setProperty("--completion-top", `${hero.getBoundingClientRect().top - content.getBoundingClientRect().top}px`);
+        void countdown.offsetHeight;
+        document.body.classList.add("countdown-ending");
+        const timerExit = countdown.animate([
+          { opacity: 1, transform: "translateY(0) scale(1)", filter: "blur(0)" },
+          { opacity: .82, transform: "translateY(4px) scale(1.015)", filter: "blur(1px)", offset: .28 },
+          { opacity: 0, transform: "translateY(-26px) scale(.78)", filter: "blur(12px)" }
+        ], { duration: 1200, easing: "cubic-bezier(.55,0,.25,1)", fill: "forwards" });
+        const buttonExit = officialLink.animate([
+          { opacity: 1, transform: "translateY(0) scale(1)" },
+          { opacity: 0, transform: "translateY(10px) scale(.95)" }
+        ], { duration: 420, easing: "ease", fill: "forwards" });
+        timerExit.finished.then(() => {
+          if (Date.now() < countdownTarget.getTime()) return;
+          document.body.classList.remove("countdown-ending");
+          document.body.classList.add("countdown-complete");
+          timerExit.cancel();
+          buttonExit.cancel();
+        });
+      } else if (!isComplete && completionStarted) {
+        document.body.classList.remove("countdown-ending", "countdown-complete");
+        countdown.style.removeProperty("--countdown-height");
+        document.querySelector<HTMLElement>(".content")?.style.removeProperty("--completion-top");
+      }
+      countdown.setAttribute("aria-hidden", String(isComplete));
+      officialLinkText.textContent = isExtendedLook
+        ? (isComplete ? "Go watch on Netflix now" : "Watch An Extended Look on Netflix")
+        : "Visit the official Rockstar Games website";
       Object.entries(values).forEach(([name, value]) => setValue(name, String(value)));
     }
+
+    (window as Window & { testCountdown?: (seconds?: number) => void }).testCountdown = (seconds = 60) => {
+      countdownTarget = new Date(Date.now() + Math.max(0, seconds) * 1000);
+      countdown.removeAttribute("hidden");
+      window.dispatchEvent(new CustomEvent("countdown:target", { detail: countdownTarget.getTime() }));
+      updateCountdown();
+    };
 
     // OBS & Embed Widget Generator
     const obsTransparentToggle = document.getElementById("obs-transparent-toggle") as HTMLInputElement;

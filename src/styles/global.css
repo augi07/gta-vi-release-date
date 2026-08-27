@@ -94,7 +94,22 @@ body {
 }
 body.view-transitioning .content { opacity: 0; transform: translateY(10px) scale(.99); }
 
-.hero { animation: enter .9s cubic-bezier(.2, .8, .2, 1) both; }
+.hero { position: relative; isolation: isolate; animation: enter .9s cubic-bezier(.2, .8, .2, 1) backwards; }
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 42%;
+  left: 50%;
+  width: clamp(360px, 58vw, 700px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,244,207,.4) 0 5%, rgba(255,159,69,.34) 13%, rgba(255,79,163,.25) 27%, rgba(192,54,236,.16) 43%, transparent 70%);
+  transform: translate(-50%, -50%) scale(.76);
+  filter: blur(24px);
+}
 
 .eyebrow {
   margin-bottom: .65rem;
@@ -131,10 +146,14 @@ body.view-transitioning .content { opacity: 0; transform: translateY(10px) scale
 
 .countdown-grid {
   width: 100%;
+  height: var(--countdown-height, auto);
   display: grid;
   grid-template-columns: repeat(4, minmax(135px, 1fr));
   gap: clamp(.7rem, 1.6vw, 1.1rem);
-  animation: enter .9s .12s cubic-bezier(.2,.8,.2,1) both;
+  /* `backwards` applies the entrance pose during the delay without leaving a
+     finished animation that can override the countdown-complete fade. */
+  animation: enter .9s .12s cubic-bezier(.2,.8,.2,1) backwards;
+  transition: height .9s cubic-bezier(.65,0,.2,1), margin .9s cubic-bezier(.65,0,.2,1), opacity .58s ease, transform .82s cubic-bezier(.4,0,.2,1), filter .65s ease, visibility 0s linear;
 }
 
 .time-box {
@@ -233,8 +252,8 @@ body.view-transitioning .content { opacity: 0; transform: translateY(10px) scale
   font-size: .82rem;
   font-weight: 650;
   text-decoration: none;
-  transition: transform .3s ease, background-color .45s ease, color .4s ease, border-color .4s ease, box-shadow .45s ease;
-  animation: enter .9s .24s cubic-bezier(.2,.8,.2,1) both;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), margin .65s cubic-bezier(.2,.8,.2,1), padding .55s cubic-bezier(.2,.8,.2,1), gap .55s ease, font-size .55s ease, background-color .45s ease, color .4s ease, border-color .4s ease, box-shadow .55s ease;
+  animation: enter .9s .24s cubic-bezier(.2,.8,.2,1) backwards;
 }
 
 .official-link svg {
@@ -259,20 +278,77 @@ body.view-transitioning .content { opacity: 0; transform: translateY(10px) scale
 .official-link:hover svg { transform: translateX(4px); color: var(--pink); }
 .official-link:focus-visible { outline: 3px solid var(--pink); outline-offset: 4px; }
 
-/* Once an event has started, remove the timer and promote its destination. */
+/* Lock the hero in place while completion is sequenced in two phases. */
+body.countdown-ending .content,
+body.countdown-complete .content {
+  justify-content: flex-start;
+  padding-top: var(--completion-top);
+}
+body.countdown-ending .countdown-grid {
+  pointer-events: none;
+}
+body.countdown-ending .official-link {
+  pointer-events: none;
+}
+
+/* Once an event has started, collapse the faded timer and promote its destination. */
 body.countdown-complete .countdown-grid {
-  display: none !important;
+  height: 0;
+  margin-block: clamp(-.75rem, -1.2vh, -.35rem);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-24px) scale(.88);
+  filter: blur(12px);
+  transition-delay: 0s, 0s, 0s, 0s, 0s, .82s;
 }
 body.countdown-complete .official-link {
-  margin-top: clamp(-.8rem, -1.5vh, -.35rem);
-  padding: 1.08rem 1.65rem;
+  margin-top: clamp(-1.5rem, -2.8vh, -.8rem);
+  padding: 1.12rem 1.75rem;
   gap: .8rem;
   font-size: clamp(.92rem, 1.7vw, 1.08rem);
-  box-shadow: 0 18px 42px rgba(0,0,0,.32), 0 0 28px rgba(192,54,236,.2);
+  border-color: rgba(255,79,163,.42);
+  background: rgba(19,8,25,.7);
+  box-shadow: 0 20px 48px rgba(0,0,0,.36), 0 0 34px rgba(192,54,236,.32), inset 0 0 24px rgba(255,79,163,.08);
+  animation: completed-cta-in 1s .12s cubic-bezier(.16,1,.3,1) both;
 }
 body.countdown-complete .official-link svg {
   width: 1.25rem;
   height: 1.25rem;
+}
+body.countdown-complete.extended-view .event-title {
+  animation: completed-title-glow 1.9s ease-in-out infinite alternate;
+}
+body.countdown-complete.extended-view .release-line {
+  color: #fff8e8;
+  font-weight: 750;
+  text-shadow: 0 0 5px rgba(255,255,255,.8), 0 0 14px rgba(255,159,69,.72), 0 0 30px rgba(255,79,163,.62), 0 0 55px rgba(192,54,236,.5);
+  transition: color .6s ease, text-shadow .6s ease;
+  animation: completed-date-glow 1.9s ease-in-out infinite alternate;
+}
+body.countdown-complete.extended-view .hero::before {
+  animation: completed-logo-aura 2.4s ease-in-out infinite alternate;
+}
+body.countdown-complete.extended-view .gta-logo {
+  filter: drop-shadow(0 22px 34px rgba(0,0,0,.5)) drop-shadow(0 0 10px rgba(255,240,189,.8)) drop-shadow(0 0 24px rgba(255,159,69,.72)) drop-shadow(0 0 46px rgba(255,79,163,.62)) drop-shadow(0 0 72px rgba(192,54,236,.55));
+  animation: completed-logo-glow 2.4s ease-in-out infinite alternate;
+}
+
+.netflix-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+  background: #000;
+}
+.netflix-intro-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #000;
+  animation: netflix-video-in .35s ease both;
 }
 
 .utility-button {
@@ -663,6 +739,45 @@ body.light-mode .setting-group, body.light-mode .news-item { border-color: rgba(
   100% { opacity: 1; transform: none; filter: blur(0); text-shadow: 0 7px 24px rgba(0,0,0,.38); }
 }
 
+@keyframes completed-title-glow {
+  from { filter: brightness(1.04) drop-shadow(0 6px 10px rgba(255,159,69,.65)) drop-shadow(0 0 20px rgba(255,79,163,.55)) drop-shadow(0 0 40px rgba(192,54,236,.45)); }
+  to { filter: brightness(1.2) drop-shadow(0 6px 16px rgba(255,240,189,.75)) drop-shadow(0 0 38px rgba(255,159,69,.68)) drop-shadow(0 0 68px rgba(255,79,163,.58)); }
+}
+
+@keyframes completed-date-glow {
+  from { opacity: .88; filter: brightness(1); }
+  to { opacity: 1; filter: brightness(1.25); }
+}
+
+@keyframes countdown-complete-out {
+  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  38% { opacity: .78; transform: translateY(5px) scale(1.025); filter: blur(1px); }
+  100% { opacity: 0; transform: translateY(-30px) scale(.72); filter: blur(14px); }
+}
+
+@keyframes completed-cta-in {
+  0% { opacity: 0; transform: translateY(30px) scale(.72); filter: blur(10px); }
+  62% { opacity: 1; transform: translateY(-4px) scale(1.045); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+
+@keyframes completed-logo-aura {
+  from { opacity: .4; transform: translate(-50%, -50%) scale(.8); filter: blur(28px) brightness(.9); }
+  to { opacity: .72; transform: translate(-50%, -50%) scale(1.04); filter: blur(36px) brightness(1.25); }
+}
+
+@keyframes completed-logo-glow {
+  from { transform: scale(1); }
+  to { transform: scale(1.025); }
+}
+
+@keyframes netflix-video-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
 @keyframes enter {
   from { opacity: 0; transform: translateY(22px); }
   to { opacity: 1; transform: none; }
@@ -750,6 +865,13 @@ body.light-mode .setting-group, body.light-mode .news-item { border-color: rgba(
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .background-slide:first-child { opacity: 1; }
+  body.countdown-complete .countdown-grid { transition-duration: .9s, .9s, .58s, .82s, .65s, 0s !important; }
+  body.countdown-complete .official-link { animation-duration: 1s !important; }
+  body.countdown-complete.extended-view .event-title,
+  body.countdown-complete.extended-view .release-line,
+  body.countdown-complete.extended-view .gta-logo,
+  body.countdown-complete.extended-view .hero::before { animation-duration: 2.4s !important; animation-iteration-count: infinite !important; }
+  .netflix-intro-video { animation-duration: .35s !important; }
 }
 
 /* Only Clock Mode */
